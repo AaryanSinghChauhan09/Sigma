@@ -1,0 +1,11 @@
+[package]
+name = "sigma-system"
+version = "0.2.0"
+edition = "2021"
+authors = ["Aaryan Singh Chauhan <aaryan.singh.chauhan.09@gmail.com>"]
+description = "SigmaOS System Foundation — inspired by Linux Mint mintsystem and Omarchy Linux"
+license = "GPL-3.0-or-later"
+
+[dependencies]
+
+[dev-dependencies]
