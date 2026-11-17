@@ -1,0 +1,16 @@
+[component]
+name = "Sigma"
+tier = 0
+stability = "beta"
+language = "rust"
+description = "Sovereign baseline substrate for the SigmaOS ecosystem"
+upstream = []
+
+[contract]
+provides = ["substrate_core"]
+depends_on = []
+
+[maturity]
+status = "Implemented"
+test_evidence = "cargo test --offline: 3 passed"
+next_milestone = "Boot integration with SigmaOS userspace"
