@@ -139,6 +139,11 @@ pub mod bluetooth;
 /// Follows Single Responsibility Principle: only manages USB subsystem.
 pub mod usb;
 
+/// Scheduler module.
+/// Provides process scheduling, CPU affinity, and priority management.
+/// Follows Single Responsibility Principle: only manages scheduler subsystem.
+pub mod scheduler;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -166,6 +171,7 @@ pub use virtualization::{VirtualizationManager, Vm, VmConfig, VmStatus, Containe
 pub use printing::{PrintManager, Printer, PrinterType, PrinterStatus, PrintJob, JobStatus, PrintError};
 pub use bluetooth::{BluetoothManager, BluetoothDevice, BluetoothAdapter, BluetoothDeviceType, BluetoothDeviceStatus, BluetoothError};
 pub use usb::{UsbManager, UsbDevice, UsbHub, UsbDeviceType, UsbDeviceStatus, UsbError};
+pub use scheduler::{Scheduler, ProcessInfo, Priority, SchedulingPolicy, SchedulerError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
