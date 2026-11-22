@@ -264,6 +264,11 @@ pub mod file_watcher;
 /// Follows Single Responsibility Principle: only manages resource monitoring.
 pub mod resource_monitor;
 
+/// Cron operations module.
+/// Provides actual cron job operations using crontab.
+/// Follows Single Responsibility Principle: only manages cron operations.
+pub mod cron_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -316,6 +321,7 @@ pub use systemd_ops::{SystemdOps, SystemStatus, UnitStatus, SystemdError};
 pub use dns_ops::{DnsOps, DnsError};
 pub use file_watcher::{FileWatcher, FileEvent, FileEventType, FileWatcherError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
+pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
