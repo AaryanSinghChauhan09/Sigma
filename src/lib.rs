@@ -154,6 +154,11 @@ pub mod process;
 /// Follows Single Responsibility Principle: only manages filesystem operations.
 pub mod fs_ops;
 
+/// Network operations module.
+/// Provides actual network interface management using sysfs.
+/// Follows Single Responsibility Principle: only manages network operations.
+pub mod net_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -184,6 +189,7 @@ pub use usb::{UsbManager, UsbDevice, UsbHub, UsbDeviceType, UsbDeviceStatus, Usb
 pub use scheduler::{Scheduler, ProcessInfo, Priority, SchedulingPolicy, SchedulerError};
 pub use process::{ProcessManager, ProcessInfo as ProcInfo, ProcessError};
 pub use fs_ops::{FsOps, DiskUsage, FileInfo, FsError};
+pub use net_ops::{NetOps, InterfaceInfo, InterfaceType, NetStats, NetError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
