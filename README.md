@@ -6,14 +6,14 @@ SigmaOS is a sovereign Linux distribution with a comprehensive Rust-based system
 
 SigmaOS consists of two main components:
 
-1. **System Library** - A comprehensive Rust library (580+ tests, 100 modules) for system management
+1. **System Library** - A comprehensive Rust library (600+ tests, 159 modules) for system management
 2. **Distribution Tools** - ISO build, installer, and system management tools
 
 ## Features
 
 ### System Library (sigma-system)
 
-100 modules covering all major Linux subsystems:
+159 modules covering all major Linux subsystems:
 
 - **Process/Kernel**: process, cpu_ops, mem_ops, kernel, scheduler_ops
 - **Storage**: disk, fs_ops, mount_ops, disk_space_ops, swap_ops, raid_ops, lvm_ops
@@ -241,7 +241,7 @@ SigmaOS is built on:
 | ISO Build | archiso-based | Various |
 | Installer | Text-based | Various |
 | CLI Tool | Yes (sigmaos) | Varies |
-| System Library | Rust (85 modules) | None |
+| System Library | Rust (159 modules) | None |
 | Config Tools | sigmaos-config | Manual |
 | Release Management | sigmaos-release | Manual |
 | Performance Profiles | Yes | Manual |
@@ -273,7 +273,7 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 
 ## Project Status
 
-- **Library**: 100 modules, 580 unit tests, 105 doctests
+- **Library**: 159 modules, 600+ unit tests, 100+ doctests
 - **Tools**: 14 system tools
 - **Packages**: 3 metapackages (base, kde, gnome)
 - **Config**: pacman.conf, sysctl, GRUB, KDE configs
@@ -304,7 +304,7 @@ See [BOOTABLE_PLAN.md](BOOTABLE_PLAN.md) for detailed steps to make SigmaOS boot
 | Bootable ISO | ❌ Not built |
 | Installer | Text-based (improved, not tested) |
 | CLI Tool | Yes (14 tools) |
-| System Library | Rust (85 modules, enterprise ops) |
+| System Library | Rust (159 modules, enterprise ops) |
 | Config Tools | sigmaos-config |
 | Release Management | sigmaos-release |
 | Automation | sigmaos-pipeline |
