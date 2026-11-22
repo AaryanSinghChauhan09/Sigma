@@ -149,6 +149,11 @@ pub mod scheduler;
 /// Follows Single Responsibility Principle: only manages process subsystem.
 pub mod process;
 
+/// Filesystem operations module.
+/// Provides actual filesystem operations using Rust fs APIs.
+/// Follows Single Responsibility Principle: only manages filesystem operations.
+pub mod fs_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -178,6 +183,7 @@ pub use bluetooth::{BluetoothManager, BluetoothDevice, BluetoothAdapter, Bluetoo
 pub use usb::{UsbManager, UsbDevice, UsbHub, UsbDeviceType, UsbDeviceStatus, UsbError};
 pub use scheduler::{Scheduler, ProcessInfo, Priority, SchedulingPolicy, SchedulerError};
 pub use process::{ProcessManager, ProcessInfo as ProcInfo, ProcessError};
+pub use fs_ops::{FsOps, DiskUsage, FileInfo, FsError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
