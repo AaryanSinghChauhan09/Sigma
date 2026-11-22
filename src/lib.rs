@@ -426,6 +426,11 @@ pub mod compliance_ops;
 /// Follows Single Responsibility Principle: only manages incident response operations.
 pub mod incident_ops;
 
+/// Capacity planning operations module.
+/// Provides actual capacity planning operations.
+/// Follows Single Responsibility Principle: only manages capacity planning operations.
+pub mod capacity_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -516,6 +521,7 @@ pub use smartcard_ops::{SmartcardOps, SmartcardInfo, SmartcardError as ScManager
 pub use tco_ops::{TcoOps, TcoError as TcoManagerError};
 pub use compliance_ops::{ComplianceOps, ComplianceError as ComplianceManagerError};
 pub use incident_ops::{IncidentOps, IncidentError as IncidentManagerError};
+pub use capacity_ops::{CapacityOps, CapacityError as CapacityManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
