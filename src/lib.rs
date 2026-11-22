@@ -486,6 +486,11 @@ pub mod mesh_ops;
 /// Follows Single Responsibility Principle: only manages multi-cluster operations.
 pub mod cluster_ops;
 
+/// Cross-platform operations module.
+/// Provides actual cross-platform operations.
+/// Follows Single Responsibility Principle: only manages cross-platform operations.
+pub mod platform_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -588,6 +593,7 @@ pub use metrics_ops::{MetricsOps, MetricsError as MetricsManagerError};
 pub use profile_ops::{ProfileOps, ProfileError as ProfileManagerError};
 pub use mesh_ops::{MeshOps, MeshError as MeshManagerError};
 pub use cluster_ops::{ClusterOps, ClusterError as ClusterManagerError};
+pub use platform_ops::{PlatformOps, PlatformError as PlatformManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
