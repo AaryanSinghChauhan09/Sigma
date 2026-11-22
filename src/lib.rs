@@ -174,6 +174,11 @@ pub mod cpu_ops;
 /// Follows Single Responsibility Principle: only manages package installation.
 pub mod pkg_install;
 
+/// Service management module.
+/// Provides actual service control using systemctl.
+/// Follows Single Responsibility Principle: only manages service operations.
+pub mod service;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -208,6 +213,7 @@ pub use net_ops::{NetOps, InterfaceInfo, InterfaceType, NetStats, NetError};
 pub use mem_ops::{MemOps, MemoryInfo, MemoryPressure, MemError};
 pub use cpu_ops::{CpuOps, CpuInfo, CpuUsage, CpuError};
 pub use pkg_install::{PackageInstaller, PackageInfo, InstallError};
+pub use service::{ServiceManager, ServiceInfo, ServiceStatus, ServiceError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
