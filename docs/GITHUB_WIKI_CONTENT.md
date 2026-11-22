@@ -170,3 +170,50 @@ To migrate this content to GitHub Wiki:
 - Core Library Architecture
 - Repository Restructuring
 - Changelog
+
+---
+
+## Component Repositories Wiki Index
+
+Every `SigmaOS-*` repository has a corresponding wiki. Pages follow the
+standard template: Overview, Architecture, Principles, API, Usage, Testing,
+Security, Configuration, Troubleshooting, Contributing, Changelog.
+
+### Pushed component repos
+
+- SigmaOS-app-env — Windows app compatibility (Bottles/CrossOver/Lutris/Proton/Wine inspired)
+- SigmaOS-betteroffice — Diagrams, Documents, Spreadsheets, Slides
+- SigmaOS-bi-analytics — Superset, Metabase, Redash, Grafana, Lightdash, PostHog
+- SigmaOS-bigdata — Flink, Spark, DuckDB, Trino
+- SigmaOS-browser — Brave, Chromium, Firefox, LibreWolf, Waterfox, Zen
+- SigmaOS-craft — 3D, CAD, design, PDF, photo, sound, vector creative tools
+- SigmaOS-data-wrangling — Airflow, NiFi, dbt, Pandas, Polars, Talend
+- SigmaOS-dos — Free/MS DOS, BASIC, ReactOS compatibility
+- SigmaOS-eda — Altair, Bokeh, ggplot2, Matplotlib, Seaborn, Plotly
+- SigmaOS-email — Thunderbird, Mailspring
+- SigmaOS-genoffice — Docs, HTML, Markdown, PDF, Sheet, Slides
+- SigmaOS-iloveapi — iLoveAPI/iLoveIMG/iLovePDF/iLoveSign
+- SigmaOS-ml-dl — PyTorch, scikit-learn, Statsmodels, TensorFlow
+- SigmaOS-notebooks — Jupyter, Colab, KNIME
+- SigmaOS-platform — GUI frameworks (GTK, Qt, Tauri, Electron, etc.)
+- SigmaOS-rdbms — PostgreSQL, MySQL, MariaDB, SQLite, Oracle, DB2, SQL Server
+- SigmaOS-skills — AI agent skills collection
+- SigmaOS-plugin-marketplace, SigmaOS-plugin-registry — omacom marketplace pattern
+- SigmaOS-theme-registry, SigmaOS-theme-marketplace — omacom theme pattern
+- SigmaOS-configurator — first-boot wizard (omarchy-configurator inspired)
+- SigmaOS-notifications — D-Bus notification center (omacom plugin inspired)
+- SigmaOS-pkg-core — package format/repos (omarchy-pkgs inspired)
+- SigmaOS-installer — guided + unattended installer (archinstall inspired)
+- SigmaOS-rebuild — declarative config engine (NixOS inspired)
+- SigmaOS-rollback — atomic generations/rollback (NixOS inspired)
+- SigmaOS-zfs-integration — ZFS datasets/snapshots (FreeBSD inspired)
+- SigmaOS-omarchy, SigmaOS-omarchy-pkgs, SigmaOS-omarchy-iso, SigmaOS-omarchy-ui — core Omarchy-pattern components
+
+### Staged locally (pending repo-creation quota)
+
+SigmaOS-sec-audit, SigmaOS-dkms, SigmaOS-live-media, SigmaOS-ports,
+SigmaOS-wiki-hub, SigmaOS-local-ai, SigmaOS-speedtest, SigmaOS-site,
+SigmaOS-mac-support, SigmaOS-shell-config, SigmaOS-omarchy-mac-pkgs
+
+See `docs/OMARCHY_INSPIRATION.md` for the full omacom→SigmaOS mapping and
+`docs/FUTURE_PLAN_DISTROS.md` for the Linux/BSD distro roadmap.
