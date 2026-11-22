@@ -89,6 +89,11 @@ pub mod logging;
 /// Follows Single Responsibility Principle: only manages time subsystem.
 pub mod time_sync;
 
+/// User management module.
+/// Provides user account management, group management, and permissions.
+/// Follows Single Responsibility Principle: only manages user subsystem.
+pub mod user;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -106,6 +111,7 @@ pub use package::{PackageManager, Package, PackageVersion, PackageError};
 pub use hardware::{HardwareManager, DeviceInfo, DeviceType, DeviceStatus, HardwareError};
 pub use logging::{Logger, LogEntry, LogLevel, LogError};
 pub use time_sync::{TimeManager, NtpServer, TimeSource, TimeError};
+pub use user::{UserManager, User, Group, UserError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
