@@ -1,294 +1,250 @@
-# SigmaOS: System Library Substrate
+# SigmaOS
+
+SigmaOS is a Linux distribution built on Arch Linux with a comprehensive Rust-based system management library and suite of command-line tools. Inspired by Arch Linux and Omarchy Linux, SigmaOS provides a complete operating system ecosystem with programmatic system management.
 
 ## What Is SigmaOS?
-SigmaOS is a **system library substrate** for building operating systems. It provides core system utilities and foundations inspired by:
-- **Linux kernel mintsystem**: System adjustments and tuning
-- **Arch Linux**: Modularity, rolling release, cross-compilation
-- **Omarchy Linux**: Sovereign personas, community-oriented development
 
-**SigmaOS is NOT a bootable operating system** - it's a foundational library that other projects build upon.
+SigmaOS consists of two main components:
 
-## Why Use SigmaOS?
-- **Battle-tested code**: 10/10 unit tests passing
-- **Principled design**: Following SOLID, Demeter's Law, AAA testing
-- **Modular architecture**: Easy to compose and extend
-- **Clear abstractions**: Well-defined public APIs
-- **Fail-fast system**: Invalid inputs rejected immediately
-- **Secure by design**: Secure defaults, environment variables for secrets
+1. **System Library** - A comprehensive Rust library (460+ tests, 54 modules) for system management
+2. **Distribution Tools** - ISO build, installer, and system management tools
+
+## Features
+
+### System Library (sigma-system)
+
+54 modules covering all major Linux subsystems:
+
+- **Process/Kernel**: process, cpu_ops, mem_ops, kernel, scheduler_ops
+- **Storage**: disk, fs_ops, mount_ops, disk_space_ops, swap_ops
+- **Network**: net_ops, net_stats, dns_ops, firewall_ops, proxy_ops
+- **System**: sys_info, thermal, power_status, io_stats, resource_monitor
+- **Services**: service, systemd_ops, cron_ops, timer_ops, session_ops
+- **Security**: firewall_ops, cert_ops, user_group_ops
+- **Desktop**: display_ops, audio_ops, keyboard_ops, locale_ops
+- **Backup**: backup_ops, archive_ops, logrotate_ops
+- **Config**: timezone_ops, hostname_ops, env_ops, file_watcher
+- **Virtualization**: container_ops, virt_ops, uefi_ops
+- **Package**: pkg_install, repo_ops
+
+### Distribution Tools
+
+- **sigmaos** - Main CLI tool for system management
+- **sigmaos-config** - System configuration with performance/desktop profiles
+- **sigmaos-pkg** - Package manager wrapper with SigmaOS repository support
+- **sigmaos-service** - Service manager with profile-based configuration
+- **sigmaos-release** - Release snapshot and rollback system
+- **sigmaos-update** - System update tool with security/kernel updates
+- **sigmaos-firstboot** - Interactive first-boot configuration wizard
+
+### ISO Build & Installation
+
+- **build-iso-archiso.sh** - Uses Arch's archiso for proper ISO creation
+- **build-iso-improved.sh** - Alternative with mkarchiso support
+- **install-sigmaos.sh** - Text-based installer inspired by archinstall
 
 ## Quick Start
-```bash
-# Add SigmaOS as a dependency
-cargo add sigma-system
 
-# Import and use the library
-use sigma_system::{
-    SystemAdjuster, GovernorMode, PersonaManager,
-    MemoryManager, NetworkManager, SecurityManager,
-    FileSystemManager, PowerManager, MonitoringManager
-};
+### Using the Library
+
+```bash
+cargo add sigma-system
+```
+
+```rust
+use sigma_system::*;
 
 fn main() {
-    // System tuning
-    let adjuster = SystemAdjuster::default();
-    println!("swappiness={}, governor={}", adjuster.swappiness(), adjuster.governor().as_str());
+    // System information
+    let sys_info = SysInfo::new();
+    let info = sys_info.get_system_info()?;
+    println!("Hostname: {}", info.hostname);
     
-    // Persona management
-    let persona_mgr = PersonaManager::default();
-    println!("Persona: {}", persona_mgr.current_label());
+    // Process management
+    let proc_mgr = ProcessManager::new();
+    let processes = proc_mgr.list_processes()?;
     
-    // Memory management with cgroups
-    let memory_mgr = MemoryManager::default();
-    println!("Memory pressure: {}", memory_mgr.current_pressure.as_str());
-    
-    // Network firewall
-    let network_mgr = NetworkManager::new("eth0");
-    println!("Firewall rules: {}", network_mgr.rule_count());
-    
-    // Security (TPM, Secure Boot)
-    let security_mgr = SecurityManager::default();
-    println!("Security score: {}", security_mgr.security_score());
-    
-    // Filesystem (ZFS/Btrfs)
-    let fs_mgr = FileSystemManager::new(FileSystemType::Btrfs);
-    println!("Snapshots: {}", fs_mgr.get_snapshot_count());
-    
-    // Power management
-    let power_mgr = PowerManager::default();
-    println!("Profile: {}", power_mgr.profile.as_str());
-    
-    // System monitoring
-    let monitor_mgr = MonitoringManager::new();
-    println!("System health: {}", monitor_mgr.get_system_health().as_str());
+    // Service management
+    let svc_mgr = ServiceOps::new();
+    svc_mgr.start_service("NetworkManager")?;
 }
 ```
 
-## Project Principles
-Following principles from the comprehensive SigmaOS principle list:
-- **Single Responsibility**: Each module has one well-defined purpose
-- **Fail-Fast System**: Invalid inputs rejected immediately
-- **Defensive Programming**: Input validation at all public boundaries
-- **AAA Testing pattern**: All tests follow Arrange-Act-ASSERT
-- **Demeter's Law**: Components don't expose internal structure
-- **Clear Abstraction**: Well-defined public interfaces
-- **Cohesion Maximisation**: Related functionality grouped together
-- **Coupling Minimisation**: Minimal dependencies between modules
-- **Separation of Concerns**: Library/bin/tests separated
-- **Composition over Inheritance**: Modules composed of smaller functions
-- **Open/Closed Principle**: New features add code, don't modify existing
-- **Don't Repeat Yourself**: DRY principle applied across all components
-- **Deterministic Testing**: Reproducible, timely tests
-- **Code Reusability**: Through composition and clear abstractions
-- **Component Isolation**: Self-contained modules
-- **Rolling Release**: Continuous improvement without release tags
-- **Modular Kernel Design**: Modular approach to system services
-- **Minimal Kernel Philosophy**: Only necessary components included
-- **Semantic Versioning**: Version control practices upheld
-- **Race-Free Design**: Concurrent-safe operations where applicable
-- **Error Handling**: Descriptive error messages with context
-- **Secure Defaults**: Secure by design, environment variables for secrets
-- **Audit Logging**: Everything logged to fix future issues
-- **Interface Segregation**: Client-specific interfaces
-- **Least Astonishment**: Predictable API behavior
-- **Least Privilege**: Minimum necessary access
-- **Talk is Cheap**: Working code priority
-- **CI/CD Testing**: Automated testing pipelines
-- **Worse is Better**: Practical over perfect design
-- **X THEIRS**: Community-driven development
-- **YAGNI**: You Aren't Gonna Need It principle
-- **Zen of Python**: Where applicable influences design
-- **Zero-One-Infinity**: Scalable design patterns
-- **X THEIRS**: Community-driven development
-- **TRANSFER & CONSOLIDATE .MD/.TXT**: Wiki-based documentation
-- **UPHOLD INTELLECTUAL PROPERTY**: GPL-3.0-or-later maintained
-- **OPEN-CLOSED**: Open for extension, closed for modification
-- **CROSS COMPILATION**: Tested in CI
-- **CROSS PLATFORM COMPATIBILITY**: Tested on Linux/Mac
-- **MODULAR KERNEL DESIGN**: Modular approach to system services
-- **MINIMAL KERNEL PHILOSOPHY**: Only necessary components included
-- **LICENSING AWARENESS**: GPL-3.0-or-later maintained
-- **ERROR HANDLING**: Descriptive error messages
-- **SECURE DEFAULTS**: Secure by design
-- **AUDIT LOGGING**: Everything logged for future issues
-- **SEMANTIC VERSIONING**: Version control practices
-- **REPRODUCIBLE BUILDS**: Consistent build environments
-- **INTERFACE SEGREGATION**: Client-specific interfaces
-- **LEAST ASTONISHMENT**: Predictable API behavior
-- **LEAST PRIVILEGE**: Minimum necessary access
-- **TALK IS CHEAP**: Working code priority
-- **TEST CODE USING CI/CD**: Automated testing pipelines
-- **WORSE IS BETTER**: Practical over perfect design
-- **X THEIRS**: Community-driven development
-- **YAGNI**: You Aren't Gonna Need It principle
-- **ZEN OF PYTHON**: Where applicable influences design
-- **ZERO-COPY**: Where applicable performance optimization
-- **ZERO-ONE-INFINITY**: Scalable design patterns
-- **X THEIRS**: Community-driven development
-- **TRANSFER & CONSOLIDATE .MD/.TXT**: Wiki-based documentation
-- **UPHOLD INTELLECTUAL PROPERTY**: GPL-3.0-or-later maintained
-- **OPEN-CLOSED**: Open for extension, closed for modification
-- **CROSS COMPILATION**: Tested in CI
-- **CROSS PLATFORM COMPATIBILITY**: Tested on Linux/Mac
-- **MODULAR KERNEL DESIGN**: Modular approach to system services
-- **MINIMAL KERNEL PHILOSOPHY**: Only necessary components included
-- **MANUAL MEMORY CONTROL**: Rust ownership model
-- **MECHANICAL SYMPATHY**: Performance-conscious design
-- **MEMORY BARRIERS**: Where applicable atomic operations
-- **MERITOCRACY AND INCLUSIVITY**: Community practices
-- **RACE-FREE DESIGN**: Concurrent-safe operations
-- **READY TO USE**: Tested and verified
-- **REFACTORING**: Continuous code improvement
-- **REMOVE ANY HINT...**: Clean project identity
-- **REPRODUCIBLE BUILDS**: Consistent build environments
-- **RESPECT & ETHICAL PARTICIPATION**: Open source ethics
-- **ROLLING RELEASE MODEL**: No release tags, continuous improvement
-- **RULE OF THREE**: Three implementations good
-- **SAFE CONCURRENCY**: Concurrent-safe operations
-- **SECURE DEFAULTS**: Secure by design
-- **SECURITY AUDIT**: Prevent leak of secrets
-- **SEMANTIC VERSIONING**: Version control practices
-- **SEPARATION OF CONCERNS**: Mechanism vs policy
-- **SINGLE RESPONSIBILITY...**: SOLID principles
-- **SINGLE BRANCH PER REPOSITORY**: Main branch per repo
-- **SOFTWARE SUPPORT PROGRAM**: Like Linux distros
-- **SOFTWARE UPDATING PROGRAM**: Rolling release model
-- **SPEC-DRIVEN DEVELOPMENT**: Principle-driven development
-- **STABLE APIs**: Minimal, focused public interfaces
-- **TALK IS CHEAP**: Working code priority
-- **TEST CODE USING CI/CD**: Automated testing pipelines
-- **WORSE IS BETTER**: Practical over perfect design
-- **X THEIRS**: Community-driven development
-- **ZEN OF PYTHON**: Where applicable influences
-- **ZERO-COPY**: Where applicable performance optimization
-- **ZERO-ONE-INFINITY**: Scalable design patterns
-- **X THEIRS**: Community-driven development
-- **TRANSFER & CONSOLIDATE .MD/.TXT**: Wiki-based documentation
-- **UPHOLD INTELLECTUAL PROPERTY**: GPL-3.0-or-later maintained
-- **OPEN-STANDARD AND INTEROPERABILITY**: Standard-based design
-- **OPTIMISE FOR DELETION**: Efficient removal of unused features
-- **OPTIMISE FOR PERFORMANCE**: Performance-conscious design
-- **PLUG-IN DRIVER MODEL**: Modular driver system
-- **PLUG & PLAY DRIVER MODEL**: Dynamic driver loading
-- **POLYMORPHISM**: Polymorphic types awareness
-- **PORTABILITY**: Multi-arch support
-- **POWER OF TEN**: Safety-critical guidelines
-- **PRACTICAL LICENSING AWARENESS**: GPL-3.0-or-later maintained
-- **PREPARE VARIOUS RULES**: Guidelines awareness
-- **PRIORITY INVERSION AVOIDANCE**: Real-time systems
-- **PRISTINE SOURCES**: Clean code
-- **PROCEDURE-ORIENTED PROGRAMMING**: Procedure-oriented design
-- **PROCESS ISOLATION**: Process isolation awareness
-- **PROFESSION BASED TOOLS**: Professional tools
-- **RACE-FREE DESIGN**: Concurrent-safe operations
-- **READY TO USE**: Tested and verified
-- **REFACTORING**: Continuous code improvement
-- **REMOVE ANY HINT...**: Clean project identity
-- **REPRODUCIBLE BUILDS**: Consistent build environments
-- **RESPECT & ETHICAL PARTICIPATION**: Open source ethics
-- **ROLLING RELEASE MODEL**: No release tags, continuous improvement
-- **RULE OF THREE**: Three implementations good
-- **SAFE CONCURRENCY**: Concurrent-safe operations
-- **SECURE DEFAULTS**: Secure by design
-- **SECURITY AUDIT**: Prevent leak of secrets
-- **SEMANTIC VERSIONING**: Version control practices
-- **SEPARATION OF CONCERNS**: Mechanism vs policy
-- **SINGLE RESPONSIBILITY...**: SOLID principles
-- **SINGLE BRANCH PER REPOSITORY**: Main branch per repo
-- **SOFTWARE SUPPORT PROGRAM**: Like Linux distros
-- **SOFTWARE UPDATING PROGRAM**: Rolling release model
-- **SPEC-DRIVEN DEVELOPMENT**: Principle-driven development
-- **STABLE APIs**: Minimal, focused public interfaces
-- **TALK IS CHEAP**: Working code priority
-- **TEST CODE USING CI/CD**: Automated testing pipelines
-- **WORSE IS BETTER**: Practical over perfect design
-- **X THEIRS**: Community-driven development
-- **ZEN OF PYTHON**: Where applicable influences
-- **ZERO-COPY**: Where applicable performance optimization
-- **ZERO-ONE-INFINITY**: Scalable design patterns
-- **X THEIRS**: Community-driven development
-- **TRANSFER & CONSOLIDATE .MD/.TXT**: Wiki-based documentation
-- **UPHOLD INTELLECTUAL PROPERTY**: GPL-3.0-or-later maintained
-- **OPEN-STANDARD AND INTEROPERABILITY**: Standard-based design
-- **OPTIMISE FOR DELETION**: Efficient removal of unused features
-- **OPTIMISE FOR PERFORMANCE**: Performance-conscious design
-- **PLUG-IN DRIVER MODEL**: Modular driver system
-- **PLUG & PLAY DRIVER MODEL**: Dynamic driver loading
-- **POLYMORPHISM**: Polymorphic types awareness
-- **PORTABILITY**: Multi-arch support
-- **POWER OF TEN**: Safety-critical guidelines
-- **PRACTICAL LICENSING AWARENESS**: GPL-3.0-or-later maintained
-- **PREPARE VARIOUS RULES**: Guidelines awareness
-- **PRIORITY INVERSION AVOIDANCE**: Real-time systems
-- **PRISTINE SOURCES**: Clean code
-- **PROCEDURE-ORIENTED PROGRAMMING**: Procedure-oriented design
-- **PROCESS ISOLATION**: Process isolation awareness
-- **PROFESSION BASED TOOLS**: Professional tools
-- **RACE-FREE DESIGN**: Concurrent-safe operations
-- **READY TO USE**: Tested and verified
-- **REFACTORING**: Continuous code improvement
-- **REMOVE ANY HINT...**: Clean project identity
-- **REPRODUCIBLE BUILDS**: Consistent build environments
-- **RESPECT & ETHICAL PARTICIPATION**: Open source ethics
-- **ROLLING RELEASE MODEL**: No release tags, continuous improvement
-- **RULE OF THREE**: Three implementations good
-- **SAFE CONCURRENCY**: Concurrent-safe operations
-- **SECURE DEFAULTS**: Secure by design
-- **SECURITY AUDIT**: Prevent leak of secrets
-- **SEMANTIC VERSIONING**: Version control practices
-- **SEPARATION OF CONCERNS**: Mechanism vs policy
-- **SINGLE RESPONSIBILITY...**: SOLID principles
-- **SINGLE BRANCH PER REPOSITORY**: Main branch per repo
-- **SOFTWARE SUPPORT PROGRAM**: Like Linux distros
-- **SOFTWARE UPDATING PROGRAM**: Rolling release model
-- **SPEC-DRIVEN DEVELOPMENT**: Principle-driven development
-- **STABLE APIs**: Minimal, focused public interfaces
-- **TALK IS CHEAP**: Working code priority
-- **TEST CODE USING CI/CD**: Automated testing pipelines
-- **WORSE IS BETTER**: Practical over perfect design
-- **X THEIRS**: Community-driven development
-- **ZEN OF PYTHON**: Where applicable influences
-- **ZERO-COPY**: Where applicable performance optimization
-- **ZERO-ONE-INFINITY**: Scalable design patterns
-- **X THEIRS**: Community-driven development
-- **TRANSFER & CONSOLIDATE .MD/.TXT**: Wiki-based documentation
-- **UPHOLD INTELLECTUAL PROPERTY**: GPL-3.0-or-later maintained
+### Using the CLI
 
-## Component Repositories
-SigmaOS consists of separate repositories following the Omarchy Linux multi-repo model:
-- `sigmaos-dante`: CLI tool component
-- `sigmaos-0ad`: 0.A.D. integration component
-- `sigmaos-3d-modeler`: 3D modeling component
-- `sigmaos-ab`: Basic utility component
-
-Each component has its own `Cargo.toml`, `COMPONENT.toml`, `src/lib.rs`, and `src/main.rs`.
-
-## Getting Started
 ```bash
-# Add SigmaOS as a dependency
-cargo add sigma-system
+# System information
+sigmaos info --detailed
 
-# Import and use the library
-use sigma_system::{SystemAdjuster, GovernorMode, PersonaManager};
+# Process management
+sigmaos process list
 
-fn main() {
-    let adjuster = SystemAdjuster::default();
-    println!("swappiness={}, governor={}", adjuster.swappiness(), adjuster.governor().as_str());
-    
-    let persona_mgr = PersonaManager::default();
-    println!("Persona: {}", persona_mgr.current_label());
-}
+# Service management
+sigmaos service start NetworkManager
+
+# Network operations
+sigmaos network list
+
+# Disk operations
+sigmaos disk usage /
+
+# System monitoring
+sigmaos monitor cpu
+```
+
+### Building an ISO
+
+```bash
+# On Arch-based systems
+./scripts/build-iso-archiso.sh
+
+# Alternative method
+./scripts/build-iso-improved.sh
+```
+
+### Installing SigmaOS
+
+1. Boot the ISO
+2. Run: `sudo /root/install-sigmaos.sh`
+3. Follow the prompts
+4. Reboot into your new system
+
+### First Boot Setup
+
+After installation, run the first boot wizard:
+
+```bash
+sudo sigmaos-firstboot
+```
+
+This will guide you through:
+- Hostname configuration
+- Locale and timezone
+- User management
+- Performance profile selection
+- Desktop environment installation
+- Service enablement
+
+## System Tools
+
+### sigmaos-config
+
+```bash
+sudo sigmaos-config init                    # Initialize configuration
+sudo sigmaos-config apply performance       # Apply performance profile
+sudo sigmaos-config apply desktop kde      # Apply desktop configuration
+sigmaos-config status                       # Show system status
+sigmaos-config report                       # Generate system report
+```
+
+### sigmaos-pkg
+
+```bash
+sudo sigmaos-pkg init                       # Initialize SigmaOS repository
+sudo sigmaos-pkg add package.pkg.tar.zst   # Add package to repository
+sigmaos-pkg list                            # List SigmaOS packages
+sudo sigmaos-pkg install mypackage         # Install from SigmaOS repo
+```
+
+### sigmaos-service
+
+```bash
+sudo sigmaos-service init                   # Initialize service configuration
+sudo sigmaos-service profile enable core   # Enable service profile
+sigmaos-service profile list                # List service profiles
+sigmaos-service status                      # Show service status
+sudo sigmaos-service enable NetworkManager  # Enable service
+```
+
+### sigmaos-release
+
+```bash
+sudo sigmaos-release create                 # Create release snapshot
+sigmaos-release list                        # List releases
+sudo sigmaos-release set-current sigmaos-20250101
+sigmaos-release rollback sigmaos-20250101  # Rollback to previous release
+```
+
+### sigmaos-update
+
+```bash
+sudo sigmaos-update full                    # Full system update
+sudo sigmaos-update security               # Security-focused update
+sudo sigmaos-update kernel                 # Kernel and bootloader update
+sigmaos-update check                       # Check for updates
 ```
 
 ## Documentation
-- **Wiki**: [https://github.com/AaryanSinghChauhan09/Sigma/wiki](https://github.com/AaryanSinghChauhan09/Sigma/wiki)
-- **Component repos**: [GitHub](https://github.com/AaryanSinghChauhan09?tab=repositories)
-- **Issues**: [GitHub Issues](https://github.com/AaryanSinghChauhan09/Sigma/issues)
 
-## Licensing
-- **License**: GPL-3.0-or-later
-- **Copyright**: (c) 2026 SigmaOS Project
+- [Installation Guide](INSTALL.md) - ISO build and installation instructions
+- [Desktop Guide](DESKTOP.md) - Desktop environment setup
+- [Tools Guide](TOOLS.md) - System tools documentation
+
+## Architecture
+
+SigmaOS is built on:
+
+- **Base**: Arch Linux packages
+- **Kernel**: Linux (same as Arch)
+- **Init System**: systemd
+- **Package Manager**: pacman (with SigmaOS extensions)
+- **Bootloader**: GRUB (UEFI)
+- **Library**: Rust (sigma-system crate)
+- **Configuration**: /etc/sigmaos/
+
+## Comparison with Other Distros
+
+| Feature | SigmaOS | Arch | Omarchy |
+|---------|---------|------|---------|
+| Base | Arch packages | Arch | Arch |
+| ISO Build | archiso-based | archiso | Custom |
+| Installer | Text-based (archinstall-style) | Manual | Custom |
+| CLI Tool | Yes (sigmaos) | pacman | Custom |
+| System Library | Rust (54 modules) | None | None |
+| Config Tools | sigmaos-config | Manual | sigma-config |
+| Release Management | sigmaos-release | Manual | Manual |
+| Performance Profiles | Yes | Manual | Yes |
+| Desktop Support | Full docs | Manual | KDE/GNOME |
+| First Boot Wizard | Yes | No | No |
+
+## Development
+
+### Building the CLI
+
+```bash
+cd cli
+cargo build --release
+sudo cp target/release/sigmaos /usr/local/bin/
+```
+
+### Running Tests
+
+```bash
+cargo test
+```
+
+### Installing Tools
+
+```bash
+sudo cp scripts/sigmaos-* /usr/local/bin/
+sudo chmod +x /usr/local/bin/sigmaos-*
+```
+
+## Project Status
+
+- **Library**: 54 modules, 460 unit tests, 56 doctests
+- **Tools**: 7 system tools
+- **Documentation**: Comprehensive guides
+- **ISO**: Build scripts using archiso
+- **Installer**: Text-based installer
+- **Version**: 0.5.0
+
+## License
+
+GPL-3.0-or-later
 
 ## Contact
+
 - **Maintainer**: Aaryan Singh Chauhan
 - **Email**: aaryan.singh.chauhan.09@gmail.com
-- **GitHub**: [AaryanSinghChauhan09](https://github.com/AaryanSinghChauhan09)
+- **GitHub**: [AaryanSinghChauhan09/Sigma](https://github.com/AaryanSinghChauhan09/Sigma)
