@@ -431,6 +431,11 @@ pub mod incident_ops;
 /// Follows Single Responsibility Principle: only manages capacity planning operations.
 pub mod capacity_ops;
 
+/// Inventory operations module.
+/// Provides actual inventory operations.
+/// Follows Single Responsibility Principle: only manages inventory operations.
+pub mod inventory_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -522,6 +527,7 @@ pub use tco_ops::{TcoOps, TcoError as TcoManagerError};
 pub use compliance_ops::{ComplianceOps, ComplianceError as ComplianceManagerError};
 pub use incident_ops::{IncidentOps, IncidentError as IncidentManagerError};
 pub use capacity_ops::{CapacityOps, CapacityError as CapacityManagerError};
+pub use inventory_ops::{InventoryOps, InventoryItem, InventoryError as InventoryManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
