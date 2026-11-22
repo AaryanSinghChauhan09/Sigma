@@ -1,0 +1,66 @@
+# SigmaOS fstab template
+# Generated during installation with proper mount options
+
+# /dev/sda3
+UUID=ROOT_UUID / ext4 rw,relatime,data=ordered 0 1
+
+# /dev/sda1
+UUID=BOOT_UUID /boot vfat rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro 0 2
+
+# /dev/sda2
+UUID=SWAP_UUID none swap defaults 0 0
+
+# /dev/sr0 (optical drive)
+/dev/sr0 /mnt/cdrom iso9660 ro,noauto,user 0 0
+
+# /dev/sda4 (optional data partition, if present)
+# UUID=DATA_UUID /data ext4 rw,relatime,data=ordered 0 2
+
+# Swap file (optional)
+# /swapfile none swap defaults 0 0
+
+# tmpfs
+tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,size=2G 0 0
+tmpfs /var/tmp tmpfs defaults,noatime,nosuid,nodev,size=1G 0 0
+
+# Shared memory
+tmpfs /dev/shm tmpfs defaults,noexec,nosuid,nodev,size=2G 0 0
+
+# /run (usually tmpfs)
+# tmpfs /run tmpfs defaults,noexec,nosuid,nodev,size=10% 0 0
+
+# /sys/firmware/efi/efivars (UEFI variables)
+efivarfs /sys/firmware/efi/efivars efivarfs defaults 0 0
+
+# cgroup v2
+cgroup2 /sys/fs/cgroup cgroup2 rw,nosuid,nodev,noexec,relatime 0 0
+
+# proc
+proc /proc proc defaults,nosuid,nodev,noexec,relatime 0 0
+
+# sysfs
+sysfs /sys sysfs ro,nosuid,nodev,noexec,relatime 0 0
+
+# devpts
+devpts /dev/pts devpts defaults,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000 0 0
+
+# securityfs
+securityfs /sys/kernel/security securityfs rw,nosuid,nodev,noexec,relatime 0 0
+
+# debugfs
+debugfs /sys/kernel/debug debugfs rw,nosuid,nodev,noexec,relatime 0 0
+
+# pstore
+pstore /sys/fs/pstore pstore rw,nosuid,nodev,noexec,relatime 0 0
+
+# bpf
+bpf /sys/fs/bpf bpf rw,nosuid,nodev,noexec,relatime,mode=700 0 0
+
+# configfs
+configfs /sys/kernel/config configfs rw,nosuid,nodev,noexec,relatime 0 0
+
+# hugetlbfs
+hugetlbfs /dev/hugepages hugetlbfs rw,relatime,pagesize=2M 0 0
+
+# mqueue
+mqueue /dev/mqueue mqueue rw,nosuid,nodev,noexec,relatime 0 0
