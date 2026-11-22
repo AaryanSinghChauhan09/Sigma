@@ -386,6 +386,11 @@ pub mod camera_ops;
 /// Follows Single Responsibility Principle: only manages sensor operations.
 pub mod sensor_ops;
 
+/// RAID operations module.
+/// Provides actual RAID operations using mdadm.
+/// Follows Single Responsibility Principle: only manages RAID operations.
+pub mod raid_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -468,6 +473,7 @@ pub use print_ops::{PrintOps, PrinterInfo, PrintError as PrintManagerError};
 pub use timesync_ops::{TimeSyncOps, TimeSyncError as NtpSyncError};
 pub use camera_ops::{CameraOps, CameraInfo, CameraError as CameraManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
+pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
