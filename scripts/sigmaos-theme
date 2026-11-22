@@ -1,0 +1,77 @@
+#!/bin/bash
+# sigmaos-theme — single user-facing theme path (docs/THEME_DECISION.md)
+#
+# Themes live in the theme registry layout:
+#   ~/.config/sigmaos/themes/<name>/   (installed themes)
+#   ~/.config/hypr/current -> <name>   (active theme symlink, atomic swap)
+#
+# Commands: list | current | apply <name> | reset | install <dir>
+
+set -euo pipefail
+
+THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/sigmaos/themes"
+HYPR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
+CURRENT_LINK="$HYPR_DIR/current"
+DEFAULT_THEME="${SIGMAOS_DEFAULT_THEME:-default-dark}"
+
+mkdir -p "$THEMES_DIR" "$HYPR_DIR"
+
+die() { echo "sigmaos-theme: $*" >&2; exit 1; }
+
+cmd_list() {
+    echo "Available themes:"
+    local found=0
+    for d in "$THEMES_DIR"/*/; do
+        [ -d "$d" ] || continue
+        found=1
+        local name; name=$(basename "$d")
+        local mark="  "
+        [ "$name" = "$(current_name)" ] && mark="> "
+        echo "$mark$name"
+    done
+    [ $found -eq 0 ] && echo "  (none installed — registry sync not yet wired)"
+}
+
+current_name() {
+    if [ -L "$CURRENT_LINK" ]; then basename "$(readlink "$CURRENT_LINK")"; else echo "(none)"; fi
+}
+
+cmd_current() { echo "$(current_name)"; }
+
+cmd_apply() {
+    local name="${1:?usage: sigmaos-theme apply <name>}"
+    local src="$THEMES_DIR/$name"
+    [ -d "$src" ] || die "theme not found: $name (looked in $src)"
+    # atomic symlink swap — same pattern as generation rollback
+    local tmp="$HYPR_DIR/.current.tmp.$$"
+    ln -sfn "$src" "$tmp"
+    mv -T "$tmp" "$CURRENT_LINK"
+    # notify running session if hyprctl exists
+    command -v hyprctl >/dev/null && hyprctl eval "hl.dsp.layout.reset()" 2>/dev/null || true
+    echo "theme applied: $name"
+}
+
+cmd_reset() {
+    local src="$THEMES_DIR/$DEFAULT_THEME"
+    [ -d "$src" ] || die "default theme missing: $src"
+    cmd_apply "$DEFAULT_THEME"
+}
+
+cmd_install() {
+    local dir="${1:?usage: sigmaos-theme install <theme-dir>}"
+    [ -d "$dir" ] || die "not a directory: $dir"
+    local name; name=$(basename "$dir")
+    mkdir -p "$THEMES_DIR"
+    rm -rf "$THEMES_DIR/$name"
+    cp -a "$dir" "$THEMES_DIR/$name"
+    echo "installed theme: $name"
+}
+
+case "${1:-help}" in
+    list)    cmd_list ;;
+    current) cmd_current ;;
+    apply)   shift; cmd_apply "$@" ;;
+    reset)   cmd_reset ;;
+    install) shift; cmd_install "$@" ;;
+    *)       echo "usage: sigmaos-theme {list|current|apply <name>|reset|install <dir>}" ;;
+esac
