@@ -326,6 +326,11 @@ pub mod uefi_ops;
 /// Follows Single Responsibility Principle: only manages repository operations.
 pub mod repo_ops;
 
+/// Scheduler operations module.
+/// Provides actual CPU scheduler operations.
+/// Follows Single Responsibility Principle: only manages scheduler operations.
+pub mod scheduler_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -396,6 +401,7 @@ pub use logrotate_ops::{LogrotateOps, LogrotateError};
 pub use disk_space_ops::{DiskSpaceOps, DiskSpace, DiskSpaceError};
 pub use uefi_ops::{UefiOps, BootEntry as UefiBootEntry, UefiError as UefiManagerError};
 pub use repo_ops::{RepoOps, RepoInfo, RepoError as RepoManagerError};
+pub use scheduler_ops::{SchedulerOps as CpuScheduler, SchedulerPolicy, SchedulerError as CpuSchedulerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
