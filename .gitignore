@@ -3,6 +3,7 @@ target/
 !README.md
 !WIKI_MIGRATION_PLAN.md
 !REPOSITORY_RESTRUCTURING_PLAN.md
+!DEVELOPMENT_SUMMARY.md
 !docs/*.md
 !wiki/*.md
 *.txt
