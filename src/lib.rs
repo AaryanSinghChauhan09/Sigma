@@ -401,6 +401,11 @@ pub mod lvm_ops;
 /// Follows Single Responsibility Principle: only manages GPU operations.
 pub mod gpu_ops;
 
+/// Fingerprint operations module.
+/// Provides actual fingerprint operations using fprintd.
+/// Follows Single Responsibility Principle: only manages fingerprint operations.
+pub mod fingerprint_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -486,6 +491,7 @@ pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
 pub use gpu_ops::{GpuOps, GpuInfo, GpuError as GpuManagerError};
+pub use fingerprint_ops::{FingerprintOps, FingerprintDevice, FingerprintError as FpManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
