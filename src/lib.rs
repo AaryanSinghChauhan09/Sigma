@@ -104,6 +104,11 @@ pub mod locale;
 /// Follows Single Responsibility Principle: only manages cron subsystem.
 pub mod cron;
 
+/// Backup module.
+/// Provides backup, restore, and disaster recovery management.
+/// Follows Single Responsibility Principle: only manages backup subsystem.
+pub mod backup;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -124,6 +129,7 @@ pub use time_sync::{TimeManager, NtpServer, TimeSource, TimeError};
 pub use user::{UserManager, User, Group, UserError};
 pub use locale::{LocaleManager, Locale, Timezone, Translation, LocaleError};
 pub use cron::{CronManager, CronJob, CronError};
+pub use backup::{BackupManager, Backup, BackupType, BackupStatus, BackupSchedule, BackupError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
