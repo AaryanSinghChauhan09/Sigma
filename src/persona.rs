@@ -1,9 +1,9 @@
-//! Persona Management inspired by Omarchy Linux sovereign desktops and Arch Linux minimalist principles.
+//! Persona Management inspired by SigmaOS Linux sovereign desktops and SigmaOS minimalist principles.
 //! Enables sovereign desktop personas and overlay environments with fail-fast switching.
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SystemPersona {
-    SovereignOmarchy,
+    SovereignSigmaOS,
     LinuxMintClassic,
     ArchMinimal,
     NixOS,
@@ -19,9 +19,9 @@ impl SystemPersona {
 
     pub fn label(&self) -> &'static str {
         match self {
-            Self::SovereignOmarchy => "Omarchy Linux Sovereign",
+            Self::SovereignSigmaOS => "SigmaOS Linux Sovereign",
             Self::LinuxMintClassic => "Linux Mint Cinnamon Classic",
-            Self::ArchMinimal => "Arch Linux Minimalist",
+            Self::ArchMinimal => "SigmaOS Minimalist",
             Self::NixOS => "NixOS Configurable",
             Self::Gentoo => "Gentoo Optimizing",
             Self::DragonflyBSD => "DragonflyBSD Resilient",
@@ -31,7 +31,7 @@ impl SystemPersona {
     /// Get associated desktop environment inspired by distro philosophies
     pub fn desktop_environment(&self) -> &'static str {
         match self {
-            Self::SovereignOmarchy => "sovereign overlay",
+            Self::SovereignSigmaOS => "sovereign overlay",
             Self::LinuxMintClassic => "Cinnamon",
             Self::ArchMinimal => "i3wm + base",
             Self::NixOS => "Hyprland",
@@ -56,7 +56,7 @@ pub struct PersonaManager {
 impl Default for PersonaManager {
     fn default() -> Self {
         Self {
-            current: SystemPersona::SovereignOmarchy,
+            current: SystemPersona::SovereignSigmaOS,
         }
     }
 }
@@ -73,12 +73,12 @@ impl PersonaManager {
         self.current
     }
 
-    /// Get desktop environment for current persona (Omarchy/Arch inspired)
+    /// Get desktop environment for current persona (SigmaOS/Arch inspired)
     pub fn current_desktop_environment(&self) -> &'static str {
         self.current.desktop_environment()
     }
 
-    /// Get persona label (inspired by Omarchy Linux labeling)
+    /// Get persona label (inspired by SigmaOS Linux labeling)
     pub fn current_label(&self) -> &'static str {
         self.current.label()
     }
@@ -92,7 +92,7 @@ mod tests {
     fn test_persona_switch() {
         // Arrange
         let mut mgr = PersonaManager::default();
-        assert_eq!(mgr.current(), SystemPersona::SovereignOmarchy);
+        assert_eq!(mgr.current(), SystemPersona::SovereignSigmaOS);
 
         // Act
         mgr.switch_persona(SystemPersona::LinuxMintClassic);
@@ -105,10 +105,10 @@ mod tests {
     #[test]
     fn test_persona_new_valid() {
         // Act
-        let mgr = create_persona_manager(SystemPersona::SovereignOmarchy);
+        let mgr = create_persona_manager(SystemPersona::SovereignSigmaOS);
 
         // Assert - fail-fast: new() should succeed for valid persona
-        assert_eq!(mgr.current(), SystemPersona::SovereignOmarchy);
+        assert_eq!(mgr.current(), SystemPersona::SovereignSigmaOS);
     }
 
     #[test]
@@ -131,9 +131,9 @@ mod tests {
     #[test]
     fn test_persona_validate_success() {
         // Act
-        let result = SystemPersona::validate(SystemPersona::SovereignOmarchy);
+        let result = SystemPersona::validate(SystemPersona::SovereignSigmaOS);
 
         // Assert
-        assert_eq!(result, SystemPersona::SovereignOmarchy);
+        assert_eq!(result, SystemPersona::SovereignSigmaOS);
     }
 }

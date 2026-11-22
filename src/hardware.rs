@@ -1,4 +1,4 @@
-//! Hardware detection and configuration module inspired by Arch Linux hwinfo.
+//! Hardware detection and configuration module inspired by SigmaOS hwinfo.
 //! Provides hardware enumeration, driver management, and device configuration.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 

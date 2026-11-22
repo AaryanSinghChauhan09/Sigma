@@ -1,4 +1,4 @@
-//! Power management inspired by Linux kernel power management and Arch Linux power saving.
+//! Power management inspired by Linux kernel power management and SigmaOS power saving.
 //! Provides power control, battery optimization, and energy efficiency tuning.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 

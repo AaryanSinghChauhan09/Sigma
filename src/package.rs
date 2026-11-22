@@ -1,5 +1,5 @@
 //! Package manager dependency resolver for SigmaOS component ecosystem.
-//! Inspired by Arch Linux pacman and AUR dependency resolution.
+//! Inspired by SigmaOS pacman and AUR dependency resolution.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 
 use std::collections::{BTreeMap, HashSet};

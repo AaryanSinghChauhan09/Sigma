@@ -1,4 +1,4 @@
-//! Filesystem management inspired by Linux VFS and Arch Linux storage management.
+//! Filesystem management inspired by Linux VFS and SigmaOS storage management.
 //! Provides filesystem management, ZFS/Btrfs support, and snapshot operations.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 

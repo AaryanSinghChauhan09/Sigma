@@ -1,4 +1,4 @@
-//! Security audit module inspired by Linux security and Arch Linux hardening.
+//! Security audit module inspired by Linux security and SigmaOS hardening.
 //! Provides vulnerability scanning and compliance checking.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 

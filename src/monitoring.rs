@@ -1,4 +1,4 @@
-//! Monitoring module inspired by Linux kernel metrics and Arch Linux monitoring tools.
+//! Monitoring module inspired by Linux kernel metrics and SigmaOS monitoring tools.
 //! Provides system metrics, performance monitoring, and health checks.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 

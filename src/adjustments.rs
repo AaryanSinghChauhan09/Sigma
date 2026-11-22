@@ -1,4 +1,4 @@
-//! System adjustments inspired by Linux kernel mintsystem and Arch Linux.
+//! System adjustments for performance optimization.
 //! Manages CPU governors, sysctl memory tuning, and hardware optimization.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 
@@ -84,7 +84,7 @@ impl SystemAdjuster {
     /// Generate Linux-style sysctl configuration inspired by kernel boot parameters
     pub fn generate_sysctl_conf(&self) -> String {
         format!(
-            "# SigmaOS System Adjustments\n# Inspired by Linux kernel mintsystem and Arch Linux tuning\nvm.swappiness = {}\nvm.vfs_cache_pressure = {}\n",
+            "# SigmaOS System Adjustments\n# Inspired by Linux kernel mintsystem and SigmaOS tuning\nvm.swappiness = {}\nvm.vfs_cache_pressure = {}\n",
             self.swappiness, self.vfs_cache_pressure
         )
     }

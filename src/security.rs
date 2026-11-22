@@ -1,4 +1,4 @@
-//! Security module inspired by Linux kernel integrity subsystem and Arch Linux security.
+//! Security module inspired by Linux kernel integrity subsystem and SigmaOS security.
 //! Provides secure boot verification, TPM 2.0 integration, and integrity checks.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 

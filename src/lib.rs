@@ -3,7 +3,7 @@
 //! Demeter's Law, Clear Abstraction, Fail-Fast System
 //!
 //! This library provides the core substrate for the SigmaOS ecosystem.
-//! Inspired by Linux kernel mintsystem, Arch Linux modularity, and Omarchy Linux sovereignty.
+//! Built with modular architecture, sovereign design, and community-oriented development.
 
 #![forbid(unsafe_code)]
 

@@ -1,4 +1,4 @@
-//! Network management inspired by Linux kernel networking and Arch Linux security.
+//! Network management inspired by Linux kernel networking and SigmaOS security.
 //! Provides network configuration, firewall rules, and connection tracking.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 

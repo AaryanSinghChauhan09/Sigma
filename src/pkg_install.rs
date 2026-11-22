@@ -1,7 +1,7 @@
 //! SigmaOS package installation module.
 //!
 //! This module provides actual package installation capabilities
-//! using pacman (Arch Linux package manager).
+//! using pacman (SigmaOS package manager).
 //!
 //! # Example
 //!

@@ -1,6 +1,6 @@
 # SigmaOS
 
-SigmaOS is a Linux distribution built on Arch Linux with a comprehensive Rust-based system management library and suite of command-line tools. Inspired by Arch Linux and Omarchy Linux, SigmaOS provides a complete operating system ecosystem with programmatic system management.
+SigmaOS is a sovereign Linux distribution with a comprehensive Rust-based system management library and suite of command-line tools. Built with modular architecture and community-oriented development, SigmaOS provides a complete operating system ecosystem with programmatic system management.
 
 ## What Is SigmaOS?
 
@@ -70,9 +70,9 @@ SigmaOS consists of two main components:
 
 ### ISO Build & Installation
 
-- **build-iso-archiso.sh** - Uses Arch's archiso for proper ISO creation
+- **build-iso-archiso.sh** - Uses archiso for proper ISO creation
 - **build-iso-improved.sh** - Alternative with mkarchiso support
-- **install-sigmaos.sh** - Text-based installer inspired by archinstall
+- **install-sigmaos.sh** - Text-based installer
 
 ## Quick Start
 
@@ -126,7 +126,7 @@ sigmaos monitor cpu
 ### Building an ISO
 
 ```bash
-# On Arch-based systems
+# On Linux-based systems
 ./scripts/build-iso-archiso.sh
 
 # Alternative method
@@ -215,28 +215,28 @@ sigmaos-update check                       # Check for updates
 
 SigmaOS is built on:
 
-- **Base**: Arch Linux packages
-- **Kernel**: Linux (same as Arch)
+- **Base**: Linux packages
+- **Kernel**: Linux
 - **Init System**: systemd
-- **Package Manager**: pacman (with SigmaOS extensions)
+- **Package Manager**: sigma-pkg
 - **Bootloader**: GRUB (UEFI)
 - **Library**: Rust (sigma-system crate)
 - **Configuration**: /etc/sigmaos/
 
 ## Comparison with Other Distros
 
-| Feature | SigmaOS | Arch | Omarchy |
-|---------|---------|------|---------|
-| Base | Arch packages | Arch | Arch |
-| ISO Build | archiso-based | archiso | Custom |
-| Installer | Text-based (archinstall-style) | Manual | Custom |
-| CLI Tool | Yes (sigmaos) | pacman | Custom |
-| System Library | Rust (54 modules) | None | None |
-| Config Tools | sigmaos-config | Manual | sigma-config |
-| Release Management | sigmaos-release | Manual | Manual |
-| Performance Profiles | Yes | Manual | Yes |
-| Desktop Support | Full docs | Manual | KDE/GNOME |
-| First Boot Wizard | Yes | No | No |
+| Feature | SigmaOS | Other Distros |
+|---------|---------|---------------|
+| Base | Linux packages | Various |
+| ISO Build | archiso-based | Various |
+| Installer | Text-based | Various |
+| CLI Tool | Yes (sigmaos) | Varies |
+| System Library | Rust (85 modules) | None |
+| Config Tools | sigmaos-config | Manual |
+| Release Management | sigmaos-release | Manual |
+| Performance Profiles | Yes | Manual |
+| Desktop Support | Full docs | Varies |
+| First Boot Wizard | Yes | No |
 
 ## Development
 
@@ -273,10 +273,10 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 
 ## ⚠️ Important: SigmaOS is NOT Yet Bootable
 
-SigmaOS has complete infrastructure but requires an **Arch Linux system** to build and test the actual ISO:
+SigmaOS has complete infrastructure but requires a **Linux system** to build and test the actual ISO:
 
 ```bash
-# On an Arch system:
+# On a Linux system:
 git clone https://github.com/AaryanSinghChauhan09/Sigma
 cd Sigma
 ./scripts/sigmaos-pipeline full
@@ -285,21 +285,21 @@ cd Sigma
 
 See [BOOTABLE_PLAN.md](BOOTABLE_PLAN.md) for detailed steps to make SigmaOS bootable.
 
-## Comparison with Arch/Omarchy
+## Technical Details
 
-| Feature | SigmaOS | Arch | Omarchy |
-|---------|---------|------|---------|
-| Base | Arch packages | Arch | Arch |
-| ISO Build | archiso scripts (improved, not executed) | archiso | Custom |
-| Bootable ISO | ❌ Not built | ✅ Available | ✅ Available |
-| Installer | Text-based (improved, not tested) | Manual | Custom |
-| CLI Tool | Yes (14 tools) | pacman | Custom |
-| System Library | Rust (72 modules, enterprise ops) | None | None |
-| Config Tools | sigmaos-config | Manual | sigma-config |
-| Release Management | sigmaos-release | Manual | Manual |
-| Automation | sigmaos-pipeline | Manual | Manual |
+| Feature | SigmaOS |
+|---------|---------|
+| Base | Linux packages |
+| ISO Build | archiso scripts (improved, not executed) |
+| Bootable ISO | ❌ Not built |
+| Installer | Text-based (improved, not tested) |
+| CLI Tool | Yes (14 tools) |
+| System Library | Rust (85 modules, enterprise ops) |
+| Config Tools | sigmaos-config |
+| Release Management | sigmaos-release |
+| Automation | sigmaos-pipeline |
 
-**SigmaOS has better tooling than minimal Arch, but without building/testing the ISO, it remains infrastructure, not a bootable OS.**
+**SigmaOS has comprehensive tooling, but without building/testing the ISO, it remains infrastructure, not a bootable OS.**
 
 ## License
 

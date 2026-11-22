@@ -1,4 +1,4 @@
-//! Memory management inspired by Linux kernel cgroups v2 and Arch Linux optimization.
+//! Memory management inspired by Linux kernel cgroups v2 and SigmaOS optimization.
 //! Provides cgroups v2 control, memory pressure monitoring, and OOM prevention.
 //! Applies fail-fast validation and clear abstraction per SigmaOS principles.
 
