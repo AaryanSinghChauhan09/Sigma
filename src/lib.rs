@@ -99,6 +99,11 @@ pub mod user;
 /// Follows Single Responsibility Principle: only manages locale subsystem.
 pub mod locale;
 
+/// Cron module.
+/// Provides scheduled task management and cron job control.
+/// Follows Single Responsibility Principle: only manages cron subsystem.
+pub mod cron;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -118,6 +123,7 @@ pub use logging::{Logger, LogEntry, LogLevel, LogError};
 pub use time_sync::{TimeManager, NtpServer, TimeSource, TimeError};
 pub use user::{UserManager, User, Group, UserError};
 pub use locale::{LocaleManager, Locale, Timezone, Translation, LocaleError};
+pub use cron::{CronManager, CronJob, CronError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
