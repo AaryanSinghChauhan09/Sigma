@@ -469,6 +469,19 @@ pub mod eventloop_ops;
 /// Follows principles: Instrumentation, Log Everything.
 pub mod instrumentation_ops;
 
+/// Strategy pattern module.
+/// Implements Strategy design pattern for interchangeable algorithms.
+/// Follows principles: Design Pattern, Composition Over Inheritance.
+pub mod strategy_ops;
+
+/// Observer pattern module.
+/// Implements Observer design pattern for event notification.
+/// Follows principles: Design Pattern, Loose Coupling.
+pub mod observer_ops;
+/// Factory pattern module.
+/// Implements Factory design pattern for object creation.
+pub mod factory_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -725,6 +738,19 @@ pub mod eventloop_ops;
 /// Provides instrumentation for monitoring and logging system events.
 /// Follows principles: Instrumentation, Log Everything.
 pub mod instrumentation_ops;
+
+/// Strategy pattern module.
+/// Implements Strategy design pattern for interchangeable algorithms.
+/// Follows principles: Design Pattern, Composition Over Inheritance.
+pub mod strategy_ops;
+
+/// Observer pattern module.
+/// Implements Observer design pattern for event notification.
+/// Follows principles: Design Pattern, Loose Coupling.
+pub mod observer_ops;
+/// Factory pattern module.
+/// Implements Factory design pattern for object creation.
+pub mod factory_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
