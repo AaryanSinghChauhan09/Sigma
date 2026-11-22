@@ -381,6 +381,11 @@ pub mod timesync_ops;
 /// Follows Single Responsibility Principle: only manages camera operations.
 pub mod camera_ops;
 
+/// Sensor operations module.
+/// Provides actual sensor operations using /sys/class/hwmon.
+/// Follows Single Responsibility Principle: only manages sensor operations.
+pub mod sensor_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -462,6 +467,7 @@ pub use virt_ops::{VirtOps as VmManager, VmInfo, VirtError as VirtManagerError};
 pub use print_ops::{PrintOps, PrinterInfo, PrintError as PrintManagerError};
 pub use timesync_ops::{TimeSyncOps, TimeSyncError as NtpSyncError};
 pub use camera_ops::{CameraOps, CameraInfo, CameraError as CameraManagerError};
+pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
