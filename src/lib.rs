@@ -581,7 +581,7 @@ pub use hostname_ops::{HostnameOps, HostnameError};
 pub use env_ops::{EnvOps, EnvError};
 pub use systemd_ops::{SystemdOps, SystemStatus, UnitStatus, SystemdError};
 pub use dns_ops::{DnsOps, DnsError};
-pub use file_watcher::{FileWatcher, FileEvent, FileEventType, FileWatcherError};
+pub use file_watcher::{FileWatcherOps, FileWatcherError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
