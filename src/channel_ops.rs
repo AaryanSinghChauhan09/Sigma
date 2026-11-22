@@ -8,7 +8,7 @@ pub struct ChannelOps<T> {
     receiver: mpsc::Receiver<T>,
 }
 
-impl<T> ChannelOps {
+impl<T> ChannelOps<T> {
     pub fn new() -> Self {
         let (sender, receiver) = mpsc::channel();
         Self { sender, receiver }

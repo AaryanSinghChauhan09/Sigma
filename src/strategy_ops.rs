@@ -37,7 +37,6 @@ impl Strategy for EncryptionStrategy {
 }
 
 /// Strategy operations manager.
-#[derive(Debug)]
 pub struct StrategyOps {
     strategy: Box<dyn Strategy>,
 }

@@ -19,7 +19,6 @@ impl ObserverTrait for Observer {
     }
 }
 
-#[derive(Debug)]
 pub struct Subject {
     observers: Vec<Box<dyn ObserverTrait>>,
 }

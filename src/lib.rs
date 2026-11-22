@@ -3,7 +3,7 @@
 //! Demeter's Law, Clear Abstraction, Fail-Fast System
 //!
 //! This library provides the core substrate for the SigmaOS ecosystem.
-//! Built with modular architecture, sovereign design, and community-oriented development.
+//! Inspired by Linux kernel mintsystem, Arch Linux modularity, and Omarchy Linux sovereignty.
 
 #![forbid(unsafe_code)]
 
@@ -319,221 +319,6 @@ pub mod gamepad_ops;
 /// Follows Single Responsibility Principle: only manages touchscreen operations.
 pub mod touchscreen_ops;
 
-/// Tablet operations module.
-/// Provides actual tablet operations via xsetwacom.
-/// Follows Single Responsibility Principle: only manages tablet operations.
-pub mod tablet_ops;
-
-/// Scanner operations module.
-/// Provides actual scanner operations via scanimage.
-/// Follows Single Responsibility Principle: only manages scanner operations.
-pub mod scanner_ops;
-
-/// Camera operations module.
-/// Provides actual camera operations via fswebcam.
-/// Follows Single Responsibility Principle: only manages camera operations.
-pub mod camera_ops;
-
-/// Project management operations module.
-/// Provides actual project management operations via git.
-/// Follows Single Responsibility Principle: only manages project operations.
-pub mod project_ops;
-
-/// Task management operations module.
-/// Provides actual task management operations via task.
-/// Follows Single Responsibility Principle: only manages task operations.
-pub mod task_ops;
-
-/// CI/CD operations module.
-/// Provides actual CI/CD operations via make.
-/// Follows Single Responsibility Principle: only manages CI/CD operations.
-pub mod cicd_ops;
-
-/// Documentation operations module.
-/// Provides actual documentation operations via pandoc.
-/// Follows Single Responsibility Principle: only manages documentation operations.
-pub mod doc_ops;
-
-/// Logger operations module.
-/// Provides actual logging operations via logger.
-/// Follows Single Responsibility Principle: only manages logging operations.
-pub mod logger_ops;
-
-/// Security audit module.
-/// Provides security audit functionality to detect API key leaks, hardcoded secrets, etc.
-/// Follows Single Responsibility Principle: only manages security audit operations.
-pub mod security_audit;
-
-/// Kernel operations module.
-/// Provides kernel management operations via sysctl, modprobe, uname.
-/// Follows Single Responsibility Principle: only manages kernel operations.
-pub mod kernel_ops;
-
-/// Bootloader operations module.
-/// Provides bootloader management operations via grub, efibootmgr.
-/// Follows Single Responsibility Principle: only manages bootloader operations.
-pub mod bootloader_ops;
-
-/// Initramfs operations module.
-/// Provides initramfs management operations via mkinitcpio.
-/// Follows Single Responsibility Principle: only manages initramfs operations.
-pub mod initramfs_ops;
-
-/// Package manager operations module.
-/// Provides package manager operations via pacman.
-/// Follows Single Responsibility Principle: only manages package operations.
-pub mod pkgmgr_ops;
-
-/// Repository manager operations module.
-/// Provides repository management operations via pacman.
-/// Follows Single Responsibility Principle: only manages repository operations.
-pub mod repomgr_ops;
-
-/// System configuration operations module.
-/// Provides system configuration operations via sigmaos-config.
-/// Follows Single Responsibility Principle: only manages configuration operations.
-pub mod sysconfig_ops;
-
-/// Service manager operations module.
-/// Provides service management operations via systemctl.
-/// Follows Single Responsibility Principle: only manages service operations.
-pub mod servicemgr_ops;
-
-/// Network manager operations module.
-/// Provides network management operations via nmcli.
-/// Follows Single Responsibility Principle: only manages network operations.
-pub mod netmgr_ops;
-
-/// System update operations module.
-/// Provides system update operations via sigmaos-update.
-/// Follows Single Responsibility Principle: only manages update operations.
-pub mod sysupdate_ops;
-
-/// Storage manager operations module.
-/// Provides storage management operations via lsblk, parted.
-/// Follows Single Responsibility Principle: only manages storage operations.
-pub mod storagemgr_ops;
-
-/// User manager operations module.
-/// Provides user management operations via useradd, getent.
-/// Follows Single Responsibility Principle: only manages user operations.
-pub mod usermgr_ops;
-
-/// Log manager operations module.
-/// Provides log management operations via logrotate, journalctl.
-/// Follows Single Responsibility Principle: only manages log operations.
-pub mod logmgr_ops;
-
-/// Backup manager operations module.
-/// Provides backup management operations via rsync.
-/// Follows Single Responsibility Principle: only manages backup operations.
-pub mod backupmgr_ops;
-
-/// Audit manager operations module.
-/// Provides audit operations via sigmaos-audit.
-/// Follows Single Responsibility Principle: only manages audit operations.
-pub mod auditmgr_ops;
-
-/// Release manager operations module.
-/// Provides release management operations via sigmaos-release.
-/// Follows Single Responsibility Principle: only manages release operations.
-pub mod releasemgr_ops;
-
-/// Async operations module.
-/// Provides async I/O operations using tokio.
-/// Follows principles: Asynchronous I/O & Event Loops, Race-Free Design, Safe Concurrency.
-pub mod async_ops;
-
-/// Atomic operations module.
-/// Provides atomic operations for thread-safe counters.
-/// Follows principles: Atomic Operations, Race-Free Design, Safe Concurrency.
-pub mod atomic_ops;
-
-/// Cache operations module.
-/// Provides cache-conscious operations for efficient data access.
-/// Follows principles: Cache Conscious Design, Locality of Reference.
-pub mod cache_ops;
-
-/// Cross-platform operations module.
-/// Provides cross-platform operations for Linux, macOS, Windows.
-/// Follows principles: Cross Platform Compatibility, Portability.
-pub mod crossplatform_ops;
-
-/// Event loop operations module.
-/// Provides event loop operations for async event handling.
-/// Follows principles: Asynchronous I/O & Event Loops, Race-Free Design.
-pub mod eventloop_ops;
-
-/// Instrumentation module.
-/// Provides instrumentation for monitoring and logging system events.
-/// Follows principles: Instrumentation, Log Everything.
-pub mod instrumentation_ops;
-
-/// Strategy pattern module.
-/// Implements Strategy design pattern for interchangeable algorithms.
-/// Follows principles: Design Pattern, Composition Over Inheritance.
-pub mod strategy_ops;
-
-/// Observer pattern module.
-/// Implements Observer design pattern for event notification.
-/// Follows principles: Design Pattern, Loose Coupling.
-pub mod observer_ops;
-/// Factory pattern module.
-/// Implements Factory design pattern for object creation.
-pub mod factory_ops;
-/// Thread pool module for efficient task execution
-pub mod pool_ops;
-/// Resource pool for managing reusable resources
-pub mod resource_pool_ops;
-/// Connection pool for database/network connections
-pub mod connection_pool_ops;
-/// Mutex operations for thread synchronization
-pub mod mutex_ops;
-/// Read-write lock for concurrent access
-pub mod rwlock_ops;
-/// Barrier for thread synchronization
-pub mod barrier_ops;
-/// Channel for message passing between threads
-pub mod channel_ops;
-/// Semaphore for resource counting and access control
-pub mod semaphore_ops;
-/// Condition variable for thread coordination
-pub mod condition_ops;
-/// Interrupt handling operations
-pub mod interrupt_ops;
-/// Comprehensive error handling operations
-pub mod error_ops;
-/// Refactoring operations for code improvement
-pub mod refactor_ops;
-/// Spec-driven development operations
-pub mod spec_ops;
-/// Zero-copy operations for efficient data transfer
-pub mod zero_copy_ops;
-/// Hypervisor operations for virtualization
-pub mod hypervisor_ops;
-/// JIT compilation operations
-pub mod jit_ops;
-/// Deterministic operations for reproducible behavior
-pub mod deterministic_ops;
-/// Interface segregation for fine-grained interfaces
-pub mod interface_ops;
-/// Service discovery for finding available services
-pub mod discovery_ops;
-/// Dependency injection for loose coupling
-pub mod dependency_ops;
-/// Law of Demeter for minimizing coupling
-pub mod demeter_ops;
-/// Cohesion maximization for related functionality
-pub mod cohesion_ops;
-/// Coupling minimization for loose dependencies
-pub mod coupling_ops;
-/// Liskov Substitution Principle for substitutable types
-pub mod liskov_ops;
-/// Open-Closed Principle for extensible systems
-pub mod ocp_ops;
-/// Layered design for system architecture
-pub mod layered_ops;
-
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -655,206 +440,6 @@ pub mod timesync_ops;
 /// Provides actual camera operations using v4l2.
 /// Follows Single Responsibility Principle: only manages camera operations.
 pub mod camera_ops;
-
-/// Project management operations module.
-/// Provides actual project management operations via git.
-/// Follows Single Responsibility Principle: only manages project operations.
-pub mod project_ops;
-
-/// Task management operations module.
-/// Provides actual task management operations via task.
-/// Follows Single Responsibility Principle: only manages task operations.
-pub mod task_ops;
-
-/// CI/CD operations module.
-/// Provides actual CI/CD operations via make.
-/// Follows Single Responsibility Principle: only manages CI/CD operations.
-pub mod cicd_ops;
-
-/// Documentation operations module.
-/// Provides actual documentation operations via pandoc.
-/// Follows Single Responsibility Principle: only manages documentation operations.
-pub mod doc_ops;
-
-/// Logger operations module.
-/// Provides actual logging operations via logger.
-/// Follows Single Responsibility Principle: only manages logging operations.
-pub mod logger_ops;
-
-/// Security audit module.
-/// Provides security audit functionality to detect API key leaks, hardcoded secrets, etc.
-/// Follows Single Responsibility Principle: only manages security audit operations.
-pub mod security_audit;
-
-/// Kernel operations module.
-/// Provides kernel management operations via sysctl, modprobe, uname.
-/// Follows Single Responsibility Principle: only manages kernel operations.
-pub mod kernel_ops;
-
-/// Bootloader operations module.
-/// Provides bootloader management operations via grub, efibootmgr.
-/// Follows Single Responsibility Principle: only manages bootloader operations.
-pub mod bootloader_ops;
-
-/// Initramfs operations module.
-/// Provides initramfs management operations via mkinitcpio.
-/// Follows Single Responsibility Principle: only manages initramfs operations.
-pub mod initramfs_ops;
-
-/// Package manager operations module.
-/// Provides package manager operations via pacman.
-/// Follows Single Responsibility Principle: only manages package operations.
-pub mod pkgmgr_ops;
-
-/// Repository manager operations module.
-/// Provides repository management operations via pacman.
-/// Follows Single Responsibility Principle: only manages repository operations.
-pub mod repomgr_ops;
-
-/// System configuration operations module.
-/// Provides system configuration operations via sigmaos-config.
-/// Follows Single Responsibility Principle: only manages configuration operations.
-pub mod sysconfig_ops;
-
-/// Service manager operations module.
-/// Provides service management operations via systemctl.
-/// Follows Single Responsibility Principle: only manages service operations.
-pub mod servicemgr_ops;
-
-/// Network manager operations module.
-/// Provides network management operations via nmcli.
-/// Follows Single Responsibility Principle: only manages network operations.
-pub mod netmgr_ops;
-
-/// System update operations module.
-/// Provides system update operations via sigmaos-update.
-/// Follows Single Responsibility Principle: only manages update operations.
-pub mod sysupdate_ops;
-
-/// Storage manager operations module.
-/// Provides storage management operations via lsblk, parted.
-/// Follows Single Responsibility Principle: only manages storage operations.
-pub mod storagemgr_ops;
-
-/// User manager operations module.
-/// Provides user management operations via useradd, getent.
-/// Follows Single Responsibility Principle: only manages user operations.
-pub mod usermgr_ops;
-
-/// Log manager operations module.
-/// Provides log management operations via logrotate, journalctl.
-/// Follows Single Responsibility Principle: only manages log operations.
-pub mod logmgr_ops;
-
-/// Backup manager operations module.
-/// Provides backup management operations via rsync.
-/// Follows Single Responsibility Principle: only manages backup operations.
-pub mod backupmgr_ops;
-
-/// Audit manager operations module.
-/// Provides audit operations via sigmaos-audit.
-/// Follows Single Responsibility Principle: only manages audit operations.
-pub mod auditmgr_ops;
-
-/// Release manager operations module.
-/// Provides release management operations via sigmaos-release.
-/// Follows Single Responsibility Principle: only manages release operations.
-pub mod releasemgr_ops;
-
-/// Async operations module.
-/// Provides async I/O operations using tokio.
-/// Follows principles: Asynchronous I/O & Event Loops, Race-Free Design, Safe Concurrency.
-pub mod async_ops;
-
-/// Atomic operations module.
-/// Provides atomic operations for thread-safe counters.
-/// Follows principles: Atomic Operations, Race-Free Design, Safe Concurrency.
-pub mod atomic_ops;
-
-/// Cache operations module.
-/// Provides cache-conscious operations for efficient data access.
-/// Follows principles: Cache Conscious Design, Locality of Reference.
-pub mod cache_ops;
-
-/// Cross-platform operations module.
-/// Provides cross-platform operations for Linux, macOS, Windows.
-/// Follows principles: Cross Platform Compatibility, Portability.
-pub mod crossplatform_ops;
-
-/// Event loop operations module.
-/// Provides event loop operations for async event handling.
-/// Follows principles: Asynchronous I/O & Event Loops, Race-Free Design.
-pub mod eventloop_ops;
-
-/// Instrumentation module.
-/// Provides instrumentation for monitoring and logging system events.
-/// Follows principles: Instrumentation, Log Everything.
-pub mod instrumentation_ops;
-
-/// Strategy pattern module.
-/// Implements Strategy design pattern for interchangeable algorithms.
-/// Follows principles: Design Pattern, Composition Over Inheritance.
-pub mod strategy_ops;
-
-/// Observer pattern module.
-/// Implements Observer design pattern for event notification.
-/// Follows principles: Design Pattern, Loose Coupling.
-pub mod observer_ops;
-/// Factory pattern module.
-/// Implements Factory design pattern for object creation.
-pub mod factory_ops;
-/// Thread pool module for efficient task execution
-pub mod pool_ops;
-/// Resource pool for managing reusable resources
-pub mod resource_pool_ops;
-/// Connection pool for database/network connections
-pub mod connection_pool_ops;
-/// Mutex operations for thread synchronization
-pub mod mutex_ops;
-/// Read-write lock for concurrent access
-pub mod rwlock_ops;
-/// Barrier for thread synchronization
-pub mod barrier_ops;
-/// Channel for message passing between threads
-pub mod channel_ops;
-/// Semaphore for resource counting and access control
-pub mod semaphore_ops;
-/// Condition variable for thread coordination
-pub mod condition_ops;
-/// Interrupt handling operations
-pub mod interrupt_ops;
-/// Comprehensive error handling operations
-pub mod error_ops;
-/// Refactoring operations for code improvement
-pub mod refactor_ops;
-/// Spec-driven development operations
-pub mod spec_ops;
-/// Zero-copy operations for efficient data transfer
-pub mod zero_copy_ops;
-/// Hypervisor operations for virtualization
-pub mod hypervisor_ops;
-/// JIT compilation operations
-pub mod jit_ops;
-/// Deterministic operations for reproducible behavior
-pub mod deterministic_ops;
-/// Interface segregation for fine-grained interfaces
-pub mod interface_ops;
-/// Service discovery for finding available services
-pub mod discovery_ops;
-/// Dependency injection for loose coupling
-pub mod dependency_ops;
-/// Law of Demeter for minimizing coupling
-pub mod demeter_ops;
-/// Cohesion maximization for related functionality
-pub mod cohesion_ops;
-/// Coupling minimization for loose dependencies
-pub mod coupling_ops;
-/// Liskov Substitution Principle for substitutable types
-pub mod liskov_ops;
-/// Open-Closed Principle for extensible systems
-pub mod ocp_ops;
-/// Layered design for system architecture
-pub mod layered_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -1069,32 +654,6 @@ pub use microphone_ops::{MicrophoneOps, MicrophoneError as MicrophoneManagerErro
 pub use joystick_ops::{JoystickOps, JoystickError as JoystickManagerError};
 pub use gamepad_ops::{GamepadOps, GamepadError as GamepadManagerError};
 pub use touchscreen_ops::{TouchscreenOps, TouchscreenError as TouchscreenManagerError};
-pub use tablet_ops::{TabletOps, TabletError as TabletManagerError};
-pub use scanner_ops::{ScannerOps, ScannerError as ScannerManagerError};
-pub use camera_ops::{CameraOps, CameraError as CameraManagerError};
-pub use project_ops::{ProjectOps, ProjectError as ProjectManagerError};
-pub use task_ops::{TaskOps, TaskError as TaskManagerError};
-pub use cicd_ops::{CicdOps, CicdError as CicdManagerError};
-pub use doc_ops::{DocOps, DocError as DocManagerError};
-pub use logger_ops::{LoggerOps, LoggerError as LogManagerError};
-pub use security_audit::{SecurityAuditor, SecurityAuditResult, SecurityIssue, SecurityAuditError};
-pub use kernel_ops::{KernelOps, KernelError as KernelManagerError};
-pub use bootloader_ops::{BootloaderOps, BootloaderError as BootloaderManagerError};
-pub use initramfs_ops::{InitramfsOps, InitramfsError as InitramfsManagerError};
-pub use pkgmgr_ops::{PkgMgrOps, PkgMgrError as PkgManagerError};
-pub use repomgr_ops::{RepoMgrOps, RepoMgrError as RepoManagerError};
-pub use sysconfig_ops::{SysConfigOps, SysConfigError as SysConfigManagerError};
-pub use servicemgr_ops::{ServiceMgrOps, ServiceMgrError as ServiceManagerError};
-pub use netmgr_ops::{NetMgrOps, NetMgrError as NetworkManagerError};
-pub use sysupdate_ops::{SysUpdateOps, SysUpdateError as SystemUpdateError};
-pub use storagemgr_ops::{StorageMgrOps, StorageMgrError as StorageManagerError};
-pub use usermgr_ops::{UserMgrOps, UserMgrError as UserManagerError};
-pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
-pub use backupmgr_ops::{BackupMgrOps, BackupMgrError as BackupManagerError};
-pub use auditmgr_ops::{AuditMgrOps, AuditMgrError as AuditManagerError};
-pub use releasemgr_ops::{ReleaseMgrOps, ReleaseMgrError as ReleaseManagerError};
-pub use async_ops::{AsyncOps, AsyncError as AsyncManagerError};
-pub use atomic_ops::{AtomicOps};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -1119,30 +678,7 @@ pub use container_ops::{ContainerOps as CtnManager, ContainerInfo, ContainerErro
 pub use virt_ops::{VirtOps as VmManager, VmInfo, VirtError as VirtManagerError};
 pub use print_ops::{PrintOps, PrinterInfo, PrintError as PrintManagerError};
 pub use timesync_ops::{TimeSyncOps, TimeSyncError as NtpSyncError};
-pub use camera_ops::{CameraOps, CameraInfo, CameraError as CameraManagerError};
-pub use project_ops::{ProjectOps, ProjectError as ProjectManagerError};
-pub use task_ops::{TaskOps, TaskError as TaskManagerError};
-pub use cicd_ops::{CicdOps, CicdError as CicdManagerError};
-pub use doc_ops::{DocOps, DocError as DocManagerError};
-pub use logger_ops::{LoggerOps, LoggerError as LogManagerError};
-pub use security_audit::{SecurityAuditor, SecurityAuditResult, SecurityIssue, SecurityAuditError};
-pub use kernel_ops::{KernelOps, KernelError as KernelManagerError};
-pub use bootloader_ops::{BootloaderOps, BootloaderError as BootloaderManagerError};
-pub use initramfs_ops::{InitramfsOps, InitramfsError as InitramfsManagerError};
-pub use pkgmgr_ops::{PkgMgrOps, PkgMgrError as PkgManagerError};
-pub use repomgr_ops::{RepoMgrOps, RepoMgrError as RepoManagerError};
-pub use sysconfig_ops::{SysConfigOps, SysConfigError as SysConfigManagerError};
-pub use servicemgr_ops::{ServiceMgrOps, ServiceMgrError as ServiceManagerError};
-pub use netmgr_ops::{NetMgrOps, NetMgrError as NetworkManagerError};
-pub use sysupdate_ops::{SysUpdateOps, SysUpdateError as SystemUpdateError};
-pub use storagemgr_ops::{StorageMgrOps, StorageMgrError as StorageManagerError};
-pub use usermgr_ops::{UserMgrOps, UserMgrError as UserManagerError};
-pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
-pub use backupmgr_ops::{BackupMgrOps, BackupMgrError as BackupManagerError};
-pub use auditmgr_ops::{AuditMgrOps, AuditMgrError as AuditManagerError};
-pub use releasemgr_ops::{ReleaseMgrOps, ReleaseMgrError as ReleaseManagerError};
-pub use async_ops::{AsyncOps, AsyncError as AsyncManagerError};
-pub use atomic_ops::{AtomicOps};
+pub use camera_ops::{CameraOps, CameraError as CameraManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
@@ -1183,8 +719,78 @@ pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
     }
 }
 
-// Module declarations for new architectural patterns
+// Additional modules added in later commits
 
+/// Channel for message passing between threads
+pub mod channel_ops;
+/// Condition variable for thread coordination
+pub mod condition_ops;
+/// Semaphore for resource counting and access control
+pub mod semaphore_ops;
+/// Read-write lock for concurrent access
+pub mod rwlock_ops;
+/// Barrier for thread synchronization
+pub mod barrier_ops;
+/// Thread pool for efficient task execution
+pub mod pool_ops;
+/// Resource pool for managing reusable resources
+pub mod resource_pool_ops;
+/// Connection pool for database/network connections
+pub mod connection_pool_ops;
+/// Mutex operations for thread synchronization
+pub mod mutex_ops;
+/// Strategy pattern for interchangeable algorithms
+pub mod strategy_ops;
+/// Observer pattern for event notification
+pub mod observer_ops;
+/// Factory pattern for object creation
+pub mod factory_ops;
+/// Async I/O operations using tokio
+pub mod async_ops;
+/// Atomic operations for thread-safe counters
+pub mod atomic_ops;
+/// Cache-conscious operations for efficient data access
+pub mod cache_ops;
+/// Cross-platform operations for Linux, macOS, Windows
+pub mod crossplatform_ops;
+/// Event loop operations for async event handling
+pub mod eventloop_ops;
+/// Instrumentation for monitoring and logging system events
+pub mod instrumentation_ops;
+/// JIT compilation operations
+pub mod jit_ops;
+/// Deterministic operations for reproducible behavior
+pub mod deterministic_ops;
+/// Zero-copy operations for efficient data transfer
+pub mod zero_copy_ops;
+/// Hypervisor operations for virtualization
+pub mod hypervisor_ops;
+/// Refactoring operations for code improvement
+pub mod refactor_ops;
+/// Spec-driven development operations
+pub mod spec_ops;
+/// Interrupt handling operations
+pub mod interrupt_ops;
+/// Comprehensive error handling operations
+pub mod error_ops;
+/// Interface segregation for fine-grained interfaces
+pub mod interface_ops;
+/// Service discovery for finding available services
+pub mod discovery_ops;
+/// Dependency injection for loose coupling
+pub mod dependency_ops;
+/// Law of Demeter for minimizing coupling
+pub mod demeter_ops;
+/// Cohesion maximization for related functionality
+pub mod cohesion_ops;
+/// Coupling minimization for loose dependencies
+pub mod coupling_ops;
+/// Liskov Substitution Principle for substitutable types
+pub mod liskov_ops;
+/// Open-Closed Principle for extensible systems
+pub mod ocp_ops;
+/// Layered design for system architecture
+pub mod layered_ops;
 /// Command-Query Responsibility Segregation
 pub mod cqrs_ops;
 /// Inversion of Control container
@@ -1201,13 +807,3 @@ pub mod abstraction_ops;
 pub mod contract_ops;
 /// Pragmatic programming for practical solutions
 pub mod pragma_ops;
-
-// Re-exports for new architectural pattern modules
-pub use cqrs_ops::{CqrsOps, Command, Query};
-pub use ioc_ops::{IocContainer};
-pub use poly_ops::{Animal, Dog, Cat};
-pub use encapsulation_ops::{Encapsulated};
-pub use inheritance_ops::{Vehicle, Car, Sedan};
-pub use abstraction_ops::{Abstraction};
-pub use contract_ops::{Contract};
-pub use pragma_ops::{PragmaticOps};
