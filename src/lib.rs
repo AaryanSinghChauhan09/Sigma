@@ -289,6 +289,11 @@ pub mod firewall_ops;
 /// Follows Single Responsibility Principle: only manages proxy operations.
 pub mod proxy_ops;
 
+/// Backup operations module.
+/// Provides actual backup operations using rsync and tar.
+/// Follows Single Responsibility Principle: only manages backup operations.
+pub mod backup_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -346,6 +351,7 @@ pub use timer_ops::{TimerOps, TimerInfo, TimerError};
 pub use session_ops::{SessionOps, SessionInfo, SessionError};
 pub use firewall_ops::{FirewallOps as FwManager, FirewallRule as FwRule, FirewallBackend as FwBackend, FirewallError as FwManagerError};
 pub use proxy_ops::{ProxyOps, ProxyConfig, ProxyError};
+pub use backup_ops::{BackupOps as RealBackupOps, BackupError as RealBackupError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
