@@ -521,6 +521,11 @@ pub mod clipboard_ops;
 /// Follows Single Responsibility Principle: only manages screenshot operations.
 pub mod screenshot_ops;
 
+/// Screen recording operations module.
+/// Provides actual screen recording operations via wf-recorder.
+/// Follows Single Responsibility Principle: only manages screen recording operations.
+pub mod record_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -630,6 +635,7 @@ pub use notify_ops::{NotifyOps, NotifyError as NotifyManagerError};
 pub use vpn_ops::{VpnOps, VpnError as VpnManagerError};
 pub use clipboard_ops::{ClipboardOps, ClipboardError as ClipboardManagerError};
 pub use screenshot_ops::{ScreenshotOps, ScreenshotError as ScreenshotManagerError};
+pub use record_ops::{RecordOps, RecordError as RecordManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
