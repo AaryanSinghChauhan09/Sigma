@@ -511,6 +511,10 @@ pub mod spec_ops;
 pub mod zero_copy_ops;
 /// Hypervisor operations for virtualization
 pub mod hypervisor_ops;
+/// JIT compilation operations
+pub mod jit_ops;
+/// Deterministic operations for reproducible behavior
+pub mod deterministic_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -811,6 +815,10 @@ pub mod spec_ops;
 pub mod zero_copy_ops;
 /// Hypervisor operations for virtualization
 pub mod hypervisor_ops;
+/// JIT compilation operations
+pub mod jit_ops;
+/// Deterministic operations for reproducible behavior
+pub mod deterministic_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
