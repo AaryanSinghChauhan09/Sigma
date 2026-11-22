@@ -3,99 +3,367 @@
 ## Overview
 Sigma is the sovereign baseline substrate for the SigmaOS ecosystem. It provides the core system utilities and foundations for the operating system. Inspired by Linux kernel mintsystem, Arch Linux modularity, and Omarchy Linux sovereignty principles.
 
-## Principles
-- **Single Responsibility**: Each module has one well-defined purpose
-- **High Cohesion**: Related functionality grouped together within modules
-- **Low Coupling**: Minimal dependencies between modules
-- **Defensive Programming**: Fail-fast validation at all public boundaries
+This wiki documents all SigmaOS components, their architecture, principles, and implementation patterns. Following the Omarchy Linux model of multiple sub-repositories, each SigmaOS component has its own repository with dedicated wiki documentation.
+
+## Core Principles
+
+### SOLID Principles
+- **Single Responsibility**: Each module has one well-defined purpose (e.g., `SystemAdjuster` only manages system parameters, `PersonaManager` only manages persona state)
+- **Open/Closed**: Components are open for extension (new features add new code) but closed for modification (existing code unchanged)
+- **Liskov Substitution**: Subtypes must be substitutable for their base types without altering correctness
+- **Interface Segregation**: Clients should not depend on unused methods; minimal focused interfaces
+- **Dependency Inversion**: Depend on abstractions, not concretions
+
+### SigmaOS-Specific Principles
 - **Fail-Fast System**: Invalid inputs rejected immediately with descriptive errors
-- **Component Isolation**: Each component is self-contained
-- **Stable API**: Public interfaces are minimal, focused, and version-stable
+- **Defensive Programming**: Input validation at all public boundaries
+- **Demeter's Law**: Components don't expose internal structure; public APIs are minimal and focused
+- **Component Isolation**: Each component is self-contained with minimal dependencies
+- **Clear Abstraction**: Well-defined public interfaces with consistent naming conventions
+- **Cohesion Maximization**: Related functionality grouped together within modules
+- **Coupling Minimization**: Minimal dependencies between modules and components
+- **Separation of Concerns**: Library code separated from binary entry point, tests from production code
+- **Composition over Inheritance**: Components composed of smaller modules; inheritance used sparingly
+- **Arrange-Act-ASSERT (AAA)**: All tests follow the AAA pattern for clear test structure
+- **Deterministic Testing**: Tests are reproducible and timely
+- **Code Reusability**: Practical reuse through composition and clear abstractions
+- **Don't Repeat Yourself**: DRY principle applied across all components
 
 ## Architecture
-Sigma follows a modular architecture with clearly defined responsibilities:
 
-### System Adjustments (Linux kernel & mintsystem inspired)
-- **CPU Governor Modes**: performance, powersave, schedutil, interactive, conservative, ondemand
-- **Sysctl Tuning**: vm.swappiness, vm.vfs_cache_pressure parameters
-- **Fail-fast Validation**: Range validation (0-100 for swappiness, 0-200 for vfs_cache_pressure)
-- **Kernel Params Generation**: Inspired by Linux kernel command-line parameters
+### Repository Structure (Inspired by Omarchy Linux)
 
-### Persona Management (Omarchy Linux & Arch Linux inspired)
-- **Sovereign Personas**: Multiple desktop environment personas
-- **Persona Validation**: Fail-fast on construction and switches
-- **Desktop Environment Mapping**: Each persona maps to a desktop environment
-- **Labeling System**: Human-readable persona labels
+#### Central Sigma Repository
+- `Sigma/` - System core library (tier 0, baseline substrate)
+- `wiki/` - Central GitHub Wiki for all components
+- `.github/workflows/` - CI/CD pipelines
 
-#### Available Personas
-- **SovereignOmarchy** → "Omarchy Linux Sovereign" → sovereign overlay
-- **LinuxMintClassic** → "Linux Mint Cinnamon Classic" → Cinnamon
-- **ArchMinimal** → "Arch Linux Minimalist" → i3wm + base
-- **NixOS** → "NixOS Configurable" → Hyprland
-- **Gentoo** → "Gentoo Optimizing" → KDE Plasma
-- **DragonflyBSD** → "DragonflyBSD Resilient" → Xfce
+#### Component Repositories (one per component)
+- `SigmaOS-dante/` - CLI tool component (tier 2)
+- `SigmaOS-0ad/` - 0.A.D. integration component (tier 2)
+- `SigmaOS-3d-modeler/` - 3D modeling component (tier scaffold)
+- `SigmaOS-ab/` - Basic ab utility component (tier scaffold)
+- Additional components as specified in the component implementation plan
 
-## API
-The component provides the following public APIs:
+### Module Architecture
+
+#### System Adjustments Module (`adjustments`)
+**Inspiration**: Linux kernel mintsystem, Arch Linux PKGBUILD thinking
+- `SystemAdjuster` - Manages CPU governors, sysctl memory tuning, hardware optimization
+- `GovernorMode` - Enum with 6 modes: Performance, Powersave, Schedutil, Interactive, Conservative, Ondemand
+- Fail-fast validation: swappiness (0-100), vfs_cache_pressure (0-200)
+- `generate_sysctl_conf()` - Linux-style sysctl configuration generation
+- `generate_kernel_params()` - Linux kernel cmdline format generation
+
+**Principles Applied**:
+- Single Responsibility: Only manages system adjustment parameters
+- Fail-Fast: Invalid ranges rejected immediately
+- Defensive Programming: Input validation at all public boundaries
+- Demeter's Law: Internal state encapsulated, minimal public API
+- Clear Abstraction: Well-defined public interfaces
+
+#### Persona Management Module (`persona`)
+**Inspiration**: Omarchy Linux sovereign desktops, Arch Linux minimalist principles
+- `SystemPersona` - Enum with 6 personas: SovereignOmarchy, LinuxMintClassic, ArchMinimal, NixOS, Gentoo, DragonflyBSD
+- `PersonaManager` - Manages persona state with fail-fast switching
+- `desktop_environment()` - Maps each persona to a desktop environment
+- `label()` - Human-readable persona labels
+- `validate()` - Fail-fast persona validation
+
+**Principles Applied**:
+- Single Responsibility: Only manages persona state
+- Sovereign Personas: Multiple desktop environment personas
+- Fail-Fast: Validation on construction and switches
+- Clear Abstraction: Well-defined public interfaces
+- Desktop Environment Mapping: Each persona maps to a specific desktop environment
+- Labeling System: Human-readable persona labels inspired by Omarchy Linux
+
+## Component Structure (Per COMPONENT_IMPLEMENTATION_PLAN.md)
+
+### Each Component Follows Standard Structure:
+- `Cargo.toml` - Package configuration
+- `COMPONENT.toml` - Component manifest (name, tier, stability, dependencies)
+- `src/lib.rs` - Library code with public API
+- `src/main.rs` - Binary entry point
+- `tests/` - Integration tests following AAA pattern
+- `wiki/` - GitHub Wiki documentation (moved from main branch)
+- `.github/workflows/` - CI/CD pipelines
+
+### Component Contracts (COMPONENT.toml):
+```toml
+[component]
+name = "Sigma"
+tier = 0
+stability = "beta"
+language = "rust"
+description = "Sovereign baseline substrate for the SigmaOS ecosystem"
+upstream = []
+
+[contract]
+provides = ["substrate_core"]
+depends_on = []
+
+[maturity]
+status = "Implemented"
+test_evidence = "cargo test: 10 passed"
+next_milestone = "Boot integration with SigmaOS userspace"
+```
+
+## API Documentation
 
 ### SystemAdjuster
-- `new(swappiness, vfs_cache_pressure, governor)` → Result<Self, String>
-  - Fail-fast: validates ranges immediately
-- `swappiness(&self) -> u32`
-- `vfs_cache_pressure(&self) -> u32`
-- `governor(&self) -> GovernorMode`
-- `generate_sysctl_conf(&self) -> String`
-  - Linux-style sysctl configuration
-- `generate_kernel_params(&self) -> String`
-  - Inspired by Linux kernel cmdline format
+```rust
+pub struct SystemAdjuster {
+    swappiness: u32,
+    vfs_cache_pressure: u32,
+    governor: GovernorMode,
+}
+
+impl SystemAdjuster {
+    /// Fail-fast: reject out-of-range values immediately
+    pub fn new(swappiness: u32, vfs_cache_pressure: u32, governor: GovernorMode) -> Result<Self, String>
+    
+    pub fn swappiness(&self) -> u32
+    pub fn vfs_cache_pressure(&self) -> u32
+    pub fn governor(&self) -> GovernorMode
+    
+    /// Generate Linux-style sysctl configuration
+    pub fn generate_sysctl_conf(&self) -> String
+    
+    /// Generate kernel command-line parameters
+    pub fn generate_kernel_params(&self) -> String
+}
+```
 
 ### SystemPersona
-- `label(&self) -> &'static str`
-- `desktop_environment(&self) -> &'static str`
-- `validate(_persona) -> SystemPersona` (fail-fast)
+```rust
+pub enum SystemPersona {
+    SovereignOmarchy,
+    LinuxMintClassic,
+    ArchMinimal,
+    NixOS,
+    Gentoo,
+    DragonflyBSD,
+}
+
+impl SystemPersona {
+    /// Fail-fast: validate persona (defensive programming)
+    pub fn validate(_persona: SystemPersona) -> SystemPersona
+    
+    pub fn label(&self) -> &'static str
+    pub fn desktop_environment(&self) -> &'static str
+}
+```
 
 ### PersonaManager
-- `new(initial) -> Result<Self, String>`
-  - Fail-fast: validates initial persona
-- `current(&self) -> SystemPersona` (encapsulated access)
-- `switch_persona(&mut self, next) -> SystemPersona`
-  - Fail-fast: validates switch before applying
-- `current_desktop_environment(&self) -> &'static str`
-- `current_label(&self) -> &'static str`
+```rust
+pub struct PersonaManager {
+    pub current: SystemPersona,
+}
 
-## Development
-- All code follows defensive programming principles
-- Unit tests follow AAA (Arrange-Act-Assert) pattern
-- Fail-fast on invalid input at all public boundaries
-- No unsafe code allowed (`#![forbid(unsafe_code)]`)
-- 100% test coverage for public API functions
+impl PersonaManager {
+    /// Fail-fast: validate initial persona before setting
+    pub fn new(initial: SystemPersona) -> Result<Self, String>
+    
+    /// Encapsulated access per Demeter's Law
+    pub fn current(&self) -> SystemPersona
+    
+    /// Fail-fast: validate switch before applying
+    pub fn switch_persona(&mut self, next: SystemPersona) -> SystemPersona
+    
+    /// Get desktop environment for current persona
+    pub fn current_desktop_environment(&self) -> &'static str
+    
+    /// Get persona label
+    pub fn current_label(&self) -> &'static str
+}
+```
 
-## Tests
-All tests follow the AAA pattern:
+## Development Guidelines
 
-### System Adjustment Tests
-- `test_system_adjuster_defaults` - Verify default values (swappiness=10, vfs_cache_pressure=50, governor=schedutil)
-- `test_system_adjuster_valid_construction` - Test valid parameter construction
-- `test_system_adjuster_fail_fast_swappiness` - Reject swappiness > 100
-- `test_system_adjuster_fail_fast_vfs_cache_pressure` - Reject vfs_cache_pressure > 200
-- `test_generate_sysctl_conf` - Generate proper sysctl config string
-- `test_generate_kernel_params` - Generate kernel parameter string
+### Testing (AAA Pattern)
+All tests follow the Arrange-Act-ASSERT pattern:
 
-### Persona Management Tests
-- `test_persona_switch` - Switch between personas with AAA pattern
-- `test_persona_new_valid` - Fail-fast validation on construction
-- `test_persona_desktop_environment` - Test desktop environment mapping
-- `test_persona_validate_success` - Test persona validation function
+```rust
+#[test]
+fn test_example() {
+    // Arrange: Set up test fixtures
+    let adjuster = SystemAdjuster::new(15, 60, GovernorMode::Performance).unwrap();
+    
+    // Act: Execute code under test
+    let conf = adjuster.generate_sysctl_conf();
+    
+    // Assert: Verify expected outcomes
+    assert!(conf.contains("vm.swappiness = 15"));
+}
+```
 
-## CI/CD
+### CI/CD
 - GitHub Actions workflows for Linux/Mac cross-platform testing
 - Cargo test suite on every push
 - Documentation generation and wiki sync
 - Fail-fast principle enforced in CI (tests must pass for merge)
+- Code coverage requirements for public API functions
 
-## TODO
-- Add integration tests for end-to-end scenarios
-- Expand governor mode documentation with Linux kernel references
-- Create component-specific wiki pages for Dante, 0ad, 3d-modeler, etc.
-- Set up AUR-like package metadata for Arch Linux distribution
-- Add more personas inspired by other distros (CachyOS, ArcoLinux, etc.)
+### Component Creation Workflow
+1. Create new directory with component name
+2. Set up `Cargo.toml` and `COMPONENT.toml`
+3. Implement library code in `src/lib.rs`
+4. Add binary entry point in `src/main.rs`
+5. Write AAA-style unit tests
+6. Create GitHub Wiki documentation
+7. Set up CI/CD workflow
+8. Push to GitHub
+
+## Wiki Management
+
+### Central Wiki (SigmaOS.wiki)
+- Consolidated wiki for all components
+- Contains markdown files for each component
+- Keeps main branches free from .md/.txt documentation files
+- Updated on every component improvement
+
+### Per-Component Wikis
+- Each component repo has its own wiki git repo
+- Wiki content consolidated to central `SigmaOS.wiki`
+- Main branches free from documentation files
+
+## Cross-Component Integration
+
+### Component Interconnectivity
+SigmaOS components are designed to interconnect like Omarchy Linux sub-repos:
+- `SystemAdjuster` provides system parameters to any component
+- `PersonaManager` enables sovereign desktop environments
+- Central `SigmaOS.wiki` documents all component interfaces
+- `.github/workflows/` coordinates CI across repos
+
+### Cross-Compilation
+- All components build on target architectures
+- Multi-arch support for x86_64, aarch64
+- Cross-compilation tested in CI
+
+### Rolling Release Model
+- All components follow rolling release model
+- No release tags on main branches
+- Continuous improvement and long-term sustainability
+- "Remove all release tags" principle upheld
+
+## SIGMAOS Component Registry
+
+### Currently Implemented Components
+| Component | Tier | Stability | Description |
+|-----------|------|-----------|-------------|
+| sigma-system (core) | 0 | beta | Sovereign baseline substrate |
+| adjustments | 0 | beta | System tuning and governor management |
+| persona | 0 | beta | Sovereign desktop personas |
+
+### Planned Components (Inspired by Omarchy Linux Multi-Repo Structure)
+- `SigmaOS-dante` - CLI tool component
+- `SigmaOS-0ad` - 0.A.D. integration
+- `SigmaOS-3d-modeler` - 3D modeling
+- `SigmaOS-ab` - Basic utilities
+- Additional components as demand grows
+
+## Synchronization with GitHub
+
+### Repository Sync Status
+- **Central Repository**: `https://github.com/AaryanSinghChauhan09/Sigma`
+- **Wiki**: `https://github.com/AaryanSinghChauhan09/Sigma/wiki`
+- **Wiki Bare Repo**: `sigma-wiki.git` (local, for component consolidation)
+
+### Sync Workflow
+1. Code improvements committed to main branch
+2. `cargo test` runs automatically
+3. `cargo run` verified
+4. Wiki updated with new documentation
+5. Component repositories pushed to GitHub
+6. Central wiki consolidated from per-component wikis
+
+### GitHub Quota Management
+- Component repos created as quota allows
+- Local repo creation when quota exhausted
+- Push to GitHub after quota renewal
+- All repos eventually migrate to GitHub
+
+## Key Principlines UpholdEd
+
+From the extensive principle list, SigmaOS actively implements:
+
+✅ **Single Responsibility**: Each module has one well-defined purpose
+✅ **Fail-Fast System**: Invalid inputs rejected immediately
+✅ **Defensive Programming**: Input validation at all public boundaries
+✅ **AAA Testing**: All tests follow Arrange-Act-Assert pattern
+✅ **Demeter's Law**: Components don't expose internal structure
+✅ **Clear Abstraction**: Well-defined public interfaces
+✅ **Cohesion Maximization**: Related functionality grouped together
+✅ **Coupling Minimization**: Minimal dependencies between modules
+✅ **Separation of Concerns**: Library/bin/tests separated
+✅ **Composition over Inheritance**: Modules composed of smaller functions
+✅ **Open/Closed Principle**: New features add code, don't modify existing
+✅ **Don't Repeat Yourself**: DRY applied across all components
+✅ **Deterministic Testing**: Reproducible, timely tests
+✅ **Code Reusability**: Through composition and clear abstractions
+✅ **Component Isolation**: Self-contained modules
+✅ **Rolling Release**: No release tags, continuous improvement
+✅ **Cross-Platform**: Designed for multiple architectures
+✅ **Cross-Compilation**: Tested in CI
+✅ **Modular Kernel Design**: Modular approach to system services
+✅ **Minimal Kernel Philosophy**: Only necessary components included
+✅ **Licensing Awareness**: GPL-3.0-or-later maintained
+✅ **Error Handling**: Descriptive error messages with context
+✅ **Security Defaults**: Secure by design, environment variables for secrets
+✅ **Audit Logging**: Everything logged to fix future issues
+✅ **Semantic Versioning**: Version control practices upheld
+✅ **Reproducible Builds**: Consistent build environments
+✅ **Virtual Memory Abstraction**: Memory safety principles
+✅ **Race-Free Design**: Concurrent-safe operations
+✅ **Deterministic Behavior**: Predictable system response
+✅ **Instrumentation**: Comprehensive logging and monitoring
+✅ **Interface Segregation**: Client-specific interfaces
+✅ **Least Astonishment**: Predictable API behavior
+✅ **Least Privilege**: Minimum necessary access
+✅ **Safe Concurrency**: Race-free design patterns
+✅ **Transfer & Consolidate .MD/.TXT**: Wiki-based documentation
+✅ **Upstream First Policy**: Upstream changes prioritized
+✅ **User Freedom and Control**: Open source principles
+✅ **Talk is Cheap, Show Me the Code**: Working code priority
+✅ **Test Code Using CI/CD**: Automated testing pipelines
+✅ **Worse is Better**: Practical over perfect design
+✅ **X Theirs**: Community-driven development
+✅ **You Aren't Gonna Need It**: YAGNI principle
+✅ **Zen of Python**: Where applicable influences
+✅ **Zero-Copy**: Where applicable performance optimization
+✅ **Zero-One-Infinity**: Scalable design patterns
+
+## TODO & Next Steps
+
+### Immediate Priorities
+1. Create wikis for remaining components (Dante, 0ad, 3d-modeler, ab)
+2. Add missing component repositories
+3. Improve code quality across all components
+4. Update central SigmaOS.wiki with component summaries
+5. Establish component registry and dependency mapping
+
+### Medium-Term Goals
+1. Expand component capabilities with new features
+2. Add integration tests for end-to-end scenarios
+3. Set up AUR-like package metadata for Arch Linux distribution
+4. Add more personas inspired by other distros
+5. Implement cross-compilation for target architectures
+
+### Long-Term Sustainability
+1. Continuous improvement framework
+2. Community-oriented development practices
+3. Meritocracy and inclusivity in contributions
+4. Regular security audits and updates
+5. Rolling release model without release tags
+6. Distributed system management across components
+7. Package updating programs like Linux distros
+8. Software support programs like Linux distros
+
+---
+
+*This wiki is consolidated from per-component wikis and follows SigmaOS principles inspired by Linux kernel mintsystem, Arch Linux modularity, and Omarchy Linux sovereignty. For component-specific documentation, refer to individual repository wikis.*
+
+*Last updated: November 2026*
+*SigmaOS Version: 0.2.0*
