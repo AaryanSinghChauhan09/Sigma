@@ -259,6 +259,11 @@ pub mod dns_ops;
 /// Follows Single Responsibility Principle: only manages file watching.
 pub mod file_watcher;
 
+/// Resource monitor module.
+/// Provides actual system resource monitoring using /proc and /sys.
+/// Follows Single Responsibility Principle: only manages resource monitoring.
+pub mod resource_monitor;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -310,6 +315,7 @@ pub use env_ops::{EnvOps, EnvError};
 pub use systemd_ops::{SystemdOps, SystemStatus, UnitStatus, SystemdError};
 pub use dns_ops::{DnsOps, DnsError};
 pub use file_watcher::{FileWatcher, FileEvent, FileEventType, FileWatcherError};
+pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
