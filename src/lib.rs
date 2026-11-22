@@ -424,6 +424,16 @@ pub mod usermgr_ops;
 /// Follows Single Responsibility Principle: only manages log operations.
 pub mod logmgr_ops;
 
+/// Backup manager operations module.
+/// Provides backup management operations via rsync.
+/// Follows Single Responsibility Principle: only manages backup operations.
+pub mod backupmgr_ops;
+
+/// Audit manager operations module.
+/// Provides audit operations via sigmaos-audit.
+/// Follows Single Responsibility Principle: only manages audit operations.
+pub mod auditmgr_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -635,6 +645,16 @@ pub mod usermgr_ops;
 /// Provides log management operations via logrotate, journalctl.
 /// Follows Single Responsibility Principle: only manages log operations.
 pub mod logmgr_ops;
+
+/// Backup manager operations module.
+/// Provides backup management operations via rsync.
+/// Follows Single Responsibility Principle: only manages backup operations.
+pub mod backupmgr_ops;
+
+/// Audit manager operations module.
+/// Provides audit operations via sigmaos-audit.
+/// Follows Single Responsibility Principle: only manages audit operations.
+pub mod auditmgr_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -870,6 +890,8 @@ pub use sysupdate_ops::{SysUpdateOps, SysUpdateError as SystemUpdateError};
 pub use storagemgr_ops::{StorageMgrOps, StorageMgrError as StorageManagerError};
 pub use usermgr_ops::{UserMgrOps, UserMgrError as UserManagerError};
 pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
+pub use backupmgr_ops::{BackupMgrOps, BackupMgrError as BackupManagerError};
+pub use auditmgr_ops::{AuditMgrOps, AuditMgrError as AuditManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -913,6 +935,8 @@ pub use sysupdate_ops::{SysUpdateOps, SysUpdateError as SystemUpdateError};
 pub use storagemgr_ops::{StorageMgrOps, StorageMgrError as StorageManagerError};
 pub use usermgr_ops::{UserMgrOps, UserMgrError as UserManagerError};
 pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
+pub use backupmgr_ops::{BackupMgrOps, BackupMgrError as BackupManagerError};
+pub use auditmgr_ops::{AuditMgrOps, AuditMgrError as AuditManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
