@@ -79,6 +79,11 @@ pub mod package;
 /// Follows Single Responsibility Principle: only manages hardware subsystem.
 pub mod hardware;
 
+/// Logging module.
+/// Provides structured logging for all SigmaOS components.
+/// Follows Single Responsibility Principle: only manages logging subsystem.
+pub mod logging;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -94,6 +99,7 @@ pub use container::{ContainerManager, ContainerSpec, Container, ContainerRuntime
 pub use audit::{AuditManager, Vulnerability, AuditRule, AuditResult, VulnerabilitySeverity, AuditStatus};
 pub use package::{PackageManager, Package, PackageVersion, PackageError};
 pub use hardware::{HardwareManager, DeviceInfo, DeviceType, DeviceStatus, HardwareError};
+pub use logging::{Logger, LogEntry, LogLevel, LogError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
