@@ -409,6 +409,21 @@ pub mod netmgr_ops;
 /// Follows Single Responsibility Principle: only manages update operations.
 pub mod sysupdate_ops;
 
+/// Storage manager operations module.
+/// Provides storage management operations via lsblk, parted.
+/// Follows Single Responsibility Principle: only manages storage operations.
+pub mod storagemgr_ops;
+
+/// User manager operations module.
+/// Provides user management operations via useradd, getent.
+/// Follows Single Responsibility Principle: only manages user operations.
+pub mod usermgr_ops;
+
+/// Log manager operations module.
+/// Provides log management operations via logrotate, journalctl.
+/// Follows Single Responsibility Principle: only manages log operations.
+pub mod logmgr_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -605,6 +620,21 @@ pub mod netmgr_ops;
 /// Provides system update operations via sigmaos-update.
 /// Follows Single Responsibility Principle: only manages update operations.
 pub mod sysupdate_ops;
+
+/// Storage manager operations module.
+/// Provides storage management operations via lsblk, parted.
+/// Follows Single Responsibility Principle: only manages storage operations.
+pub mod storagemgr_ops;
+
+/// User manager operations module.
+/// Provides user management operations via useradd, getent.
+/// Follows Single Responsibility Principle: only manages user operations.
+pub mod usermgr_ops;
+
+/// Log manager operations module.
+/// Provides log management operations via logrotate, journalctl.
+/// Follows Single Responsibility Principle: only manages log operations.
+pub mod logmgr_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -837,6 +867,9 @@ pub use sysconfig_ops::{SysConfigOps, SysConfigError as SysConfigManagerError};
 pub use servicemgr_ops::{ServiceMgrOps, ServiceMgrError as ServiceManagerError};
 pub use netmgr_ops::{NetMgrOps, NetMgrError as NetworkManagerError};
 pub use sysupdate_ops::{SysUpdateOps, SysUpdateError as SystemUpdateError};
+pub use storagemgr_ops::{StorageMgrOps, StorageMgrError as StorageManagerError};
+pub use usermgr_ops::{UserMgrOps, UserMgrError as UserManagerError};
+pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -877,6 +910,9 @@ pub use sysconfig_ops::{SysConfigOps, SysConfigError as SysConfigManagerError};
 pub use servicemgr_ops::{ServiceMgrOps, ServiceMgrError as ServiceManagerError};
 pub use netmgr_ops::{NetMgrOps, NetMgrError as NetworkManagerError};
 pub use sysupdate_ops::{SysUpdateOps, SysUpdateError as SystemUpdateError};
+pub use storagemgr_ops::{StorageMgrOps, StorageMgrError as StorageManagerError};
+pub use usermgr_ops::{UserMgrOps, UserMgrError as UserManagerError};
+pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
