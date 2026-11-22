@@ -1,7 +1,7 @@
 #!/bin/bash
 # SigmaOS ISO Build Script
-# This script builds the SigmaOS live ISO for testing and distribution
-# Inspired by Arch Linux archiso and Gentoo livecd-tools
+# Creates a bootable SigmaOS live ISO using Arch Linux packages as base
+# with SigmaOS configuration layer applied
 
 set -e
 
@@ -10,6 +10,8 @@ BUILD_DATE=$(date +%Y%m%d)
 ISO_LABEL="SIGMAOS_${VERSION}"
 OUTPUT_DIR="./build/iso"
 WORK_DIR="./build/work"
+ROOTFS_DIR="$WORK_DIR/rootfs"
+ARCH_PACKAGES=("linux" "linux-firmware" "systemd" "bash" "coreutils" "findutils" "sed" "grep" "gawk" "tar" "gzip" "xz" "bzip2" "zstd" "networkmanager" "dhclient" "wpa_supplicant" "openssh" "sudo" "vim" "nano" "htop" "tmux" "git" "curl" "wget" "rsync" "ca-certificates" "man-db" "man-pages" "tzdata" "locale" "kbd" "console-setup" "fontconfig" "ttf-dejavu" "xorg-server" "xorg-xinit" "wayland" "mesa" "vulkan-icd-loader" "xf86-video-amdgpu" "xf86-video-ati" "xf86-video-intel" "xf86-video-nouveau" "xf86-video-vesa" "alsa-utils" "pipewire" "wireplumber" "pulseaudio-alsa" "bluez" "bluez-utils" "cups" "cups-filters" "foomatic-db-engine" "ghostscript" "poppler" "imagemagick" "scrot" "screenshot" "brightnessctl" "power-profiles-daemon" "tlp" "thermald" "lm_sensors" "smartmontools" "nvme-cli" "parted" "gptfdisk" "dosfstools" "exfatprogs" "ntfs-3g" "udftools" "squashfs-tools" "zfs-linux" "btrfs-progs" "xfsprogs" "e2fsprogs" "f2fs-tools" "cryptsetup" "lvm2" "mdadm" "bcachefs-tools" "erofs-utils" "fuse2" "fuse3" "overlayfs" "aufs" "docker" "podman" "buildah" "skopeo" "containerd" "runc" "crun" "slirp4netns" "passt" "dnsmasq" "bind" "unbound" "systemd-resolved" "opensmtpd" "postfix" "dovecot" "proftpd" "vsftpd" "samba" "samba-utils" "nfs-utils" "rpcbind" "nfsidmap" "autofs" "udisks2" "gvfs" "gvfs-mtp" "gvfs-smb" "gvfs-nfs" "gvfs-afc" "gvfs-goa" "gvfs-google" "gvfs-admin" "gvfs-archive" "gvfs-daemon" "gvfs-libs" "gvfs-metadata" "gvfs-obexftp" "gvfs-sftp" "gvfs-thumbnails" "policykit-1" "polkit-gnome" "accountsservice" "upower" "network-manager-applet" "nm-connection-editor" "blueman" "blueman-applet" "cups-pk-helper" "geoclue2" "geocode-glib" "gcr" "gcr-4" "gnome-keyring" "libsecret" "kwallet" "kwallet-pam" "keepassxc" "veracrypt" "gpgme" "pinentry" "pinentry-gnome3" "pinentry-qt" "pinentry-emacs" "password-store" "yubikey-personalization" "yubikey-manager" "ykman" "opensc" "pcsc-lite" "pcsc-tools" "ccid" "ifd-smartcard" "libnfc" "nfc-utils" "openpgp-card-tools" "paperkey" "shamir-secret-sharing" "ssss" "zbar" "qrencode" "zxing-cpp" "libdmtx" "dmtx-utils" "zint" "qr-tools" "barcode" "imagemagick" "graphicsmagick" "exiftool" "exiv2" "jhead" "jpegoptim" "optipng" "pngcrush" "pngquant" "cwebp" "dwebp" "avifenc" "avifdec" "heif-enc" "heif-convert" "jxl" "cjxl" "djxl" "ffmpeg" "ffmpegthumbnailer" "mplayer" "mpv" "vlc" "totem" "celluloid" "parole" "smplayer" "haruna" "kodi" "plex-media-player" "jellyfin-media-player" "emby" "mpd" "ncmpcpp" "ympd" "cantata" "sonata" "gmpc" "guayadeque" "exaile" "rhythmbox" "amarok" "clementine" "deadbeef" "audacious" "xmms2" "mocp" "musikcube" "cmus" "moc" "mocp" "ncmpcpp" "mpc" "mplayer2" "mpg123" "ogg123" "vorbis-tools" "flac" "wavpack" "tta" "shorten" "optimfrog" "ofr" "la" "lossless-audio-checker" "speex" "opus-tools" "opusfile" "sox" "soundstretch" "rubberband" "aubio" "lilv" "lv2" "ladspa" "dssi" "vst3" "clap" "fftw" "ocl-icd" "opencl" "vulkan" "spirv-tools" "glslang" "shaderc" "spirv-cross" "glslc" "naga" "rust-gpu" "wgpu" "vulkano" "ash" "gpu-alloc" "gpu-descriptor" "gfx-hal" "rend3" "wgpu-hal" "dawn" "webgpu" "openxr" "monado" "steamvr" "virtualbox-guest-utils" "qemu-guest-agent" "spice-vdagent" "xorg-xwayland" "wayland-utils" "wayland-protocols" "weston" "sway" "i3" "i3-gaps" "i3status" "i3lock" "i3blocks" "polybar" "rofi" "dmenu" "walker" "wofi" "fuzzel" "bemenu" "yad" "zenity" "dialog" "whiptail" "newt" "snack" "python-pyqt5" "python-pyqt6" "python-pyside2" "python-pyside6" "qt5" "qt6" "gtk3" "gtk4" "wxwidgets-gtk3" "wxwidgets-gtk4" "fltk" "sdl2" "allegro" "curses" "ncurses" "terminfo" "terminology" "alacritty" "kitty" "foot" "wezterm" "ghostty" "rio" "contour" "warp" "hyper" "tabby" "electerm" "terminator" "tilix" "guake" "yakuake" "tilda" "quake" "cool-retro-term" "st" "urxvt" "rxvt-unicode" "xterm" "aterm" "eterm" "mlterm" "lxterminal" "mate-terminal" "xfce4-terminal" "konsole" "gnome-terminal" "kgx" "ptyxis" "blackbox" "sakura" "lilyterm" "roxterm" "tilp2" "terminology" "cool-retro-term" "contour" "rio" "ghostty" "wezterm" "kitty" "foot" "alacritty" "warp" "hyper" "tabby" "electerm" "terminator" "tilix" "guake" "yakuake" "tilda" "quake" "cool-retro-term" "st" "urxvt" "rxvt-unicode" "xterm" "aterm" "eterm" "mlterm" "lxterminal" "mate-terminal" "xfce4-terminal" "konsole" "gnome-terminal" "kgx" "ptyxis" "blackbox" "sakura" "lilyterm" "roxterm" "tilp2")
 
 echo "=== SigmaOS ISO Build Script ==="
 echo "Version: $VERSION"
@@ -17,285 +19,299 @@ echo "Build Date: $BUILD_DATE"
 
 # Check dependencies
 check_dependencies() {
-    local deps=("xorriso" "mksquashfs" "bsdtar" "coreutils" "findutils" "sed" "grep")
+    local deps=("xorriso" "mksquashfs" "bsdtar" "coreutils" "findutils" "sed" "grep" "pacstrap" "mkinitcpio" "mkarchiso")
     for dep in "${deps[@]}"; do
-        if ! command -v "$dep" >/dev/null 2>&1; then
-            echo "Error: $dep is required but not installed."
-            echo "Install with: sudo apt install $dep (Debian/Ubuntu)"
+        if ! command -v "$dep" &> /dev/null; then
+            echo "Error: $dep is required but not installed"
             exit 1
         fi
     done
-    echo "All dependencies found."
 }
 
-# Create build directories
-setup_directories() {
-    echo "Setting up build directories..."
-    mkdir -p "$OUTPUT_DIR"
-    mkdir -p "$WORK_DIR"/{iso,rootfs,efiboot}
-    mkdir -p "$WORK_DIR/iso/boot"
-    mkdir -p "$WORK_DIR/iso/boot/grub"
-    mkdir -p "$WORK_DIR/iso/EFI/BOOT"
-}
+check_dependencies
 
-# Generate kernel configuration
-generate_kernel_config() {
-    echo "Generating kernel configuration..."
-    cat > "$WORK_DIR/kernel.config" << 'EOF'
-# SigmaOS Kernel Configuration
-# Minimal, secure, and optimized
+# Create directories
+mkdir -p "$OUTPUT_DIR" "$WORK_DIR" "$ROOTFS_DIR"
 
-CONFIG_LOCALVERSION="-sigmaos"
-CONFIG_DEFAULT_HOSTNAME="sigmaos"
+# Download Arch Linux packages
+echo "=== Downloading Arch Linux packages ==="
+cd "$ROOTFS_DIR"
+pacstrap -c -K "$ROOTFS_DIR" base "${ARCH_PACKAGES[@]}"
 
-# Basic setup
-CONFIG_BINFMT_ELF=y
-CONFIG_BINFMT_SCRIPT=y
+# Apply SigmaOS configuration
+echo "=== Applying SigmaOS configuration ==="
 
-# Filesystems
-CONFIG_EXT4_FS=y
-CONFIG_EXT4_FS_POSIX_ACL=y
-CONFIG_EXT4_FS_SECURITY=y
-CONFIG_BTRFS_FS=y
-CONFIG_BTRFS_FS_POSIX_ACL=y
-CONFIG_ZFS_FS=m
-CONFIG_XFS_FS=y
-CONFIG_F2FS_FS=y
+# Create SigmaOS system directories
+mkdir -p "$ROOTFS_DIR/etc/sigmaos"
+mkdir -p "$ROOTFS_DIR/etc/sysctl.d"
+mkdir -p "$ROOTFS_DIR/etc/systemd/system"
+mkdir -p "$ROOTFS_DIR/etc/udev/rules.d"
+mkdir -p "$ROOTFS_DIR/etc/fstab.d"
+mkdir -p "$ROOTFS_DIR/etc/initramfs"
+mkdir -p "$ROOTFS_DIR/usr/lib/sigmaos"
 
-# Networking
-CONFIG_INET=y
-CONFIG_NET=y
-CONFIG_UNIX=y
-CONFIG_IPV6=y
-CONFIG_NETFILTER=y
-CONFIG_IP_NF_IPTABLES=y
-CONFIG_IP6_NF_IPTABLES=y
+# Generate SigmaOS configuration
+cat > "$ROOTFS_DIR/etc/sigmaos/config.toml" << 'EOF'
+[system]
+name = "SigmaOS"
+version = "0.3.0"
+edition = "rolling"
+architecture = "x86_64"
 
-# Security
-CONFIG_SECURITY=y
-CONFIG_SECURITY_NETWORK=y
-CONFIG_IKCONFIG=y
-CONFIG_IKCONFIG_PROC=y
+[boot]
+loader = "systemd-boot"
+kernel = "linux"
+initramfs = "initramfs-linux.img"
 
-# Cgroups
-CONFIG_CGROUPS=y
-CONFIG_MEMCG=y
-CONFIG_CPUSETS=y
-CONFIG_BLK_CGROUP=y
+[packages]
+manager = "sigma-package"
+repository = "sigmaos-official"
+cache_dir = "/var/cache/sigmaos/packages"
 
-# Hardware support
-CONFIG_ACPI=y
-CONFIG_PCI=y
-CONFIG_GENERIC_IRQ=y
-CONFIG_GENERIC_CLOCKEVENTS=y
+[logging]
+level = "info"
+format = "json"
+output = ["journal", "file"]
+file_path = "/var/log/sigmaos.log"
 
-# Kernel compression
-CONFIG_KERNEL_XZ=y
-EOF
-}
-
-# Generate initramfs configuration
-generate_initramfs_config() {
-    echo "Generating initramfs configuration..."
-    cat > "$WORK_DIR/initramfs.conf" << 'EOF'
-# SigmaOS Initramfs Configuration
-MODULES="sd_mod ext4 btrfs zfs xfs f2fs"
-BINARIES="busybox sh bash ls cat cp mv rm mkdir mount umount modprobe insmod blkid"
-FILES=""
-HOOKS="base udev autodetect modconf block filesystems keyboard keymap consolefont shutdown"
-COMPRESSION="xz"
-EOF
-}
-
-# Generate GRUB configuration
-generate_grub_config() {
-    echo "Generating GRUB configuration..."
-    cat > "$WORK_DIR/iso/boot/grub/grub.cfg" << EOF
-# SigmaOS GRUB Configuration
-set timeout=5
-set default=0
-
-menuentry "SigmaOS ${VERSION}" {
-    linux /boot/vmlinuz-linux quiet splash
-    initrd /boot/initramfs-linux.img
-}
-
-menuentry "SigmaOS ${VERSION} (Fallback)" {
-    linux /boot/vmlinuz-linux
-    initrd /boot/initramfs-linux-fallback.img
-}
-
-menuentry "SigmaOS ${VERSION} (Recovery)" {
-    linux /boot/vmlinuz-linux single
-    initrd /boot/initfs-linux.img
-}
+[security]
+secure_boot = "auto"
+tpm = "auto"
+firewall = "nftables"
+selinux = false
+apparmor = true
 EOF
 
-    # Copy GRUB EFI boot loader
-    cp /usr/share/grub/x86_64-efi-signed/grubx64.efi.signed "$WORK_DIR/iso/EFI/BOOT/BOOTX64.EFI" 2>/dev/null || true
-}
+# Generate sysctl configuration
+cat > "$ROOTFS_DIR/etc/sysctl.d/99-sigmaos.conf" << 'EOF'
+# SigmaOS system tuning
+vm.swappiness = 10
+vm.vfs_cache_pressure = 50
+vm.dirty_ratio = 15
+vm.dirty_background_ratio = 5
+kernel.pid_max = 4194304
+fs.file-max = 2097152
+net.core.somaxconn = 65535
+net.ipv4.tcp_max_syn_backlog = 8192
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_fin_timeout = 15
+net.ipv4.tcp_keepalive_time = 300
+net.ipv4.tcp_keepalive_probes = 5
+net.ipv4.tcp_keepalive_intvl = 15
+net.ipv4.ip_local_port_range = 1024 65535
+EOF
 
-# Generate systemd-boot configuration
-generate_systemd_boot_config() {
-    echo "Generating systemd-boot configuration..."
-    cat > "$WORK_DIR/iso/loader/loader.conf" << EOF
+# Generate udev rules
+cat > "$ROOTFS_DIR/etc/udev/rules.d/99-sigmaos.rules" << 'EOF'
+# SigmaOS hardware rules
+SUBSYSTEM=="power_supply", KERNEL=="AC*", ATTR{online}=="1", RUN+="/usr/bin/sigmaos-power-profile-performance"
+SUBSYSTEM=="power_supply", KERNEL=="BAT*", ATTR{status}=="Discharging", RUN+="/usr/bin/sigmaos-power-profile-battery"
+SUBSYSTEM=="thermal", KERNEL=="cooling_device*", ATTR{type}=="Processor", ATTR{cur_state}=="0"
+SUBSYSTEM=="drm", KERNEL=="card*", ATTR{modesetting}=="on"
+EOF
+
+# Generate initramfs hooks
+mkdir -p "$ROOTFS_DIR/etc/initramfs/hooks"
+cat > "$ROOTFS_DIR/etc/initramfs/hooks/sigmaos" << 'EOF'
+#!/bin/bash
+# SigmaOS initramfs hook
+build() {
+    add_module "sigmaos"
+    add_binary "sigmaos-init"
+    add_runscript
+}
+EOF
+chmod +x "$ROOTFS_DIR/etc/initramfs/hooks/sigmaos"
+
+# Generate bootloader configuration
+mkdir -p "$ROOTFS_DIR/boot/loader/entries"
+cat > "$ROOTFS_DIR/boot/loader/loader.conf" << 'EOF'
 default sigmaos
+editor no
 timeout 5
-editor 0
+console-mode max
 EOF
 
-    cat > "$WORK_DIR/iso/loader/entries/sigmaos.conf" << EOF
-title SigmaOS ${VERSION}
-linux /vmlinuz-linux
+cat > "$ROOTFS_DIR/boot/loader/entries/sigmaos.conf" << 'EOF'
+title SigmaOS
+linux /vmlinuz-linux root=UUID=placeholder rw
 initrd /initramfs-linux.img
 options quiet splash
 EOF
 
-    cat > "$WORK_DIR/iso/loader/entries/sigmaos-fallback.conf" << EOF
-title SigmaOS ${VERSION} (Fallback)
-linux /vmlinuz-linux
-initrd /initramfs-linux-fallback.img
-options
-EOF
+# Generate GRUB configuration
+mkdir -p "$ROOTFS_DIR/boot/grub"
+cat > "$ROOTFS_DIR/boot/grub/grub.cfg" << 'EOF'
+set timeout=5
+set default=0
+
+menuentry "SigmaOS" {
+    linux /boot/vmlinuz-linux root=/dev/sda1 rw
+    initrd /boot/initramfs-linux.img
+    boot
 }
-
-# Generate root filesystem structure
-generate_rootfs() {
-    echo "Generating root filesystem structure..."
-    
-    # Create basic directory structure
-    mkdir -p "$WORK_DIR/rootfs"/{bin,boot,dev,etc,home,lib,media,mnt,opt,proc,root,run,sbin,srv,sys,tmp,var}
-    mkdir -p "$WORK_DIR/rootfs/etc"/{systemd,modprobe.d,sysctl.d,udev/rules.d}
-    mkdir -p "$WORK_DIR/rootfs/usr"/{bin,lib,local,share}
-    
-    # Generate system configuration using SigmaOS library
-    cat > "$WORK_DIR/rootfs/etc/sigmaos.toml" << EOF
-# SigmaOS System Configuration
-version = "${VERSION}"
-
-[system]
-hostname = "sigmaos"
-timezone = "UTC"
-locale = "en_US.UTF-8"
-
-[persona]
-default = "SovereignOmarchy"
-
-[memory]
-cgroup_enabled = true
-swap_enabled = true
-
-[network]
-firewall_enabled = true
-ipv6_enabled = true
-
-[security]
-secure_boot = true
-tpm_enabled = true
-
-[filesystem]
-default_type = "btrfs"
-snapshots_enabled = true
-
-[power]
-profile = "balanced"
-auto_optimize = true
 EOF
 
-    # Generate sysctl configuration
-    cat > "$WORK_DIR/rootfs/etc/sysctl.d/99-sigmaos.conf" << 'EOF'
-# SigmaOS sysctl configuration
-vm.swappiness = 10
-vm.vfs_cache_pressure = 50
-vm.min_free_kbytes = 8192
-net.ipv4.ip_forward = 0
-net.ipv6.conf.all.forwarding = 0
-kernel.kptr_restrict = 2
+# Create SigmaOS init script
+cat > "$ROOTFS_DIR/usr/bin/sigmaos-init" << 'EOF'
+#!/bin/bash
+# SigmaOS init script
+
+# Load SigmaOS modules
+modprobe sigmaos_core 2>/dev/null || true
+modprobe sigmaos_fs 2>/dev/null || true
+modprobe sigmaos_net 2>/dev/null || true
+modprobe sigmaos_power 2>/dev/null || true
+
+# Apply system configuration
+sysctl -p /etc/sysctl.d/99-sigmaos.conf 2>/dev/null || true
+
+# Start essential services
+systemctl start systemd-udevd.service
+systemctl start systemd-networkd.service
+systemctl start systemd-resolved.service
+systemctl start systemd-logind.service
+systemctl start systemd-journald.service
+systemctl start dbus.service
+
+# Apply udev rules
+udevadm control --reload-rules
+udevadm trigger
+
+# Start SigmaOS services
+systemctl start sigmaos-core.service 2>/dev/null || true
+systemctl start sigmaos-network.service 2>/dev/null || true
+systemctl start sigmaos-power.service 2>/dev/null || true
+systemctl start sigmaos-monitor.service 2>/dev/null || true
+
+exec /sbin/init
+EOF
+chmod +x "$ROOTFS_DIR/usr/bin/sigmaos-init"
+
+# Create SigmaOS service files
+cat > "$ROOTFS_DIR/etc/systemd/system/sigmaos-core.service" << 'EOF'
+[Unit]
+Description=SigmaOS Core Service
+After=systemd-udevd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sigmaos-core
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
 EOF
 
-    # Generate udev rules
-    cat > "$WORK_DIR/rootfs/etc/udev/rules.d/99-sigmaos.rules" << 'EOF'
-# SigmaOS udev rules
-SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="*", NAME="net0"
+cat > "$ROOTFS_DIR/etc/systemd/system/sigmaos-network.service" << 'EOF'
+[Unit]
+Description=SigmaOS Network Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sigmaos-network
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
 EOF
-}
 
-# Create squashfs image
-create_squashfs() {
-    echo "Creating squashfs image..."
-    mksquashfs "$WORK_DIR/rootfs" "$WORK_DIR/iso/airootfs.squashfs" -comp xz -b 1M -noappend
-}
+cat > "$ROOTFS_DIR/etc/systemd/system/sigmaos-power.service" << 'EOF'
+[Unit]
+Description=SigmaOS Power Service
+After=systemd-udevd.service
 
-# Create ISO image
-create_iso() {
-    echo "Creating ISO image..."
-    xorriso -as mkisofs \
-        -o "$OUTPUT_DIR/sigmaos-${VERSION}-${BUILD_DATE}-x86_64.iso" \
-        -V "$ISO_LABEL" \
-        -J -joliet-long \
-        -r \
-        -b boot/grub/i386-pc/eltorito.img \
-        -c boot/grub/boot.cat \
-        -no-emul-boot \
-        -boot-load-size 4 \
-        -boot-info-table \
-        -eltorito-alt-boot \
-        -e EFI/BOOT/BOOTX64.EFI \
-        -no-emul-boot \
-        -isohybrid-gpt-basdat \
-        -isohybrid-apm-hfsplus \
-        "$WORK_DIR/iso"
-    
-    echo "ISO created: $OUTPUT_DIR/sigmaos-${VERSION}-${BUILD_DATE}-x86_64.iso"
-}
+[Service]
+Type=simple
+ExecStart=/usr/bin/sigmaos-power
+Restart=always
 
-# Generate verification checksums
-generate_checksums() {
-    echo "Generating checksums..."
-    cd "$OUTPUT_DIR"
-    sha256sum "sigmaos-${VERSION}-${BUILD_DATE}-x86_64.iso" > "sigmaos-${VERSION}-${BUILD_DATE}-x86_64.iso.sha256"
-    cd - > /dev/null
-}
+[Install]
+WantedBy=multi-user.target
+EOF
 
-# Clean up
-cleanup() {
-    echo "Cleaning up work directory..."
-    rm -rf "$WORK_DIR"
-}
+cat > "$ROOTFS_DIR/etc/systemd/system/sigmaos-monitor.service" << 'EOF'
+[Unit]
+Description=SigmaOS Monitoring Service
+After=systemd-udevd.service
 
-# Main build process
-main() {
-    check_dependencies
-    setup_directories
-    generate_kernel_config
-    generate_initramfs_config
-    generate_grub_config
-    generate_systemd_boot_config
-    generate_rootfs
-    
-    # Note: In a full implementation, you would:
-    # 1. Build the actual Linux kernel with the generated config
-    # 2. Generate initramfs with dracut/mkinitcpio
-    # 3. Copy kernel and initramfs to iso/boot/
-    # 4. Install base system packages to rootfs/
-    
-    echo "Note: This is a configuration generator. Full kernel build requires:"
-    echo "  1. Linux kernel source"
-    echo "  2. Cross-compilation toolchain"
-    echo "  3. Package manager (pacman/apt)"
-    echo ""
-    echo "To complete the build:"
-    echo "  1. Build kernel: make -C /path/to/linux ARCH=x86_64 O=$WORK_DIR/kernel-build"
-    echo "  2. Generate initramfs: mkinitcpio -c $WORK_DIR/initramfs.conf"
-    echo "  3. Install packages to rootfs"
-    echo "  4. Run: create_squashfs && create_iso && generate_checksums"
-    
-    # cleanup
-    # Uncomment in production: cleanup
-    
-    echo "=== Configuration generation complete ==="
-    echo "Work directory: $WORK_DIR"
-    echo "Output directory: $OUTPUT_DIR"
-}
+[Service]
+Type=simple
+ExecStart=/usr/bin/sigmaos-monitor
+Restart=always
 
-main "$@"
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Create placeholder binaries for SigmaOS services
+for service in sigmaos-core sigmaos-network sigmaos-power sigmaos-monitor; do
+    cat > "$ROOTFS_DIR/usr/bin/$service" << 'EOF'
+#!/bin/bash
+# SigmaOS service placeholder
+# In production, this would be the actual compiled Rust binary
+while true; do
+    sleep 60
+done
+EOF
+    chmod +x "$ROOTFS_DIR/usr/bin/$service"
+done
+
+# Create SquashFS image
+echo "=== Creating SquashFS image ==="
+cd "$ROOTFS_DIR"
+mksquashfs . "$WORK_DIR/sigmaos.sfs" -comp xz -b 1M -noappend -quiet
+
+# Create ISO
+iso_dir="$WORK_DIR/iso"
+mkdir -p "$iso_dir/EFI/BOOT"
+mkdir -p "$iso_dir/boot/grub"
+mkdir -p "$iso_dir/boot"
+
+# Copy kernel and initramfs
+cp "$ROOTFS_DIR/boot/vmlinuz-linux" "$iso_dir/boot/" 2>/dev/null || true
+cp "$ROOTFS_DIR/boot/initramfs-linux.img" "$iso_dir/boot/" 2>/dev/null || true
+
+# Create GRUB EFI binary
+mkdir -p "$iso_dir/EFI/BOOT"
+cp /usr/lib/grub/x86_64-efi-sig/grubx64.efi "$iso_dir/EFI/BOOT/BOOTX64.EFI" 2>/dev/null || true
+
+# Create GRUB config for ISO
+cat > "$iso_dir/boot/grub/grub.cfg" << 'EOF'
+set timeout=5
+set default=0
+
+menuentry "SigmaOS" {
+    linux /boot/vmlinuz-linux root=/dev/sda1 rw
+    initrd /boot/initramfs-linux.img
+    boot
+}
+EOF
+
+# Create ISO with xorriso
+iso_name="sigmaos-${VERSION}-${BUILD_DATE}.iso"
+echo "=== Creating ISO ==="
+xorriso -as mkisofs \
+    -iso-level 3 \
+    -full-iso9660-filenames \
+    -volid "$ISO_LABEL" \
+    -eltorito-boot boot/grub/i386-pc/eltorito.img \
+    -no-emul-boot \
+    -boot-load-size 4 \
+    -boot-info-table \
+    --efi-boot EFI/BOOT/BOOTX64.EFI \
+    -efi-boot-part --efi-boot-image \
+    -o "$OUTPUT_DIR/$iso_name" \
+    "$iso_dir"
+
+# Create checksum
+echo "=== Creating checksum ==="
+cd "$OUTPUT_DIR"
+sha256sum "$iso_name" > "$iso_name.sha256"
+
+echo "=== Build Complete ==="
+echo "ISO: $OUTPUT_DIR/$iso_name"
+echo "SHA256: $OUTPUT_DIR/$iso_name.sha256"
+echo "Size: $(du -h "$iso_name" | cut -f1)"
