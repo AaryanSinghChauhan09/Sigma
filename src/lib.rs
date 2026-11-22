@@ -416,6 +416,11 @@ pub mod smartcard_ops;
 /// Follows Single Responsibility Principle: only manages TCO operations.
 pub mod tco_ops;
 
+/// Compliance operations module.
+/// Provides actual compliance operations.
+/// Follows Single Responsibility Principle: only manages compliance operations.
+pub mod compliance_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -504,6 +509,7 @@ pub use gpu_ops::{GpuOps, GpuInfo, GpuError as GpuManagerError};
 pub use fingerprint_ops::{FingerprintOps, FingerprintDevice, FingerprintError as FpManagerError};
 pub use smartcard_ops::{SmartcardOps, SmartcardInfo, SmartcardError as ScManagerError};
 pub use tco_ops::{TcoOps, TcoError as TcoManagerError};
+pub use compliance_ops::{ComplianceOps, ComplianceError as ComplianceManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
