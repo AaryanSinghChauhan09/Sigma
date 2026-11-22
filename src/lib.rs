@@ -572,7 +572,7 @@ pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
 pub use session_ops::{SessionOps, SessionInfo, SessionError};
 pub use firewall_ops::{FirewallOps as FwManager, FirewallRule as FwRule, FirewallBackend as FwBackend, FirewallError as FwManagerError};
-pub use proxy_ops::{ProxyOps, ProxyConfig, ProxyError};
+pub use proxy_ops::{ProxyOps, ProxyError};
 pub use backup_ops::{BackupOps as RealBackupOps, BackupError as RealBackupError};
 pub use user_group_ops::{UserGroupOps, UserInfo, GroupInfo, UserGroupError};
 pub use cert_ops::{CertOps, CertInfo, CertError};
