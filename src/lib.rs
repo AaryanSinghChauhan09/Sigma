@@ -493,6 +493,12 @@ pub mod mutex_ops;
 pub mod rwlock_ops;
 /// Barrier for thread synchronization
 pub mod barrier_ops;
+/// Channel for message passing between threads
+pub mod channel_ops;
+/// Semaphore for resource counting and access control
+pub mod semaphore_ops;
+/// Condition variable for thread coordination
+pub mod condition_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -775,6 +781,12 @@ pub mod mutex_ops;
 pub mod rwlock_ops;
 /// Barrier for thread synchronization
 pub mod barrier_ops;
+/// Channel for message passing between threads
+pub mod channel_ops;
+/// Semaphore for resource counting and access control
+pub mod semaphore_ops;
+/// Condition variable for thread coordination
+pub mod condition_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
