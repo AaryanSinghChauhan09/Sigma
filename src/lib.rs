@@ -394,6 +394,21 @@ pub mod repomgr_ops;
 /// Follows Single Responsibility Principle: only manages configuration operations.
 pub mod sysconfig_ops;
 
+/// Service manager operations module.
+/// Provides service management operations via systemctl.
+/// Follows Single Responsibility Principle: only manages service operations.
+pub mod servicemgr_ops;
+
+/// Network manager operations module.
+/// Provides network management operations via nmcli.
+/// Follows Single Responsibility Principle: only manages network operations.
+pub mod netmgr_ops;
+
+/// System update operations module.
+/// Provides system update operations via sigmaos-update.
+/// Follows Single Responsibility Principle: only manages update operations.
+pub mod sysupdate_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -575,6 +590,21 @@ pub mod repomgr_ops;
 /// Provides system configuration operations via sigmaos-config.
 /// Follows Single Responsibility Principle: only manages configuration operations.
 pub mod sysconfig_ops;
+
+/// Service manager operations module.
+/// Provides service management operations via systemctl.
+/// Follows Single Responsibility Principle: only manages service operations.
+pub mod servicemgr_ops;
+
+/// Network manager operations module.
+/// Provides network management operations via nmcli.
+/// Follows Single Responsibility Principle: only manages network operations.
+pub mod netmgr_ops;
+
+/// System update operations module.
+/// Provides system update operations via sigmaos-update.
+/// Follows Single Responsibility Principle: only manages update operations.
+pub mod sysupdate_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -804,6 +834,9 @@ pub use initramfs_ops::{InitramfsOps, InitramfsError as InitramfsManagerError};
 pub use pkgmgr_ops::{PkgMgrOps, PkgMgrError as PkgManagerError};
 pub use repomgr_ops::{RepoMgrOps, RepoMgrError as RepoManagerError};
 pub use sysconfig_ops::{SysConfigOps, SysConfigError as SysConfigManagerError};
+pub use servicemgr_ops::{ServiceMgrOps, ServiceMgrError as ServiceManagerError};
+pub use netmgr_ops::{NetMgrOps, NetMgrError as NetworkManagerError};
+pub use sysupdate_ops::{SysUpdateOps, SysUpdateError as SystemUpdateError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -841,6 +874,9 @@ pub use initramfs_ops::{InitramfsOps, InitramfsError as InitramfsManagerError};
 pub use pkgmgr_ops::{PkgMgrOps, PkgMgrError as PkgManagerError};
 pub use repomgr_ops::{RepoMgrOps, RepoMgrError as RepoManagerError};
 pub use sysconfig_ops::{SysConfigOps, SysConfigError as SysConfigManagerError};
+pub use servicemgr_ops::{ServiceMgrOps, ServiceMgrError as ServiceManagerError};
+pub use netmgr_ops::{NetMgrOps, NetMgrError as NetworkManagerError};
+pub use sysupdate_ops::{SysUpdateOps, SysUpdateError as SystemUpdateError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
