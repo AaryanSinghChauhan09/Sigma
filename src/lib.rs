@@ -406,6 +406,11 @@ pub mod gpu_ops;
 /// Follows Single Responsibility Principle: only manages fingerprint operations.
 pub mod fingerprint_ops;
 
+/// Smartcard operations module.
+/// Provides actual smartcard operations using pcscd.
+/// Follows Single Responsibility Principle: only manages smartcard operations.
+pub mod smartcard_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -492,6 +497,7 @@ pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
 pub use gpu_ops::{GpuOps, GpuInfo, GpuError as GpuManagerError};
 pub use fingerprint_ops::{FingerprintOps, FingerprintDevice, FingerprintError as FpManagerError};
+pub use smartcard_ops::{SmartcardOps, SmartcardInfo, SmartcardError as ScManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
