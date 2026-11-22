@@ -294,6 +294,11 @@ pub mod proxy_ops;
 /// Follows Single Responsibility Principle: only manages backup operations.
 pub mod backup_ops;
 
+/// User group operations module.
+/// Provides actual user and group operations using useradd/groupadd.
+/// Follows Single Responsibility Principle: only manages user/group operations.
+pub mod user_group_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -352,6 +357,7 @@ pub use session_ops::{SessionOps, SessionInfo, SessionError};
 pub use firewall_ops::{FirewallOps as FwManager, FirewallRule as FwRule, FirewallBackend as FwBackend, FirewallError as FwManagerError};
 pub use proxy_ops::{ProxyOps, ProxyConfig, ProxyError};
 pub use backup_ops::{BackupOps as RealBackupOps, BackupError as RealBackupError};
+pub use user_group_ops::{UserGroupOps, UserInfo, GroupInfo, UserGroupError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
