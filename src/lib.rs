@@ -364,6 +364,36 @@ pub mod logger_ops;
 /// Follows Single Responsibility Principle: only manages security audit operations.
 pub mod security_audit;
 
+/// Kernel operations module.
+/// Provides kernel management operations via sysctl, modprobe, uname.
+/// Follows Single Responsibility Principle: only manages kernel operations.
+pub mod kernel_ops;
+
+/// Bootloader operations module.
+/// Provides bootloader management operations via grub, efibootmgr.
+/// Follows Single Responsibility Principle: only manages bootloader operations.
+pub mod bootloader_ops;
+
+/// Initramfs operations module.
+/// Provides initramfs management operations via mkinitcpio.
+/// Follows Single Responsibility Principle: only manages initramfs operations.
+pub mod initramfs_ops;
+
+/// Package manager operations module.
+/// Provides package manager operations via pacman.
+/// Follows Single Responsibility Principle: only manages package operations.
+pub mod pkgmgr_ops;
+
+/// Repository manager operations module.
+/// Provides repository management operations via pacman.
+/// Follows Single Responsibility Principle: only manages repository operations.
+pub mod repomgr_ops;
+
+/// System configuration operations module.
+/// Provides system configuration operations via sigmaos-config.
+/// Follows Single Responsibility Principle: only manages configuration operations.
+pub mod sysconfig_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -515,6 +545,36 @@ pub mod logger_ops;
 /// Provides security audit functionality to detect API key leaks, hardcoded secrets, etc.
 /// Follows Single Responsibility Principle: only manages security audit operations.
 pub mod security_audit;
+
+/// Kernel operations module.
+/// Provides kernel management operations via sysctl, modprobe, uname.
+/// Follows Single Responsibility Principle: only manages kernel operations.
+pub mod kernel_ops;
+
+/// Bootloader operations module.
+/// Provides bootloader management operations via grub, efibootmgr.
+/// Follows Single Responsibility Principle: only manages bootloader operations.
+pub mod bootloader_ops;
+
+/// Initramfs operations module.
+/// Provides initramfs management operations via mkinitcpio.
+/// Follows Single Responsibility Principle: only manages initramfs operations.
+pub mod initramfs_ops;
+
+/// Package manager operations module.
+/// Provides package manager operations via pacman.
+/// Follows Single Responsibility Principle: only manages package operations.
+pub mod pkgmgr_ops;
+
+/// Repository manager operations module.
+/// Provides repository management operations via pacman.
+/// Follows Single Responsibility Principle: only manages repository operations.
+pub mod repomgr_ops;
+
+/// System configuration operations module.
+/// Provides system configuration operations via sigmaos-config.
+/// Follows Single Responsibility Principle: only manages configuration operations.
+pub mod sysconfig_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -738,6 +798,12 @@ pub use cicd_ops::{CicdOps, CicdError as CicdManagerError};
 pub use doc_ops::{DocOps, DocError as DocManagerError};
 pub use logger_ops::{LoggerOps, LoggerError as LogManagerError};
 pub use security_audit::{SecurityAuditor, SecurityAuditResult, SecurityIssue, SecurityAuditError};
+pub use kernel_ops::{KernelOps, KernelError as KernelManagerError};
+pub use bootloader_ops::{BootloaderOps, BootloaderError as BootloaderManagerError};
+pub use initramfs_ops::{InitramfsOps, InitramfsError as InitramfsManagerError};
+pub use pkgmgr_ops::{PkgMgrOps, PkgMgrError as PkgManagerError};
+pub use repomgr_ops::{RepoMgrOps, RepoMgrError as RepoManagerError};
+pub use sysconfig_ops::{SysConfigOps, SysConfigError as SysConfigManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -769,6 +835,12 @@ pub use cicd_ops::{CicdOps, CicdError as CicdManagerError};
 pub use doc_ops::{DocOps, DocError as DocManagerError};
 pub use logger_ops::{LoggerOps, LoggerError as LogManagerError};
 pub use security_audit::{SecurityAuditor, SecurityAuditResult, SecurityIssue, SecurityAuditError};
+pub use kernel_ops::{KernelOps, KernelError as KernelManagerError};
+pub use bootloader_ops::{BootloaderOps, BootloaderError as BootloaderManagerError};
+pub use initramfs_ops::{InitramfsOps, InitramfsError as InitramfsManagerError};
+pub use pkgmgr_ops::{PkgMgrOps, PkgMgrError as PkgManagerError};
+pub use repomgr_ops::{RepoMgrOps, RepoMgrError as RepoManagerError};
+pub use sysconfig_ops::{SysConfigOps, SysConfigError as SysConfigManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
