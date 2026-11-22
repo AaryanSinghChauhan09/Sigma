@@ -6,21 +6,21 @@ SigmaOS is a sovereign Linux distribution with a comprehensive Rust-based system
 
 SigmaOS consists of two main components:
 
-1. **System Library** - A comprehensive Rust library (556+ tests, 85 modules) for system management
+1. **System Library** - A comprehensive Rust library (558+ tests, 86 modules) for system management
 2. **Distribution Tools** - ISO build, installer, and system management tools
 
 ## Features
 
 ### System Library (sigma-system)
 
-85 modules covering all major Linux subsystems:
+86 modules covering all major Linux subsystems:
 
 - **Process/Kernel**: process, cpu_ops, mem_ops, kernel, scheduler_ops
 - **Storage**: disk, fs_ops, mount_ops, disk_space_ops, swap_ops, raid_ops, lvm_ops
 - **Network**: net_ops, net_stats, dns_ops, firewall_ops, proxy_ops
 - **System**: sys_info, thermal, power_status, io_stats, resource_monitor, sensor_ops
 - **Services**: service, systemd_ops, cron_ops, timer_ops, session_ops
-- **Security**: firewall_ops, cert_ops, user_group_ops
+- **Security**: firewall_ops, cert_ops, user_group_ops, security_audit
 - **Desktop**: display_ops, audio_ops, keyboard_ops, locale_ops, gpu_ops, fingerprint_ops, smartcard_ops, sound_ops
 - **Backup**: backup_ops, archive_ops, logrotate_ops
 - **Config**: timezone_ops, hostname_ops, env_ops, file_watcher
@@ -263,7 +263,7 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 
 ## Project Status
 
-- **Library**: 85 modules, 556 unit tests, 95 doctests
+- **Library**: 86 modules, 558 unit tests, 96 doctests
 - **Tools**: 14 system tools
 - **Packages**: 3 metapackages (base, kde, gnome)
 - **Config**: pacman.conf, sysctl, GRUB, KDE configs

@@ -359,6 +359,11 @@ pub mod doc_ops;
 /// Follows Single Responsibility Principle: only manages logging operations.
 pub mod logger_ops;
 
+/// Security audit module.
+/// Provides security audit functionality to detect API key leaks, hardcoded secrets, etc.
+/// Follows Single Responsibility Principle: only manages security audit operations.
+pub mod security_audit;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -505,6 +510,11 @@ pub mod doc_ops;
 /// Provides actual logging operations via logger.
 /// Follows Single Responsibility Principle: only manages logging operations.
 pub mod logger_ops;
+
+/// Security audit module.
+/// Provides security audit functionality to detect API key leaks, hardcoded secrets, etc.
+/// Follows Single Responsibility Principle: only manages security audit operations.
+pub mod security_audit;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -727,6 +737,7 @@ pub use task_ops::{TaskOps, TaskError as TaskManagerError};
 pub use cicd_ops::{CicdOps, CicdError as CicdManagerError};
 pub use doc_ops::{DocOps, DocError as DocManagerError};
 pub use logger_ops::{LoggerOps, LoggerError as LogManagerError};
+pub use security_audit::{SecurityAuditor, SecurityAuditResult, SecurityIssue, SecurityAuditError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -757,6 +768,7 @@ pub use task_ops::{TaskOps, TaskError as TaskManagerError};
 pub use cicd_ops::{CicdOps, CicdError as CicdManagerError};
 pub use doc_ops::{DocOps, DocError as DocManagerError};
 pub use logger_ops::{LoggerOps, LoggerError as LogManagerError};
+pub use security_audit::{SecurityAuditor, SecurityAuditResult, SecurityIssue, SecurityAuditError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
