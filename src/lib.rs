@@ -269,6 +269,31 @@ pub mod sound_ops;
 /// Follows Single Responsibility Principle: only manages bandwidth operations.
 pub mod bandwidth_ops;
 
+/// Process tree operations module.
+/// Provides actual process tree operations via pstree.
+/// Follows Single Responsibility Principle: only manages process tree operations.
+pub mod proc_tree_ops;
+
+/// Container registry operations module.
+/// Provides actual container registry operations via docker.
+/// Follows Single Responsibility Principle: only manages container registry operations.
+pub mod registry_ops;
+
+/// Hardware operations module.
+/// Provides actual hardware operations via lspci.
+/// Follows Single Responsibility Principle: only manages hardware operations.
+pub mod hardware_ops;
+
+/// Bluetooth operations module.
+/// Provides actual Bluetooth operations via bluetoothctl.
+/// Follows Single Responsibility Principle: only manages Bluetooth operations.
+pub mod bluetooth_ops;
+
+/// Webcam operations module.
+/// Provides actual webcam operations via v4l2-ctl.
+/// Follows Single Responsibility Principle: only manages webcam operations.
+pub mod webcam_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -594,6 +619,11 @@ pub use dns_ops::{DnsOps, DnsError};
 pub use file_watcher::{FileWatcherOps, FileWatcherError};
 pub use sound_ops::{SoundOps, SoundError as SoundManagerError};
 pub use bandwidth_ops::{BandwidthOps, BandwidthError as BandwidthManagerError};
+pub use proc_tree_ops::{ProcTreeOps, ProcTreeError as ProcTreeManagerError};
+pub use registry_ops::{RegistryOps, RegistryError as RegistryManagerError};
+pub use hardware_ops::{HardwareOps, HardwareError as HardwareManagerError};
+pub use bluetooth_ops::{BluetoothOps, BluetoothError as BluetoothManagerError};
+pub use webcam_ops::{WebcamOps, WebcamError as WebcamManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
