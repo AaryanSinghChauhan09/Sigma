@@ -311,6 +311,11 @@ pub mod archive_ops;
 /// Follows Single Responsibility Principle: only manages log rotation.
 pub mod logrotate_ops;
 
+/// Disk space operations module.
+/// Provides actual disk space operations using df and du.
+/// Follows Single Responsibility Principle: only manages disk space operations.
+pub mod disk_space_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -378,6 +383,7 @@ pub use user_group_ops::{UserGroupOps, UserInfo, GroupInfo, UserGroupError};
 pub use cert_ops::{CertOps, CertInfo, CertError};
 pub use archive_ops::{ArchiveOps, ArchiveError};
 pub use logrotate_ops::{LogrotateOps, LogrotateError};
+pub use disk_space_ops::{DiskSpaceOps, DiskSpace, DiskSpaceError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
