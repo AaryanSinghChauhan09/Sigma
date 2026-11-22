@@ -25,6 +25,11 @@ fi
 echo "Cleaning previous build..."
 rm -rf "$WORK_DIR" "$OUTPUT_DIR"
 mkdir -p "$PROFILE_DIR" "$WORK_DIR" "$OUTPUT_DIR"
+# Absolutize paths — the script cd's into WORK_DIR before invoking mkarchiso
+PROFILE_DIR="$(realpath "$PROFILE_DIR")"
+WORK_DIR="$(realpath "$WORK_DIR")"
+OUTPUT_DIR="$(realpath "$OUTPUT_DIR")"
+SUDO=""; [ "$(id -u)" -ne 0 ] && SUDO="sudo"
 
 # Create profile directory structure
 mkdir -p "$PROFILE_DIR/airootfs/etc/sigmaos"
@@ -326,7 +331,7 @@ echo "This may take 10-30 minutes depending on your system..."
 echo ""
 
 cd "$WORK_DIR"
-sudo mkarchiso -v -w "$WORK_DIR" -o "$OUTPUT_DIR" "$PROFILE_DIR"
+$SUDO mkarchiso -v -w "$WORK_DIR" -o "$OUTPUT_DIR" "$PROFILE_DIR"
 
 echo "=== Build complete ==="
 echo "ISO: $OUTPUT_DIR/sigmaos-$VERSION-x86_64.iso"
