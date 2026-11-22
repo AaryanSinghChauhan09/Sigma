@@ -284,6 +284,11 @@ pub mod session_ops;
 /// Follows Single Responsibility Principle: only manages firewall operations.
 pub mod firewall_ops;
 
+/// Proxy operations module.
+/// Provides actual proxy configuration operations.
+/// Follows Single Responsibility Principle: only manages proxy operations.
+pub mod proxy_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -340,6 +345,7 @@ pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
 pub use session_ops::{SessionOps, SessionInfo, SessionError};
 pub use firewall_ops::{FirewallOps as FwManager, FirewallRule as FwRule, FirewallBackend as FwBackend, FirewallError as FwManagerError};
+pub use proxy_ops::{ProxyOps, ProxyConfig, ProxyError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
