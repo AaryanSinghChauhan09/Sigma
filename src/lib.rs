@@ -499,6 +499,10 @@ pub mod channel_ops;
 pub mod semaphore_ops;
 /// Condition variable for thread coordination
 pub mod condition_ops;
+/// Interrupt handling operations
+pub mod interrupt_ops;
+/// Comprehensive error handling operations
+pub mod error_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -787,6 +791,10 @@ pub mod channel_ops;
 pub mod semaphore_ops;
 /// Condition variable for thread coordination
 pub mod condition_ops;
+/// Interrupt handling operations
+pub mod interrupt_ops;
+/// Comprehensive error handling operations
+pub mod error_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
