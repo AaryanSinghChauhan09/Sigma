@@ -214,6 +214,11 @@ pub mod power_status;
 /// Follows Single Responsibility Principle: only manages mount operations.
 pub mod mount_ops;
 
+/// Process tree module.
+/// Provides actual process tree information using /proc.
+/// Follows Single Responsibility Principle: only manages process tree.
+pub mod proc_tree;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -256,6 +261,7 @@ pub use sys_info::{SysInfo, SystemInfo, SysInfoError};
 pub use thermal::{ThermalMonitor, TemperatureReadings, ThermalZone, ThermalError};
 pub use power_status::{PowerStatus, BatteryInfo, BatteryStatus as PowerBatteryStatus, PowerSupplyInfo, PowerError};
 pub use mount_ops::{MountOps, MountInfo, MountError};
+pub use proc_tree::{ProcTree, ProcessNode, ProcessTree, ProcTreeError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
