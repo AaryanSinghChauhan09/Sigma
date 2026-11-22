@@ -341,6 +341,11 @@ pub mod swap_ops;
 /// Follows Single Responsibility Principle: only manages keyboard operations.
 pub mod keyboard_ops;
 
+/// Locale operations module.
+/// Provides actual locale management operations.
+/// Follows Single Responsibility Principle: only manages locale operations.
+pub mod locale_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -414,6 +419,7 @@ pub use repo_ops::{RepoOps, RepoInfo, RepoError as RepoManagerError};
 pub use scheduler_ops::{SchedulerOps as CpuScheduler, SchedulerPolicy, SchedulerError as CpuSchedulerError};
 pub use swap_ops::{SwapOps, SwapInfo, SwapError as SwapManagerError};
 pub use keyboard_ops::{KeyboardOps, KeyboardError as KeymapError};
+pub use locale_ops::{LocaleOps, LocaleError as SystemLocaleError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
