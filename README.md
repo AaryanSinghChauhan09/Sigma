@@ -6,14 +6,14 @@ SigmaOS is a Linux distribution built on Arch Linux with a comprehensive Rust-ba
 
 SigmaOS consists of two main components:
 
-1. **System Library** - A comprehensive Rust library (548+ tests, 82 modules) for system management
+1. **System Library** - A comprehensive Rust library (556+ tests, 85 modules) for system management
 2. **Distribution Tools** - ISO build, installer, and system management tools
 
 ## Features
 
 ### System Library (sigma-system)
 
-82 modules covering all major Linux subsystems:
+85 modules covering all major Linux subsystems:
 
 - **Process/Kernel**: process, cpu_ops, mem_ops, kernel, scheduler_ops
 - **Storage**: disk, fs_ops, mount_ops, disk_space_ops, swap_ops, raid_ops, lvm_ops
@@ -36,6 +36,9 @@ SigmaOS consists of two main components:
 - **Container**: container_ops, registry_ops
 - **Process Tree**: proc_tree_ops
 - **Project**: project_ops, task_ops
+- **CI/CD**: cicd_ops
+- **Documentation**: doc_ops
+- **Logging**: logger_ops
 
 ### Distribution Tools (14 tools)
 
@@ -260,7 +263,7 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 
 ## Project Status
 
-- **Library**: 82 modules, 548 unit tests, 92 doctests
+- **Library**: 85 modules, 556 unit tests, 95 doctests
 - **Tools**: 14 system tools
 - **Packages**: 3 metapackages (base, kde, gnome)
 - **Config**: pacman.conf, sysctl, GRUB, KDE configs

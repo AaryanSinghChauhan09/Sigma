@@ -344,6 +344,21 @@ pub mod project_ops;
 /// Follows Single Responsibility Principle: only manages task operations.
 pub mod task_ops;
 
+/// CI/CD operations module.
+/// Provides actual CI/CD operations via make.
+/// Follows Single Responsibility Principle: only manages CI/CD operations.
+pub mod cicd_ops;
+
+/// Documentation operations module.
+/// Provides actual documentation operations via pandoc.
+/// Follows Single Responsibility Principle: only manages documentation operations.
+pub mod doc_ops;
+
+/// Logger operations module.
+/// Provides actual logging operations via logger.
+/// Follows Single Responsibility Principle: only manages logging operations.
+pub mod logger_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -475,6 +490,21 @@ pub mod project_ops;
 /// Provides actual task management operations via task.
 /// Follows Single Responsibility Principle: only manages task operations.
 pub mod task_ops;
+
+/// CI/CD operations module.
+/// Provides actual CI/CD operations via make.
+/// Follows Single Responsibility Principle: only manages CI/CD operations.
+pub mod cicd_ops;
+
+/// Documentation operations module.
+/// Provides actual documentation operations via pandoc.
+/// Follows Single Responsibility Principle: only manages documentation operations.
+pub mod doc_ops;
+
+/// Logger operations module.
+/// Provides actual logging operations via logger.
+/// Follows Single Responsibility Principle: only manages logging operations.
+pub mod logger_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -694,6 +724,9 @@ pub use scanner_ops::{ScannerOps, ScannerError as ScannerManagerError};
 pub use camera_ops::{CameraOps, CameraError as CameraManagerError};
 pub use project_ops::{ProjectOps, ProjectError as ProjectManagerError};
 pub use task_ops::{TaskOps, TaskError as TaskManagerError};
+pub use cicd_ops::{CicdOps, CicdError as CicdManagerError};
+pub use doc_ops::{DocOps, DocError as DocManagerError};
+pub use logger_ops::{LoggerOps, LoggerError as LogManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -721,6 +754,9 @@ pub use timesync_ops::{TimeSyncOps, TimeSyncError as NtpSyncError};
 pub use camera_ops::{CameraOps, CameraInfo, CameraError as CameraManagerError};
 pub use project_ops::{ProjectOps, ProjectError as ProjectManagerError};
 pub use task_ops::{TaskOps, TaskError as TaskManagerError};
+pub use cicd_ops::{CicdOps, CicdError as CicdManagerError};
+pub use doc_ops::{DocOps, DocError as DocManagerError};
+pub use logger_ops::{LoggerOps, LoggerError as LogManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
