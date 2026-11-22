@@ -109,6 +109,11 @@ pub mod cron;
 /// Follows Single Responsibility Principle: only manages backup subsystem.
 pub mod backup;
 
+/// Update module.
+/// Provides system update management and rolling release support.
+/// Follows Single Responsibility Principle: only manages update subsystem.
+pub mod update;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -130,6 +135,7 @@ pub use user::{UserManager, User, Group, UserError};
 pub use locale::{LocaleManager, Locale, Timezone, Translation, LocaleError};
 pub use cron::{CronManager, CronJob, CronError};
 pub use backup::{BackupManager, Backup, BackupType, BackupStatus, BackupSchedule, BackupError};
+pub use update::{UpdateManager, Update, UpdateType, UpdateStatus, UpdateError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
