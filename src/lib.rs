@@ -19,9 +19,45 @@ pub mod adjustments;
 /// Applies Clear Abstraction: well-defined public interfaces for persona operations.
 pub mod persona;
 
+/// Memory management module.
+/// Provides cgroups v2 control, memory pressure monitoring, and OOM prevention.
+/// Follows Single Responsibility Principle: only manages memory subsystem.
+pub mod memory;
+
+/// Network management module.
+/// Provides network configuration, firewall rules, and connection tracking.
+/// Follows Single Responsibility Principle: only manages network subsystem.
+pub mod network;
+
+/// Security module.
+/// Provides secure boot verification, TPM 2.0 integration, and integrity checks.
+/// Follows Single Responsibility Principle: only manages security subsystem.
+pub mod security;
+
+/// Filesystem module.
+/// Provides filesystem management, ZFS/Btrfs support, and snapshot operations.
+/// Follows Single Responsibility Principle: only manages filesystem subsystem.
+pub mod filesystem;
+
+/// Power management module.
+/// Provides power control, battery optimization, and energy efficiency tuning.
+/// Follows Single Responsibility Principle: only manages power subsystem.
+pub mod power;
+
+/// Monitoring module.
+/// Provides system metrics, performance monitoring, and health checks.
+/// Follows Single Responsibility Principle: only manages monitoring subsystem.
+pub mod monitoring;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
+pub use memory::{MemoryManager, CgroupConfig, MemoryPressureLevel};
+pub use network::{NetworkManager, FirewallRule, NetworkProtocol, ConnectionState};
+pub use security::{SecurityManager, SecureBootState, TpmVersion, IntegrityCheck};
+pub use filesystem::{FileSystemManager, FileSystemType, Snapshot, MountOption};
+pub use power::{PowerManager, BatteryStatus, PowerProfile, TdpLevel};
+pub use monitoring::{MonitoringManager, SystemMetric, MetricType, HealthStatus};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {

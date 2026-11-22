@@ -22,16 +22,44 @@ SigmaOS is a **system library substrate** for building operating systems. It pro
 cargo add sigma-system
 
 # Import and use the library
-use sigma_system::{SystemAdjuster, GovernorMode, PersonaManager};
+use sigma_system::{
+    SystemAdjuster, GovernorMode, PersonaManager,
+    MemoryManager, NetworkManager, SecurityManager,
+    FileSystemManager, PowerManager, MonitoringManager
+};
 
 fn main() {
     // System tuning
     let adjuster = SystemAdjuster::default();
     println!("swappiness={}, governor={}", adjuster.swappiness(), adjuster.governor().as_str());
     
-    # Persona management
+    // Persona management
     let persona_mgr = PersonaManager::default();
     println!("Persona: {}", persona_mgr.current_label());
+    
+    // Memory management with cgroups
+    let memory_mgr = MemoryManager::default();
+    println!("Memory pressure: {}", memory_mgr.current_pressure.as_str());
+    
+    // Network firewall
+    let network_mgr = NetworkManager::new("eth0");
+    println!("Firewall rules: {}", network_mgr.rule_count());
+    
+    // Security (TPM, Secure Boot)
+    let security_mgr = SecurityManager::default();
+    println!("Security score: {}", security_mgr.security_score());
+    
+    // Filesystem (ZFS/Btrfs)
+    let fs_mgr = FileSystemManager::new(FileSystemType::Btrfs);
+    println!("Snapshots: {}", fs_mgr.get_snapshot_count());
+    
+    // Power management
+    let power_mgr = PowerManager::default();
+    println!("Profile: {}", power_mgr.profile.as_str());
+    
+    // System monitoring
+    let monitor_mgr = MonitoringManager::new();
+    println!("System health: {}", monitor_mgr.get_system_health().as_str());
 }
 ```
 
