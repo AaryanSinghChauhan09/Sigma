@@ -249,6 +249,11 @@ pub mod env_ops;
 /// Follows Single Responsibility Principle: only manages systemd operations.
 pub mod systemd_ops;
 
+/// DNS operations module.
+/// Provides actual DNS configuration using resolv.conf and resolvectl.
+/// Follows Single Responsibility Principle: only manages DNS operations.
+pub mod dns_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -298,6 +303,7 @@ pub use timezone_ops::{TimezoneOps, TimezoneError};
 pub use hostname_ops::{HostnameOps, HostnameError};
 pub use env_ops::{EnvOps, EnvError};
 pub use systemd_ops::{SystemdOps, SystemStatus, UnitStatus, SystemdError};
+pub use dns_ops::{DnsOps, DnsError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
