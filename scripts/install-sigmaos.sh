@@ -10,6 +10,7 @@ SIGMAOS_VERSION="SigmaOS $VERSION"
 
 echo "=== SigmaOS Installer ==="
 echo "$SIGMAOS_VERSION"
+echo "Based on Arch Linux"
 echo ""
 
 # Check for root
@@ -22,11 +23,13 @@ fi
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m'
 
 info() { echo -e "${GREEN}[INFO]${NC} $1"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 error() { echo -e "${RED}[ERROR]${NC} $1"; }
+step() { echo -e "${BLUE}[STEP]${NC} $1"; }
 
 # Installation variables
 TARGET_DISK=""
@@ -48,23 +51,40 @@ select_disk() {
     echo ""
     read -p "Select disk number (e.g., 1): " disk_num
     disk_name=$(lsblk -d -n -o NAME | sed -n "${disk_num}p")
+    
+    if [ -z "$disk_name" ]; then
+        error "Invalid disk selection"
+        exit 1
+    fi
+    
     TARGET_DISK="/dev/$disk_name"
     info "Selected disk: $TARGET_DISK"
+    
+    # Confirm
+    echo ""
+    warn "WARNING: All data on $TARGET_DISK will be erased!"
+    read -p "Continue? (yes/no): " confirm
+    if [ "$confirm" != "yes" ]; then
+        info "Installation cancelled"
+        exit 0
+    fi
 }
 
 partition_disk() {
-    info "Partitioning $TARGET_DISK..."
+    step "Partitioning $TARGET_DISK..."
     
     # Clear partition table
-    wipefs -a "$TARGET_DISK"
-    sgdisk --zap-all "$TARGET_DISK"
+    wipefs -a "$TARGET_DISK" 2>/dev/null || true
+    sgdisk --zap-all "$TARGET_DISK" 2>/dev/null || true
+    sleep 2
     
     # Create partitions: EFI (512M), Swap (2G), Root (rest)
     sgdisk -n 1:0:+512M -t 1:EF00 "$TARGET_DISK"  # EFI
     sgdisk -n 2:0:+2G -t 2:8200 "$TARGET_DISK"     # Swap
     sgdisk -n 3:0:0 -t 3:8300 "$TARGET_DISK"      # Root
     
-    partprobe "$TARGET_DISK"
+    partprobe "$TARGET_DISK" 2>/dev/null || true
+    sleep 2
     
     BOOT_PART="${TARGET_DISK}1"
     SWAP_PART="${TARGET_DISK}2"
@@ -77,17 +97,17 @@ partition_disk() {
 }
 
 format_partitions() {
-    info "Formatting partitions..."
+    step "Formatting partitions..."
     
     mkfs.vfat -F32 "$BOOT_PART"
-    mkfs.ext4 "$ROOT_PART"
+    mkfs.ext4 -F "$ROOT_PART"
     mkswap "$SWAP_PART"
     
     info "Partitions formatted"
 }
 
 mount_filesystems() {
-    info "Mounting filesystems..."
+    step "Mounting filesystems..."
     
     mount "$ROOT_PART" /mnt
     mkdir -p /mnt/boot
@@ -98,19 +118,25 @@ mount_filesystems() {
 }
 
 install_base_system() {
-    info "Installing base system..."
+    step "Installing base system..."
+    info "This may take several minutes..."
     
-    pacstrap -K /mnt base linux linux-firmware systemd networkmanager \
-               sudo vim nano bash coreutils findutils sed grep gawk \
-               tar gzip xz bzip2 zstd file which procps-ng util-linux \
-               grub efibootmgr mkinitcpio wpa_supplicant openssh \
-               iproute2 iptables nftables iputils curl wget git
+    pacstrap -K /mnt base linux linux-firmware linux-headers systemd \
+               networkmanager wpa_supplicant openssh sudo vim nano \
+               bash coreutils findutils sed grep gawk tar gzip xz bzip2 \
+               zstd file which procps-ng util-linux grub efibootmgr \
+               mkinitcpio dhclient dialog iw wireless-regdb iproute2 \
+               iptables nftables iputils curl wget git man-db man-pages \
+               tzdata locales kbd console-setup parted gptfdisk dosfstools \
+               e2fsprogs btrfs-progs xfsprogs cryptsetup lvm2 mdadm \
+               lm_sensors smartmontools nvme-cli usbutils pciutils htop \
+               iotop strace lsof tmux screen neofetch btop
     
     info "Base system installed"
 }
 
 configure_system() {
-    info "Configuring system..."
+    step "Configuring system..."
     
     # Generate fstab
     genfstab -U /mnt >> /mnt/etc/fstab
@@ -148,6 +174,8 @@ net.ipv4.tcp_congestion_control = bbr
 vm.swappiness = 10
 vm.dirty_ratio = 15
 vm.dirty_background_ratio = 5
+net.core.default_qdisc = fq
+net.ipv4.tcp_slow_start_after_idle = 0
 EOF
     
     # Create SigmaOS version file
@@ -155,22 +183,39 @@ EOF
     cat > /mnt/etc/sigmaos/version << EOF
 SigmaOS $VERSION
 Repository: https://github.com/AaryanSinghChauhan09/Sigma
+Based on: Arch Linux
+EOF
+    
+    # Create MOTD
+    cat > /mnt/etc/motd << 'EOF'
+==========================================
+       Welcome to SigmaOS
+==========================================
+
+SigmaOS is a Linux distribution based on Arch Linux.
+Repository: https://github.com/AaryanSinghChauhan09/Sigma
+
+Default user: sigmaos
+Default password: sigmaos
+
+Please change your password after first boot.
+==========================================
 EOF
     
     info "System configured"
 }
 
 install_bootloader() {
-    info "Installing bootloader..."
+    step "Installing bootloader..."
     
     chroot /mnt mkinitcpio -P
-    chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=SigmaOS
+    chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=SigmaOS --recheck
     
     cat > /mnt/etc/default/grub << 'EOF'
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="SigmaOS"
-GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 GRUB_CMDLINE_LINUX=""
 EOF
     
@@ -180,10 +225,10 @@ EOF
 }
 
 cleanup() {
-    info "Cleaning up..."
+    step "Cleaning up..."
     
-    umount -R /mnt
-    swapoff -a
+    umount -R /mnt 2>/dev/null || true
+    swapoff -a 2>/dev/null || true
     
     info "Installation complete!"
 }
@@ -192,12 +237,7 @@ cleanup() {
 main() {
     echo "This will install SigmaOS to a disk."
     echo "All data on the selected disk will be erased."
-    read -p "Continue? (yes/no): " confirm
-    
-    if [ "$confirm" != "yes" ]; then
-        info "Installation cancelled"
-        exit 0
-    fi
+    echo ""
     
     select_disk
     partition_disk
@@ -209,12 +249,19 @@ main() {
     cleanup
     
     echo ""
+    echo "=========================================="
     info "=== Installation Complete ==="
+    echo "=========================================="
+    echo ""
     echo "You can now reboot into your new SigmaOS system."
+    echo ""
     echo "Default user: $USERNAME"
     echo "Default password: sigmaos"
     echo ""
     echo "Please change your password after first boot."
+    echo ""
+    echo "To reboot: reboot"
+    echo "=========================================="
 }
 
 main
