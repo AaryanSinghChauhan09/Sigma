@@ -269,6 +269,11 @@ pub mod resource_monitor;
 /// Follows Single Responsibility Principle: only manages cron operations.
 pub mod cron_ops;
 
+/// Timer operations module.
+/// Provides actual systemd timer operations using systemctl.
+/// Follows Single Responsibility Principle: only manages timer operations.
+pub mod timer_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -322,6 +327,7 @@ pub use dns_ops::{DnsOps, DnsError};
 pub use file_watcher::{FileWatcher, FileEvent, FileEventType, FileWatcherError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
+pub use timer_ops::{TimerOps, TimerInfo, TimerError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
