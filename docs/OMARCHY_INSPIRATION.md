@@ -1,0 +1,94 @@
+# SigmaOS — Omarchy (omacom) Inspiration Map
+
+Every repository in `github.com/orgs/omacom/repositories` (93 repos) is mapped
+below to its SigmaOS counterpart and the concrete improvement to apply.
+Pattern source: omacom repo structure (AGENTS.md, CI workflows, registry
+manifests, plugin/theme marketplaces, archiso ISO pipeline, pkgs repo).
+
+## Direct equivalents (exist on SigmaOS side)
+
+| omacom repo | SigmaOS repo | Improvement to apply |
+|---|---|---|
+| omarchy | SigmaOS-omarchy | Mirror top-level layout: `bin/`, `config/`, `default/`, `install/`, `migrations/`, `shell/`, `agents/`; add `AGENTS.md` rules file |
+| omarchy-pkgs | SigmaOS-omarchy-pkgs | Add `pkgbuilds/`, `build/`, `release/`, `ci/`, `helpers/`, `tests/` dirs; package-build CI |
+| omarchy-iso | SigmaOS-omarchy-iso | Add `archiso/`, `builder/`, `configs/`, `manifests/`, `presets/` dirs; ISO build pipeline |
+| omarchy-ui | SigmaOS-omarchy-ui | Adopt omacom/quattro-style component registry |
+| mesa | (SigmaOS-mesa if present) | Wrap as component repo with PKGBUILD-style build |
+| m1n1 | — | Low priority; firmware blob repo if needed |
+| sddm | SigmaOS-sddm (if present) | Display-manager component packaging |
+| quickshell | SigmaOS-quickshell (if present) | Shell-component packaging |
+
+## Missing SigmaOS repos to create (staged locally)
+
+| omacom repo | Purpose | SigmaOS repo to create |
+|---|---|---|
+| omarchy-plugin-marketplace | Community plugin registry (registry.json + site + worker) | SigmaOS-plugin-marketplace |
+| omarchy-plugin-registry | Plugin index/metadata | SigmaOS-plugin-registry |
+| omarchy-theme-registry | Theme index (pnpm workspace, themes/, overrides/) | SigmaOS-theme-registry |
+| omarchy-theme-marketplace | Theme distribution | SigmaOS-theme-marketplace |
+| omarchy-themes-loops / -intros | Theme assets | fold into SigmaOS-themes |
+| omarchy-theme-sync | Theme sync tooling | SigmaOS-theme-sync |
+| omarchy-local-ai | Local model catalog for agent use | SigmaOS-local-ai |
+| omarchy-speedtest | Network speed test | SigmaOS-speedtest |
+| try-omarchy / try-omarchy-windows | Try-before-install live images | SigmaOS-live-media (already staged) + SigmaOS-try |
+| omarchy-site / -site-crt | Project website | SigmaOS-site |
+| omarchy-mac / -mac-installer / -mac-pkgs / -maclab / homebrew-mac | Apple Silicon support | SigmaOS-mac-support (single consolidated repo) |
+| omarchy-configurator | First-boot/system configurator | SigmaOS-configurator |
+| omarchy-fish / -zsh / -lazyvim | Shell/dotfile components | SigmaOS-shell-config |
+| omarchy-chromium | Browser component | SigmaOS-browser (exists) — add omarchy-chromium recipes |
+| omarchy-notification-center-plugin | Notifications | SigmaOS-notifications |
+| omarchy-port-forward-plugin | Port forwarding | SigmaOS-port-forward |
+| omarchy-screensaver / -amiga-screensaver | Screensavers | SigmaOS-screensaver |
+| omarchy-audio-tuner | Audio tuning | SigmaOS-audio-tuner |
+| omarchy-hyprland-titlebars | WM polish | SigmaOS-window-manager (exists) |
+| omarchy-mirror | Mirror/repo sync | SigmaOS-repomgr (exists in main crate) |
+| omarchy-pkgs → packages/tap | Packaging taps | SigmaOS-pkg-core (staged) |
+
+## omacom app/tool repos → SigmaOS app repos
+
+| omacom repo | SigmaOS repo |
+|---|---|
+| hype (Markdown presentations) | SigmaOS-hype |
+| signed (PDF sign/fill) | SigmaOS-signed |
+| plain (config text editor) | SigmaOS-plain |
+| folio | SigmaOS-folio |
+| omacalc | SigmaOS-omacalc |
+| omachee | SigmaOS-omachee |
+| omacon / omacon-site | SigmaOS-omacon |
+| omacut | SigmaOS-omacut |
+| omadots | SigmaOS-omadots |
+| omafind | SigmaOS-omafind |
+| omakub | SigmaOS-omakub |
+| omamac | SigmaOS-omamac |
+| omapager | SigmaOS-omapager |
+| omarchs | SigmaOS-omarchs |
+| omareel | SigmaOS-omareel |
+| omasnap | SigmaOS-omasnap |
+| omaterm / -site | SigmaOS-omaterm |
+| omaview | SigmaOS-omaview |
+| omawrite | SigmaOS-omawrite |
+| cards, checkmate, elsewhen, flowtunes, gliff, herdr, monologue, oligarchy, owe, pixel.nvim, aether, aether.nvim, lumon.nvim, ttfx, tte-go, wecanfixeverything, asdcontrol-git, state-of-omarchy, radio.omarchy.org, website, projects, people, repositories, openpgpkey, libva-v4l2_request, acestep-image, llamacpp-image, sdcpp-image, stable-diffusion.cpp, tensorfold-nemotron-bolt, fantasi, linux-aurora, macvdmtool | Evaluate per-repo; create SigmaOS-* only where a real component gap exists (avoid fragmentation — consolidate into category repos: SigmaOS-tools, SigmaOS-media, SigmaOS-ai, SigmaOS-themes) |
+
+## Cross-cutting improvements adopted org-wide
+
+1. **AGENTS.md** in every repo root — machine-readable rules for AI agents
+   (already partially present; standardize content: build/test commands,
+   principles, branch policy).
+2. **CI workflows** — omacom uses `.github/workflows` per repo; every SigmaOS
+   component repo gets `cargo test`, `cargo clippy -D warnings`, `cargo fmt
+   --check`, `cargo audit`.
+3. **Registry manifests** — plugin/theme/marketplace repos use a single
+   `registry.json` (or `COMPONENT.toml` already adopted) as the index.
+4. **Wiki-backed docs** — `.md` files live in each repo's GitHub Wiki; repos
+   keep only `wiki/` staging content until wiki init.
+5. **Shell-first tooling** — omacom is shell-heavy; SigmaOS keeps Rust core +
+   shell helpers (`tools-sigmaos.sh` pattern already added).
+6. **Single `main` branch**, merge after tests — matches existing policy.
+
+## Rules
+
+- No repo created without a real component behind it (no empty shells).
+- Consolidate similar omacom repos into one SigmaOS repo where sensible
+  (e.g. themes-loops + themes-intros → SigmaOS-themes).
+- All repos GPL-3.0-or-later, SigmaOS identity only, no upstream references
+  in shipped metadata.
