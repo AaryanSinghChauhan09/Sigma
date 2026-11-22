@@ -346,6 +346,11 @@ pub mod keyboard_ops;
 /// Follows Single Responsibility Principle: only manages locale operations.
 pub mod locale_ops;
 
+/// Display manager operations module.
+/// Provides actual display manager operations.
+/// Follows Single Responsibility Principle: only manages display operations.
+pub mod display_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -420,6 +425,7 @@ pub use scheduler_ops::{SchedulerOps as CpuScheduler, SchedulerPolicy, Scheduler
 pub use swap_ops::{SwapOps, SwapInfo, SwapError as SwapManagerError};
 pub use keyboard_ops::{KeyboardOps, KeyboardError as KeymapError};
 pub use locale_ops::{LocaleOps, LocaleError as SystemLocaleError};
+pub use display_ops::{DisplayOps, DisplayError as DisplayManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
