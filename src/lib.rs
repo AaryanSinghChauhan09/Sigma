@@ -94,6 +94,11 @@ pub mod time_sync;
 /// Follows Single Responsibility Principle: only manages user subsystem.
 pub mod user;
 
+/// Localization module.
+/// Provides locale management, internationalization, and timezone support.
+/// Follows Single Responsibility Principle: only manages locale subsystem.
+pub mod locale;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -112,6 +117,7 @@ pub use hardware::{HardwareManager, DeviceInfo, DeviceType, DeviceStatus, Hardwa
 pub use logging::{Logger, LogEntry, LogLevel, LogError};
 pub use time_sync::{TimeManager, NtpServer, TimeSource, TimeError};
 pub use user::{UserManager, User, Group, UserError};
+pub use locale::{LocaleManager, Locale, Timezone, Translation, LocaleError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
