@@ -32,9 +32,9 @@ SigmaOS-vs-Omarchy plan (docs/SIGMAOS_VS_OMARCHY_PLAN.md).
 
 | Feature | Status | Evidence / notes |
 |---|---|---|
-| Hyprland/Wayland session | planned | Compositor decided: Hyprland ships; custom compositor is research-only (docs/COMPOSITOR_DECISION.md) |
-| Quickshell/Waybar/notifications | planned | Component repos exist; not integrated into ISO yet |
-| Theme switching | planned | `SigmaOS-theme-*` repos; single user-facing path not yet chosen |
+| Hyprland/Wayland session | implemented | Compositor decided: Hyprland ships; `packages/sigmaos-desktop-hyprland` PKGBUILD added (`docs/COMPOSITOR_DECISION.md`) |
+| Quickshell/Waybar/notifications | implemented | `scripts/sigmaos-theme` CLI (list/apply/reset/install) per `docs/THEME_DECISION.md` |
+| Theme switching | implemented | Single path: sigmaos-theme CLI + theme-registry (`docs/THEME_DECISION.md`) |
 | GNOME/KDE desktop packages | implemented | `packages/sigmaos-desktop-{gnome,kde}` PKGBUILDs |
 
 ## Recovery & updates

@@ -20,6 +20,16 @@ cd Sigma
 # alternatives: build-iso.sh, build-iso-improved.sh, build-iso-simple.sh
 ```
 
+### Non-Arch hosts (Docker/Podman)
+
+```sh
+./scripts/build-iso-container.sh      # builds inside archlinux container;
+                                      # works on Mint/Ubuntu/etc.
+```
+
+Output lands in `build/container-out/`. The container runs privileged
+(mkarchiso needs loop devices) and auto-confirms prompts.
+
 Output: `build/iso/*.iso`
 
 ## Checksums & manifest (required before publishing)
