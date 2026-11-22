@@ -1,10 +1,13 @@
 [package]
 name = "sigma-system"
-version = "0.3.0"
+version = "0.5.0"
 edition = "2021"
 authors = ["Aaryan Singh Chauhan <aaryan.singh.chauhan.09@gmail.com>"]
 description = "SigmaOS System Foundation — comprehensive system library with memory, network, security, filesystem, power, and monitoring modules"
 license = "GPL-3.0-or-later"
+
+[workspace]
+members = [".", "cli"]
 
 [dependencies]
 

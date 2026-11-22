@@ -1,0 +1,16 @@
+[package]
+name = "sigmaos-cli"
+version = "0.5.0"
+edition = "2021"
+description = "SigmaOS command-line interface"
+license = "MIT"
+
+[[bin]]
+name = "sigmaos"
+path = "src/main.rs"
+
+[dependencies]
+sigma-system = { path = ".." }
+clap = { version = "4.4", features = ["derive"] }
+anyhow = "1.0"
+tokio = { version = "1.35", features = ["full"] }
