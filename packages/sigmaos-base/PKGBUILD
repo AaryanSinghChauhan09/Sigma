@@ -1,0 +1,21 @@
+# SigmaOS Package Build System
+# This directory contains SigmaOS-specific package definitions
+
+# SigmaOS metapackage for base system
+pkgname=sigmaos-base
+pkgver=0.5.0
+pkgrel=1
+pkgdesc="SigmaOS base system metapackage"
+arch=(x86_64)
+depends=(linux linux-firmware systemd bash coreutils findutils sed grep gawk)
+depends+=(tar gzip xz bzip2 zstd file which procps-ng util-linux)
+depends+=(grub efibootmgr mkinitcpio sudo polkit)
+depends+=(networkmanager wpa_supplicant openssh iproute2 iptables nftables)
+depends+=(vim nano less man-db man-pages tzdata locales kbd)
+depends+=(parted gptfdisk dosfstools e2fsprogs btrfs-progs xfsprogs)
+depends+=(git curl wget rsync ca-certificates)
+package() {
+    mkdir -p "$pkgdir/etc/sigmaos"
+    echo "SigmaOS $pkgver" > "$pkgdir/etc/sigmaos/version"
+    echo "Repository: https://github.com/AaryanSinghChauhan09/Sigma" >> "$pkgdir/etc/sigmaos/version"
+}

@@ -1,0 +1,16 @@
+# SigmaOS Desktop KDE Metapackage
+pkgname=sigmaos-desktop-kde
+pkgver=0.5.0
+pkgrel=1
+pkgdesc="SigmaOS KDE Plasma desktop metapackage"
+arch=(x86_64)
+depends=(plasma-desktop plasma-nm sddm kde-applications)
+depends+=(xorg-server xorg-drivers)
+depends+=(pipewire pipewire-pulse wireplumber)
+depends+=(bluez bluez-utils)
+depends+=(cups)
+depends+=(ttf-dejavu ttf-liberation noto-fonts)
+package() {
+    mkdir -p "$pkgdir/etc/sigmaos/desktop"
+    echo "kde" > "$pkgdir/etc/sigmaos/desktop/current"
+}

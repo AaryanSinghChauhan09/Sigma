@@ -1,0 +1,16 @@
+# SigmaOS Desktop GNOME Metapackage
+pkgname=sigmaos-desktop-gnome
+pkgver=0.5.0
+pkgrel=1
+pkgdesc="SigmaOS GNOME desktop metapackage"
+arch=(x86_64)
+depends=(gnome gnome-extra gdm)
+depends+=(xorg-server xorg-drivers)
+depends+=(pipewire pipewire-pulse wireplumber)
+depends+=(bluez bluez-utils)
+depends+=(cups)
+depends+=(ttf-dejavu ttf-liberation noto-fonts)
+package() {
+    mkdir -p "$pkgdir/etc/sigmaos/desktop"
+    echo "gnome" > "$pkgdir/etc/sigmaos/desktop/current"
+}

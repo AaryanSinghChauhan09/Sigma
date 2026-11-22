@@ -1,0 +1,182 @@
+#!/bin/bash
+# SigmaOS System Audit Tool
+# Security and system health auditing
+
+set -e
+
+VERSION="0.5.0"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+info() { echo -e "${GREEN}[INFO]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+error() { echo -e "${RED}[ERROR]${NC} $1"; }
+header() { echo -e "${BLUE}=== $1 ===${NC}"; }
+
+# Security audit
+security_audit() {
+    header "Security Audit"
+    
+    # Check for unprivileged user accounts
+    info "Checking user accounts..."
+    awk -F: '($3 >= 1000) && ($1 != "nobody") {print $1}' /etc/passwd
+    
+    # Check for sudo access
+    info "Checking sudo access..."
+    if [ -f /etc/sudoers ]; then
+        grep -v "^#" /etc/sudoers | grep -v "^$"
+    fi
+    
+    # Check for open ports
+    info "Checking open ports..."
+    if command -v ss &> /dev/null; then
+        ss -tuln
+    fi
+    
+    # Check for failed login attempts
+    info "Checking failed logins..."
+    if [ -f /var/log/auth.log ]; then
+        grep "Failed password" /var/log/auth.log | tail -10
+    fi
+}
+
+# System health check
+health_check() {
+    header "System Health Check"
+    
+    # Disk space
+    info "Disk space:"
+    df -h
+    
+    # Memory usage
+    info "Memory usage:"
+    free -h
+    
+    # CPU load
+    info "CPU load:"
+    uptime
+    
+    # Temperature
+    info "Temperature:"
+    if [ -d /sys/class/thermal ]; then
+        for zone in /sys/class/thermal/thermal_zone*; do
+            local temp=$(cat "$zone/temp" 2>/dev/null)
+            local name=$(cat "$zone/type" 2>/dev/null)
+            if [ ! -z "$temp" ]; then
+                echo "$name: $((temp / 1000))°C"
+            fi
+        done
+    fi
+    
+    # Failed services
+    info "Failed services:"
+    systemctl list-units --type=service --state=failed --no-pager
+}
+
+# Package audit
+package_audit() {
+    header "Package Audit"
+    
+    # Outdated packages
+    info "Outdated packages:"
+    pacman -Qu
+    
+    # Orphan packages
+    info "Orphan packages:"
+    pacman -Qtdq
+    
+    # Foreign packages
+    info "Foreign packages (AUR/other):"
+    pacman -Qm
+}
+
+# Configuration audit
+config_audit() {
+    header "Configuration Audit"
+    
+    # SigmaOS configuration
+    if [ -d /etc/sigmaos ]; then
+        info "SigmaOS configuration files:"
+        ls -la /etc/sigmaos/
+    fi
+    
+    # System configuration
+    info "System locale:"
+    cat /etc/locale.conf 2>/dev/null || echo "Not configured"
+    
+    info "System timezone:"
+    readlink /etc/localtime 2>/dev/null || echo "Not configured"
+    
+    info "Hostname:"
+    hostname
+}
+
+# Full audit
+full_audit() {
+    header "SigmaOS Full System Audit"
+    echo "Generated: $(date)"
+    echo ""
+    
+    security_audit
+    echo ""
+    health_check
+    echo ""
+    package_audit
+    echo ""
+    config_audit
+}
+
+# Show help
+help() {
+    cat << EOF
+SigmaOS System Audit Tool v$VERSION
+
+Usage: sigmaos-audit <command>
+
+Commands:
+    security           Security audit
+    health             System health check
+    package            Package audit
+    config             Configuration audit
+    full               Full system audit
+    help               Show this help
+
+Examples:
+    sudo sigmaos-audit security
+    sigmaos-audit health
+    sigmaos-audit full
+
+For more information, visit: https://github.com/AaryanSinghChauhan09/Sigma
+EOF
+}
+
+# Main
+case "$1" in
+    security)
+        security_audit
+        ;;
+    health)
+        health_check
+        ;;
+    package)
+        package_audit
+        ;;
+    config)
+        config_audit
+        ;;
+    full)
+        full_audit
+        ;;
+    help|--help|-h)
+        help
+        ;;
+    *)
+        help
+        exit 1
+        ;;
+esac
