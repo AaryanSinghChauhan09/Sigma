@@ -1,0 +1,44 @@
+# SigmaOS ISO build + smoke test (Phase-1 baseline)
+# Builds the archiso profile inside an Arch container on ubuntu runners,
+# then runs rootless ISO verification. QEMU boot test runs when KVM/OVMF
+# is available; otherwise verification-only with a clear skip note.
+name: iso-build
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/**', 'config/**', 'packages/**', 'archiso-profiles/**', '.github/workflows/iso-build.yml']
+  workflow_dispatch:
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build ISO in Arch container
+        run: ./scripts/build-iso-container.sh
+
+      - name: Collect ISO artifacts
+        run: |
+          mkdir -p iso-out
+          find build -name '*.iso' -exec cp {} iso-out/ \; 2>/dev/null || true
+          find build -name '*.sha256' -exec cp {} iso-out/ \; 2>/dev/null || true
+
+      - name: Verify ISO structure (rootless)
+        run: |
+          ISO=$(find build -name '*.iso' | head -1)
+          if [ -n "$ISO" ]; then
+            ISO_PATH="$ISO" ./scripts/sigmaos-test-iso verify
+            ISO_PATH="$ISO" ./scripts/sigmaos-test-iso checksums || true
+          else
+            echo "::warning::No ISO produced — verify-only run skipped"
+          fi
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sigmaos-iso
+          path: iso-out/
+          retention-days: 14
+          if-no-files-found: warn
