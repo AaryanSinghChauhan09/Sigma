@@ -506,6 +506,11 @@ pub mod email_ops;
 /// Follows Single Responsibility Principle: only manages notification operations.
 pub mod notify_ops;
 
+/// VPN operations module.
+/// Provides actual VPN operations via NetworkManager.
+/// Follows Single Responsibility Principle: only manages VPN operations.
+pub mod vpn_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -612,6 +617,7 @@ pub use platform_ops::{PlatformOps, PlatformError as PlatformManagerError};
 pub use cloud_ops::{CloudOps, CloudError as CloudManagerError};
 pub use email_ops::{EmailOps, EmailError as EmailManagerError};
 pub use notify_ops::{NotifyOps, NotifyError as NotifyManagerError};
+pub use vpn_ops::{VpnOps, VpnError as VpnManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
