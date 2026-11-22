@@ -179,6 +179,11 @@ pub mod pkg_install;
 /// Follows Single Responsibility Principle: only manages service operations.
 pub mod service;
 
+/// Kernel module management.
+/// Provides actual kernel module control using modprobe/lsmod.
+/// Follows Single Responsibility Principle: only manages kernel operations.
+pub mod kernel;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -214,6 +219,7 @@ pub use mem_ops::{MemOps, MemoryInfo, MemoryPressure, MemError};
 pub use cpu_ops::{CpuOps, CpuInfo, CpuUsage, CpuError};
 pub use pkg_install::{PackageInstaller, PackageInfo, InstallError};
 pub use service::{ServiceManager, ServiceInfo, ServiceStatus, ServiceError};
+pub use kernel::{KernelManager, ModuleInfo, ModuleState, KernelInfo, KernelError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
