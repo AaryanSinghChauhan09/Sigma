@@ -39,7 +39,10 @@ exec yes | $RUN run --rm -i \
     bash -c '
         set -e
         pacman -Sy --noconfirm --needed archiso git base-devel xorriso squashfs-tools
-        cp -a /src /work
+        # copy source excluding heavy build artifacts
+        mkdir -p /work
+        tar -C /src --exclude=./target --exclude=./build --exclude=./.git \
+            -cf - . | tar -C /work -xf -
         cd /work
         ./scripts/build-iso-archiso.sh
         mkdir -p /out
