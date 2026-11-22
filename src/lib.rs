@@ -331,6 +331,11 @@ pub mod repo_ops;
 /// Follows Single Responsibility Principle: only manages scheduler operations.
 pub mod scheduler_ops;
 
+/// Swap operations module.
+/// Provides actual swap management operations.
+/// Follows Single Responsibility Principle: only manages swap operations.
+pub mod swap_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -402,6 +407,7 @@ pub use disk_space_ops::{DiskSpaceOps, DiskSpace, DiskSpaceError};
 pub use uefi_ops::{UefiOps, BootEntry as UefiBootEntry, UefiError as UefiManagerError};
 pub use repo_ops::{RepoOps, RepoInfo, RepoError as RepoManagerError};
 pub use scheduler_ops::{SchedulerOps as CpuScheduler, SchedulerPolicy, SchedulerError as CpuSchedulerError};
+pub use swap_ops::{SwapOps, SwapInfo, SwapError as SwapManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
