@@ -1182,3 +1182,32 @@ pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
         current: SystemPersona::validate(initial),
     }
 }
+
+// Module declarations for new architectural patterns
+
+/// Command-Query Responsibility Segregation
+pub mod cqrs_ops;
+/// Inversion of Control container
+pub mod ioc_ops;
+/// Polymorphism for type flexibility
+pub mod poly_ops;
+/// Encapsulation for data protection
+pub mod encapsulation_ops;
+/// Inheritance for code reuse (used appropriately)
+pub mod inheritance_ops;
+/// Abstraction for hiding implementation details
+pub mod abstraction_ops;
+/// Design by contract for pre/post conditions
+pub mod contract_ops;
+/// Pragmatic programming for practical solutions
+pub mod pragma_ops;
+
+// Re-exports for new architectural pattern modules
+pub use cqrs_ops::{CqrsOps, Command, Query};
+pub use ioc_ops::{IocContainer};
+pub use poly_ops::{Animal, Dog, Cat};
+pub use encapsulation_ops::{Encapsulated};
+pub use inheritance_ops::{Vehicle, Car, Sedan};
+pub use abstraction_ops::{Abstraction};
+pub use contract_ops::{Contract};
+pub use pragma_ops::{PragmaticOps};
