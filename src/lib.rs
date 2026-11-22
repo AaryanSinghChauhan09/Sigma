@@ -259,6 +259,11 @@ pub mod dns_ops;
 /// Follows Single Responsibility Principle: only manages file watching.
 pub mod file_watcher;
 
+/// Sound operations module.
+/// Provides actual sound operations via pactl.
+/// Follows Single Responsibility Principle: only manages sound operations.
+pub mod sound_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -582,6 +587,7 @@ pub use env_ops::{EnvOps, EnvError};
 pub use systemd_ops::{SystemdOps, SystemStatus, UnitStatus, SystemdError};
 pub use dns_ops::{DnsOps, DnsError};
 pub use file_watcher::{FileWatcherOps, FileWatcherError};
+pub use sound_ops::{SoundOps, SoundError as SoundManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
