@@ -507,6 +507,10 @@ pub mod error_ops;
 pub mod refactor_ops;
 /// Spec-driven development operations
 pub mod spec_ops;
+/// Zero-copy operations for efficient data transfer
+pub mod zero_copy_ops;
+/// Hypervisor operations for virtualization
+pub mod hypervisor_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -803,6 +807,10 @@ pub mod error_ops;
 pub mod refactor_ops;
 /// Spec-driven development operations
 pub mod spec_ops;
+/// Zero-copy operations for efficient data transfer
+pub mod zero_copy_ops;
+/// Hypervisor operations for virtualization
+pub mod hypervisor_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
