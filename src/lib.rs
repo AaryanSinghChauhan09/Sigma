@@ -439,6 +439,36 @@ pub mod auditmgr_ops;
 /// Follows Single Responsibility Principle: only manages release operations.
 pub mod releasemgr_ops;
 
+/// Async operations module.
+/// Provides async I/O operations using tokio.
+/// Follows principles: Asynchronous I/O & Event Loops, Race-Free Design, Safe Concurrency.
+pub mod async_ops;
+
+/// Atomic operations module.
+/// Provides atomic operations for thread-safe counters.
+/// Follows principles: Atomic Operations, Race-Free Design, Safe Concurrency.
+pub mod atomic_ops;
+
+/// Cache operations module.
+/// Provides cache-conscious operations for efficient data access.
+/// Follows principles: Cache Conscious Design, Locality of Reference.
+pub mod cache_ops;
+
+/// Cross-platform operations module.
+/// Provides cross-platform operations for Linux, macOS, Windows.
+/// Follows principles: Cross Platform Compatibility, Portability.
+pub mod crossplatform_ops;
+
+/// Event loop operations module.
+/// Provides event loop operations for async event handling.
+/// Follows principles: Asynchronous I/O & Event Loops, Race-Free Design.
+pub mod eventloop_ops;
+
+/// Instrumentation module.
+/// Provides instrumentation for monitoring and logging system events.
+/// Follows principles: Instrumentation, Log Everything.
+pub mod instrumentation_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -665,6 +695,36 @@ pub mod auditmgr_ops;
 /// Provides release management operations via sigmaos-release.
 /// Follows Single Responsibility Principle: only manages release operations.
 pub mod releasemgr_ops;
+
+/// Async operations module.
+/// Provides async I/O operations using tokio.
+/// Follows principles: Asynchronous I/O & Event Loops, Race-Free Design, Safe Concurrency.
+pub mod async_ops;
+
+/// Atomic operations module.
+/// Provides atomic operations for thread-safe counters.
+/// Follows principles: Atomic Operations, Race-Free Design, Safe Concurrency.
+pub mod atomic_ops;
+
+/// Cache operations module.
+/// Provides cache-conscious operations for efficient data access.
+/// Follows principles: Cache Conscious Design, Locality of Reference.
+pub mod cache_ops;
+
+/// Cross-platform operations module.
+/// Provides cross-platform operations for Linux, macOS, Windows.
+/// Follows principles: Cross Platform Compatibility, Portability.
+pub mod crossplatform_ops;
+
+/// Event loop operations module.
+/// Provides event loop operations for async event handling.
+/// Follows principles: Asynchronous I/O & Event Loops, Race-Free Design.
+pub mod eventloop_ops;
+
+/// Instrumentation module.
+/// Provides instrumentation for monitoring and logging system events.
+/// Follows principles: Instrumentation, Log Everything.
+pub mod instrumentation_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -903,6 +963,8 @@ pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
 pub use backupmgr_ops::{BackupMgrOps, BackupMgrError as BackupManagerError};
 pub use auditmgr_ops::{AuditMgrOps, AuditMgrError as AuditManagerError};
 pub use releasemgr_ops::{ReleaseMgrOps, ReleaseMgrError as ReleaseManagerError};
+pub use async_ops::{AsyncOps, AsyncError as AsyncManagerError};
+pub use atomic_ops::{AtomicOps};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -949,6 +1011,8 @@ pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
 pub use backupmgr_ops::{BackupMgrOps, BackupMgrError as BackupManagerError};
 pub use auditmgr_ops::{AuditMgrOps, AuditMgrError as AuditManagerError};
 pub use releasemgr_ops::{ReleaseMgrOps, ReleaseMgrError as ReleaseManagerError};
+pub use async_ops::{AsyncOps, AsyncError as AsyncManagerError};
+pub use atomic_ops::{AtomicOps};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
