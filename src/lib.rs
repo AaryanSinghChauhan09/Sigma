@@ -279,6 +279,11 @@ pub mod timer_ops;
 /// Follows Single Responsibility Principle: only manages session operations.
 pub mod session_ops;
 
+/// Firewall operations module.
+/// Provides actual firewall operations using iptables and nftables.
+/// Follows Single Responsibility Principle: only manages firewall operations.
+pub mod firewall_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -334,6 +339,7 @@ pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
 pub use session_ops::{SessionOps, SessionInfo, SessionError};
+pub use firewall_ops::{FirewallOps as FwManager, FirewallRule as FwRule, FirewallBackend as FwBackend, FirewallError as FwManagerError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
