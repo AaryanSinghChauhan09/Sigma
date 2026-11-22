@@ -114,6 +114,11 @@ pub mod backup;
 /// Follows Single Responsibility Principle: only manages update subsystem.
 pub mod update;
 
+/// Desktop module.
+/// Provides desktop environment, display server, and window manager management.
+/// Follows Single Responsibility Principle: only manages desktop subsystem.
+pub mod desktop;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -136,6 +141,7 @@ pub use locale::{LocaleManager, Locale, Timezone, Translation, LocaleError};
 pub use cron::{CronManager, CronJob, CronError};
 pub use backup::{BackupManager, Backup, BackupType, BackupStatus, BackupSchedule, BackupError};
 pub use update::{UpdateManager, Update, UpdateType, UpdateStatus, UpdateError};
+pub use desktop::{DesktopManager, DesktopSession, DesktopEnvironment, DisplayServer, WindowManager, DesktopError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
