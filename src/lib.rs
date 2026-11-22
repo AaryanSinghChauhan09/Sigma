@@ -489,6 +489,10 @@ pub mod resource_pool_ops;
 pub mod connection_pool_ops;
 /// Mutex operations for thread synchronization
 pub mod mutex_ops;
+/// Read-write lock for concurrent access
+pub mod rwlock_ops;
+/// Barrier for thread synchronization
+pub mod barrier_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -767,6 +771,10 @@ pub mod resource_pool_ops;
 pub mod connection_pool_ops;
 /// Mutex operations for thread synchronization
 pub mod mutex_ops;
+/// Read-write lock for concurrent access
+pub mod rwlock_ops;
+/// Barrier for thread synchronization
+pub mod barrier_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
