@@ -503,6 +503,10 @@ pub mod condition_ops;
 pub mod interrupt_ops;
 /// Comprehensive error handling operations
 pub mod error_ops;
+/// Refactoring operations for code improvement
+pub mod refactor_ops;
+/// Spec-driven development operations
+pub mod spec_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -795,6 +799,10 @@ pub mod condition_ops;
 pub mod interrupt_ops;
 /// Comprehensive error handling operations
 pub mod error_ops;
+/// Refactoring operations for code improvement
+pub mod refactor_ops;
+/// Spec-driven development operations
+pub mod spec_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
