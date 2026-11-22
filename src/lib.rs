@@ -361,6 +361,11 @@ pub mod audio_ops;
 /// Follows Single Responsibility Principle: only manages container operations.
 pub mod container_ops;
 
+/// Virtualization operations module.
+/// Provides actual virtualization operations using libvirt/virsh.
+/// Follows Single Responsibility Principle: only manages virtualization operations.
+pub mod virt_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -438,6 +443,7 @@ pub use locale_ops::{LocaleOps, LocaleError as SystemLocaleError};
 pub use display_ops::{DisplayOps, DisplayError as DisplayManagerError};
 pub use audio_ops::{AudioOps, AudioSink, AudioError as AudioManagerError};
 pub use container_ops::{ContainerOps as CtnManager, ContainerInfo, ContainerError as ContainerManagerError};
+pub use virt_ops::{VirtOps as VmManager, VmInfo, VirtError as VirtManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.

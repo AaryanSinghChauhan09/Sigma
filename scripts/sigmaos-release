@@ -1,0 +1,253 @@
+#!/bin/bash
+# SigmaOS Release Management
+# Inspired by Arch Linux release management
+
+set -e
+
+VERSION="0.5.0"
+RELEASE_DIR="/var/lib/sigmaos/releases"
+CURRENT_LINK="/var/lib/sigmaos/current"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+info() { echo -e "${GREEN}[INFO]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+# Create a new release snapshot
+create_release() {
+    local version="$1"
+    
+    if [ -z "$version" ]; then
+        version="sigmaos-$(date +%Y%m%d)"
+    fi
+    
+    info "Creating release snapshot: $version"
+    
+    mkdir -p "$RELEASE_DIR"
+    local release_path="$RELEASE_DIR/$version"
+    
+    # Create release directory
+    mkdir -p "$release_path"
+    
+    # Copy system configuration
+    if [ -d "/etc/sigmaos" ]; then
+        cp -r /etc/sigmaos "$release_path/"
+    fi
+    
+    # Copy package list
+    pacman -Q > "$release_path/packages.txt"
+    
+    # Create release metadata
+    cat > "$release_path/release.json" << EOF
+{
+    "version": "$version",
+    "date": "$(date -Iseconds)",
+    "kernel": "$(uname -r)",
+    "packages": $(pacman -Q | wc -l)
+}
+EOF
+    
+    info "Release created: $release_path"
+}
+
+# List all releases
+list_releases() {
+    info "SigmaOS releases:"
+    
+    if [ ! -d "$RELEASE_DIR" ]; then
+        warn "No releases found"
+        return
+    fi
+    
+    for release in "$RELEASE_DIR"/*; do
+        if [ -d "$release" ]; then
+            local name=$(basename "$release")
+            local current=""
+            if [ -L "$CURRENT_LINK" ] && [ "$(readlink $CURRENT_LINK)" = "$release" ]; then
+                current=" (current)"
+            fi
+            echo "  $name$current"
+        fi
+    done
+}
+
+# Set current release
+set_current() {
+    local version="$1"
+    
+    if [ -z "$version" ]; then
+        error "Usage: sigmaos-release set-current <version>"
+        exit 1
+    fi
+    
+    local release_path="$RELEASE_DIR/$version"
+    
+    if [ ! -d "$release_path" ]; then
+        error "Release not found: $version"
+        exit 1
+    fi
+    
+    info "Setting current release: $version"
+    
+    ln -sf "$release_path" "$CURRENT_LINK"
+    
+    info "Current release set to: $version"
+}
+
+# Show release info
+info_release() {
+    local version="$1"
+    
+    if [ -z "$version" ]; then
+        if [ -L "$CURRENT_LINK" ]; then
+            version=$(basename "$(readlink $CURRENT_LINK)")
+        else
+            error "No current release set"
+            exit 1
+        fi
+    fi
+    
+    local release_path="$RELEASE_DIR/$version"
+    
+    if [ ! -d "$release_path" ]; then
+        error "Release not found: $version"
+        exit 1
+    fi
+    
+    info "Release: $version"
+    
+    if [ -f "$release_path/release.json" ]; then
+        cat "$release_path/release.json"
+    fi
+    
+    echo ""
+    echo "Packages: $(wc -l < $release_path/packages.txt)"
+}
+
+# Rollback to previous release
+rollback() {
+    local version="$1"
+    
+    if [ -z "$version" ]; then
+        error "Usage: sigmaos-release rollback <version>"
+        exit 1
+    fi
+    
+    info "Rolling back to: $version"
+    
+    local release_path="$RELEASE_DIR/$version"
+    
+    if [ ! -d "$release_path" ]; then
+        error "Release not found: $version"
+        exit 1
+    fi
+    
+    # Restore packages
+    warn "This will reinstall packages from the release snapshot"
+    read -p "Continue? (yes/no): " confirm
+    
+    if [ "$confirm" != "yes" ]; then
+        info "Rollback cancelled"
+        exit 0
+    fi
+    
+    # Read package list and reinstall
+    while read -r pkg; do
+        local name=$(echo "$pkg" | awk '{print $1}')
+        local version=$(echo "$pkg" | awk '{print $2}')
+        info "Reinstalling: $name $version"
+        pacman -S "$name=$version" --noconfirm || warn "Failed to reinstall $name"
+    done < "$release_path/packages.txt"
+    
+    info "Rollback complete"
+}
+
+# Clean old releases
+clean() {
+    local keep="${1:-3}"
+    
+    info "Cleaning old releases (keeping $keep most recent)"
+    
+    if [ ! -d "$RELEASE_DIR" ]; then
+        warn "No releases found"
+        return
+    fi
+    
+    # List releases sorted by date
+    local releases=($(ls -t "$RELEASE_DIR"))
+    
+    local count=0
+    for release in "${releases[@]}"; do
+        count=$((count + 1))
+        if [ $count -gt $keep ]; then
+            info "Removing: $release"
+            rm -rf "$RELEASE_DIR/$release"
+        fi
+    done
+    
+    info "Cleanup complete"
+}
+
+# Show help
+help() {
+    cat << EOF
+SigmaOS Release Management v$VERSION
+
+Usage: sigmaos-release <command> [options]
+
+Commands:
+    create [version]     Create a new release snapshot
+    list                 List all releases
+    set-current <ver>    Set current release
+    info [version]       Show release information
+    rollback <ver>       Rollback to previous release
+    clean [keep]         Clean old releases (default: keep 3)
+    help                 Show this help
+
+Examples:
+    sigmaos-release create
+    sigmaos-release create sigmaos-20250101
+    sigmaos-release list
+    sigmaos-release set-current sigmaos-20250101
+    sigmaos-release info
+    sigmaos-release rollback sigmaos-20250101
+    sigmaos-release clean 5
+
+For more information, visit: https://github.com/AaryanSinghChauhan09/Sigma
+EOF
+}
+
+# Main
+case "$1" in
+    create)
+        create_release "$2"
+        ;;
+    list)
+        list_releases
+        ;;
+    set-current)
+        set_current "$2"
+        ;;
+    info)
+        info_release "$2"
+        ;;
+    rollback)
+        rollback "$2"
+        ;;
+    clean)
+        clean "$2"
+        ;;
+    help|--help|-h)
+        help
+        ;;
+    *)
+        help
+        exit 1
+        ;;
+esac
