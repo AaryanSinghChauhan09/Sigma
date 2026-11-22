@@ -199,6 +199,11 @@ pub mod log_ops;
 /// Follows Single Responsibility Principle: only manages system info.
 pub mod sys_info;
 
+/// Thermal monitoring module.
+/// Provides actual thermal monitoring using /sys/class/thermal.
+/// Follows Single Responsibility Principle: only manages thermal operations.
+pub mod thermal;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -238,6 +243,7 @@ pub use kernel::{KernelManager, ModuleInfo, ModuleState, KernelInfo, KernelError
 pub use disk::{DiskManager, DiskInfo, PartitionInfo, FilesystemInfo, DiskError};
 pub use log_ops::{LogOps, LogEntry as SysLogEntry, LogLevel as SysLogLevel, LogError as SysLogError};
 pub use sys_info::{SysInfo, SystemInfo, SysInfoError};
+pub use thermal::{ThermalMonitor, TemperatureReadings, ThermalZone, ThermalError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
