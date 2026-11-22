@@ -1,0 +1,193 @@
+#!/bin/bash
+# SigmaOS Package Manager Wrapper
+# Extends pacman with SigmaOS-specific features
+
+set -e
+
+VERSION="0.5.0"
+SIGMAOS_REPO="/etc/sigmaos/repo"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+info() { echo -e "${GREEN}[INFO]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+# Initialize SigmaOS repository
+init_repo() {
+    info "Initializing SigmaOS package repository..."
+    
+    mkdir -p "$SIGMAOS_REPO"
+    mkdir -p "$SIGMAOS_REPO/pkgs"
+    mkdir -p "$SIGMAOS_REPO/cache"
+    
+    # Create repository index
+    if [ ! -f "$SIGMAOS_REPO/sigmaos.db" ]; then
+        touch "$SIGMAOS_REPO/sigmaos.db"
+        info "Created SigmaOS repository index"
+    fi
+    
+    info "SigmaOS repository initialized"
+}
+
+# Add package to SigmaOS repository
+add_pkg() {
+    local pkg_file="$1"
+    
+    if [ ! -f "$pkg_file" ]; then
+        error "Package file not found: $pkg_file"
+        exit 1
+    fi
+    
+    info "Adding package to SigmaOS repository: $pkg_file"
+    
+    cp "$pkg_file" "$SIGMAOS_REPO/pkgs/"
+    repo-add "$SIGMAOS_REPO/sigmaos.db.tar.gz" "$SIGMAOS_REPO/pkgs/$(basename $pkg_file)"
+    
+    info "Package added to repository"
+}
+
+# List SigmaOS packages
+list_pkgs() {
+    info "SigmaOS packages:"
+    
+    if [ -f "$SIGMAOS_REPO/sigmaos.db.tar.gz" ]; then
+        repo-query -l "$SIGMAOS_REPO/sigmaos.db.tar.gz"
+    else
+        warn "No SigmaOS packages found"
+    fi
+}
+
+# Install from SigmaOS repository
+install_sigmapkg() {
+    local pkg_name="$1"
+    
+    info "Installing SigmaOS package: $pkg_name"
+    
+    pacman -S "$SIGMAOS_REPO/sigmaos/$pkg_name"
+    
+    info "Package installed"
+}
+
+# Update SigmaOS repository
+update_repo() {
+    info "Updating SigmaOS repository..."
+    
+    # Sync with remote if configured
+    if [ -f "$SIGMAOS_REPO/remote" ]; then
+        remote=$(cat "$SIGMAOS_REPO/remote")
+        info "Syncing with remote: $remote"
+        # Add sync logic here
+    fi
+    
+    info "Repository updated"
+}
+
+# Show package information
+info_pkg() {
+    local pkg_name="$1"
+    
+    pacman -Si "$pkg_name"
+}
+
+# Search packages
+search() {
+    local query="$1"
+    
+    info "Searching for: $query"
+    pacman -Ss "$query"
+}
+
+# Clean repository
+clean() {
+    info "Cleaning SigmaOS repository..."
+    
+    rm -rf "$SIGMAOS_REPO/cache"/*
+    
+    info "Repository cleaned"
+}
+
+# Show help
+help() {
+    cat << EOF
+SigmaOS Package Manager v$VERSION
+
+Usage: sigmaos-pkg <command> [options]
+
+Commands:
+    init                Initialize SigmaOS repository
+    add <file>          Add package to repository
+    list                List SigmaOS packages
+    install <pkg>       Install from SigmaOS repository
+    update              Update SigmaOS repository
+    info <pkg>          Show package information
+    search <query>      Search packages
+    clean               Clean repository cache
+    help                Show this help
+
+Examples:
+    sigmaos-pkg init
+    sigmaos-pkg add mypackage-1.0-1-x86_64.pkg.tar.zst
+    sigmaos-pkg list
+    sigmaos-pkg install mypackage
+    sigmaos-pkg search firefox
+
+For more information, visit: https://github.com/AaryanSinghChauhan09/Sigma
+EOF
+}
+
+# Main
+case "$1" in
+    init)
+        init_repo
+        ;;
+    add)
+        if [ -z "$2" ]; then
+            error "Usage: sigmaos-pkg add <package-file>"
+            exit 1
+        fi
+        add_pkg "$2"
+        ;;
+    list)
+        list_pkgs
+        ;;
+    install)
+        if [ -z "$2" ]; then
+            error "Usage: sigmaos-pkg install <package-name>"
+            exit 1
+        fi
+        install_sigmapkg "$2"
+        ;;
+    update)
+        update_repo
+        ;;
+    info)
+        if [ -z "$2" ]; then
+            error "Usage: sigmaos-pkg info <package-name>"
+            exit 1
+        fi
+        info_pkg "$2"
+        ;;
+    search)
+        if [ -z "$2" ]; then
+            error "Usage: sigmaos-pkg search <query>"
+            exit 1
+        fi
+        search "$2"
+        ;;
+    clean)
+        clean
+        ;;
+    help|--help|-h)
+        help
+        ;;
+    *)
+        # Pass through to pacman for other commands
+        pacman "$@"
+        ;;
+esac

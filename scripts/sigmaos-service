@@ -1,0 +1,248 @@
+#!/bin/bash
+# SigmaOS Service Manager
+# Extended systemd wrapper with SigmaOS-specific features
+
+set -e
+
+VERSION="0.5.0"
+SERVICE_DIR="/etc/sigmaos/services"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+info() { echo -e "${GREEN}[INFO]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+# Initialize SigmaOS service configuration
+init_services() {
+    info "Initializing SigmaOS service configuration..."
+    
+    mkdir -p "$SERVICE_DIR"
+    
+    # Create default service profiles
+    if [ ! -f "$SERVICE_DIR/default.services" ]; then
+        cat > "$SERVICE_DIR/default.services" << 'EOF'
+# SigmaOS Default Services
+# Essential services for a functional SigmaOS system
+
+[core]
+NetworkManager
+systemd-timesyncd
+sshd
+
+[desktop]
+gdm
+sddm
+lightdm
+
+[audio]
+pipewire
+pipewire-pulse
+wireplumber
+
+[bluetooth]
+bluetooth
+
+[printing]
+cups
+EOF
+        info "Created default service configuration"
+    fi
+    
+    info "Service configuration initialized"
+}
+
+# Enable service profile
+enable_profile() {
+    local profile="$1"
+    
+    info "Enabling service profile: $profile"
+    
+    if [ ! -f "$SERVICE_DIR/$profile.services" ]; then
+        error "Profile not found: $profile"
+        exit 1
+    fi
+    
+    # Parse and enable services
+    local section=""
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^\[.*\]$ ]]; then
+            section="${line:1:-1}"
+        elif [[ ! "$line" =~ ^# ]] && [[ ! "$line" =~ ^$ ]]; then
+            local service="$line"
+            info "Enabling service: $service"
+            systemctl enable "$service" 2>/dev/null || warn "Failed to enable $service"
+        fi
+    done < "$SERVICE_DIR/$profile.services"
+    
+    info "Service profile enabled"
+}
+
+# List SigmaOS service profiles
+list_profiles() {
+    info "SigmaOS service profiles:"
+    
+    for file in "$SERVICE_DIR"/*.services; do
+        if [ -f "$file" ]; then
+            local name=$(basename "$file" .services)
+            echo "  $name"
+        fi
+    done
+}
+
+# Show service status
+status() {
+    local service="$1"
+    
+    if [ -z "$service" ]; then
+        info "=== SigmaOS Service Status ==="
+        systemctl list-units --type=service --state=running
+    else
+        systemctl status "$service"
+    fi
+}
+
+# Enable service
+enable() {
+    local service="$1"
+    
+    info "Enabling service: $service"
+    systemctl enable "$service"
+    systemctl start "$service"
+    info "Service enabled and started"
+}
+
+# Disable service
+disable() {
+    local service="$1"
+    
+    info "Disabling service: $service"
+    systemctl stop "$service"
+    systemctl disable "$service"
+    info "Service disabled and stopped"
+}
+
+# Restart service
+restart() {
+    local service="$1"
+    
+    info "Restarting service: $service"
+    systemctl restart "$service"
+    info "Service restarted"
+}
+
+# Show service logs
+logs() {
+    local service="$1"
+    
+    if [ -z "$service" ]; then
+        error "Usage: sigmaos-service logs <service>"
+        exit 1
+    fi
+    
+    journalctl -u "$service" -f
+}
+
+# Show failed services
+failed() {
+    info "Failed services:"
+    systemctl list-units --type=service --state=failed
+}
+
+# Show help
+help() {
+    cat << EOF
+SigmaOS Service Manager v$VERSION
+
+Usage: sigmaos-service <command> [options]
+
+Commands:
+    init                    Initialize service configuration
+    profile enable <name>   Enable service profile
+    profile list            List service profiles
+    status [service]        Show service status
+    enable <service>        Enable and start service
+    disable <service>       Disable and stop service
+    restart <service>       Restart service
+    logs <service>          Show service logs
+    failed                  Show failed services
+    help                    Show this help
+
+Examples:
+    sigmaos-service init
+    sigmaos-service profile enable core
+    sigmaos-service profile list
+    sigmaos-service status
+    sigmaos-service enable NetworkManager
+    sigmaos-service logs sshd
+
+For more information, visit: https://github.com/AaryanSinghChauhan09/Sigma
+EOF
+}
+
+# Main
+case "$1" in
+    init)
+        init_services
+        ;;
+    profile)
+        case "$2" in
+            enable)
+                if [ -z "$3" ]; then
+                    error "Usage: sigmaos-service profile enable <name>"
+                    exit 1
+                fi
+                enable_profile "$3"
+                ;;
+            list)
+                list_profiles
+                ;;
+            *)
+                error "Unknown profile command: $2"
+                exit 1
+                ;;
+        esac
+        ;;
+    status)
+        status "$2"
+        ;;
+    enable)
+        if [ -z "$2" ]; then
+            error "Usage: sigmaos-service enable <service>"
+            exit 1
+        fi
+        enable "$2"
+        ;;
+    disable)
+        if [ -z "$2" ]; then
+            error "Usage: sigmaos-service disable <service>"
+            exit 1
+        fi
+        disable "$2"
+        ;;
+    restart)
+        if [ -z "$2" ]; then
+            error "Usage: sigmaos-service restart <service>"
+            exit 1
+        fi
+        restart "$2"
+        ;;
+    logs)
+        logs "$2"
+        ;;
+    failed)
+        failed
+        ;;
+    help|--help|-h)
+        help
+        ;;
+    *)
+        help
+        exit 1
+        ;;
+esac

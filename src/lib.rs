@@ -356,6 +356,11 @@ pub mod display_ops;
 /// Follows Single Responsibility Principle: only manages audio operations.
 pub mod audio_ops;
 
+/// Container operations module.
+/// Provides actual container operations using Podman/Docker.
+/// Follows Single Responsibility Principle: only manages container operations.
+pub mod container_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -432,6 +437,7 @@ pub use keyboard_ops::{KeyboardOps, KeyboardError as KeymapError};
 pub use locale_ops::{LocaleOps, LocaleError as SystemLocaleError};
 pub use display_ops::{DisplayOps, DisplayError as DisplayManagerError};
 pub use audio_ops::{AudioOps, AudioSink, AudioError as AudioManagerError};
+pub use container_ops::{ContainerOps as CtnManager, ContainerInfo, ContainerError as ContainerManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
