@@ -50,7 +50,7 @@ pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
 
 #[derive(Debug, Clone)]
 pub struct PersonaManager {
-    current: SystemPersona,
+    pub current: SystemPersona,
 }
 
 impl Default for PersonaManager {
