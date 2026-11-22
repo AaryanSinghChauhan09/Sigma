@@ -391,6 +391,11 @@ pub mod sensor_ops;
 /// Follows Single Responsibility Principle: only manages RAID operations.
 pub mod raid_ops;
 
+/// LVM operations module.
+/// Provides actual LVM operations using lvm commands.
+/// Follows Single Responsibility Principle: only manages LVM operations.
+pub mod lvm_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -474,6 +479,7 @@ pub use timesync_ops::{TimeSyncOps, TimeSyncError as NtpSyncError};
 pub use camera_ops::{CameraOps, CameraInfo, CameraError as CameraManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
+pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
