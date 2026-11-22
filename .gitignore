@@ -1,4 +1,5 @@
 target/
 *.md
 !README.md
+!wiki/*.md
 *.txt
