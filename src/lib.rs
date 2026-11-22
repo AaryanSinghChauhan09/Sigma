@@ -134,6 +134,11 @@ pub mod printing;
 /// Follows Single Responsibility Principle: only manages Bluetooth subsystem.
 pub mod bluetooth;
 
+/// USB module.
+/// Provides USB device enumeration and management.
+/// Follows Single Responsibility Principle: only manages USB subsystem.
+pub mod usb;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -160,6 +165,7 @@ pub use desktop::{DesktopManager, DesktopSession, DesktopEnvironment, DisplaySer
 pub use virtualization::{VirtualizationManager, Vm, VmConfig, VmStatus, ContainerConfig, VirtualizationError};
 pub use printing::{PrintManager, Printer, PrinterType, PrinterStatus, PrintJob, JobStatus, PrintError};
 pub use bluetooth::{BluetoothManager, BluetoothDevice, BluetoothAdapter, BluetoothDeviceType, BluetoothDeviceStatus, BluetoothError};
+pub use usb::{UsbManager, UsbDevice, UsbHub, UsbDeviceType, UsbDeviceStatus, UsbError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
