@@ -32,7 +32,7 @@ SigmaOS-vs-Omarchy plan (docs/SIGMAOS_VS_OMARCHY_PLAN.md).
 
 | Feature | Status | Evidence / notes |
 |---|---|---|
-| Hyprland/Wayland session | planned | Listed in README/desktop docs; compositor repo ambiguity unresolved |
+| Hyprland/Wayland session | planned | Compositor decided: Hyprland ships; custom compositor is research-only (docs/COMPOSITOR_DECISION.md) |
 | Quickshell/Waybar/notifications | planned | Component repos exist; not integrated into ISO yet |
 | Theme switching | planned | `SigmaOS-theme-*` repos; single user-facing path not yet chosen |
 | GNOME/KDE desktop packages | implemented | `packages/sigmaos-desktop-{gnome,kde}` PKGBUILDs |
@@ -58,5 +58,5 @@ SigmaOS-vs-Omarchy plan (docs/SIGMAOS_VS_OMARCHY_PLAN.md).
 
 - [ ] ISO built from clean environment with published checksums
 - [ ] QEMU smoke tests run against a real ISO artifact
-- [ ] Compositor ambiguity resolved (Hyprland vs custom compositor repo)
+- [x] Compositor ambiguity resolved — Hyprland ships, custom compositor research-only (`docs/COMPOSITOR_DECISION.md`)
 - [ ] Component/repo counts reconciled in README
