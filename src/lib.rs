@@ -239,6 +239,11 @@ pub mod timezone_ops;
 /// Follows Single Responsibility Principle: only manages hostname operations.
 pub mod hostname_ops;
 
+/// Environment variables module.
+/// Provides actual environment variable operations.
+/// Follows Single Responsibility Principle: only manages environment variables.
+pub mod env_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -286,6 +291,7 @@ pub use net_stats::{NetStats as IfaceStats, InterfaceStats, NetStatsError};
 pub use io_stats::{IoStats, DiskIoStats, IoStatsError};
 pub use timezone_ops::{TimezoneOps, TimezoneError};
 pub use hostname_ops::{HostnameOps, HostnameError};
+pub use env_ops::{EnvOps, EnvError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
