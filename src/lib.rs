@@ -319,6 +319,21 @@ pub mod gamepad_ops;
 /// Follows Single Responsibility Principle: only manages touchscreen operations.
 pub mod touchscreen_ops;
 
+/// Tablet operations module.
+/// Provides actual tablet operations via xsetwacom.
+/// Follows Single Responsibility Principle: only manages tablet operations.
+pub mod tablet_ops;
+
+/// Scanner operations module.
+/// Provides actual scanner operations via scanimage.
+/// Follows Single Responsibility Principle: only manages scanner operations.
+pub mod scanner_ops;
+
+/// Camera operations module.
+/// Provides actual camera operations via fswebcam.
+/// Follows Single Responsibility Principle: only manages camera operations.
+pub mod camera_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -654,6 +669,9 @@ pub use microphone_ops::{MicrophoneOps, MicrophoneError as MicrophoneManagerErro
 pub use joystick_ops::{JoystickOps, JoystickError as JoystickManagerError};
 pub use gamepad_ops::{GamepadOps, GamepadError as GamepadManagerError};
 pub use touchscreen_ops::{TouchscreenOps, TouchscreenError as TouchscreenManagerError};
+pub use tablet_ops::{TabletOps, TabletError as TabletManagerError};
+pub use scanner_ops::{ScannerOps, ScannerError as ScannerManagerError};
+pub use camera_ops::{CameraOps, CameraError as CameraManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
