@@ -581,7 +581,7 @@ pub use logrotate_ops::{LogrotateOps, LogrotateError};
 pub use disk_space_ops::{DiskSpaceOps, DiskSpace, DiskSpaceError};
 pub use uefi_ops::{UefiOps, BootEntry as UefiBootEntry, UefiError as UefiManagerError};
 pub use repo_ops::{RepoOps, RepoInfo, RepoError as RepoManagerError};
-pub use scheduler_ops::{SchedulerOps as CpuScheduler, SchedulerPolicy, SchedulerError as CpuSchedulerError};
+pub use scheduler_ops::{SchedulerOps as CpuScheduler, SchedulerError as CpuSchedulerError};
 pub use swap_ops::{SwapOps, SwapInfo, SwapError as SwapManagerError};
 pub use keyboard_ops::{KeyboardOps, KeyboardError as KeymapError};
 pub use locale_ops::{LocaleOps, LocaleError as SystemLocaleError};
