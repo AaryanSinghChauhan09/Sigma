@@ -1,0 +1,12 @@
+# SigmaOS Mirror List
+# Mirror configuration for SigmaOS package repository
+
+## SigmaOS Official Mirrors
+Server = https://github.com/AaryanSinghChauhan09/Sigma/releases/download/packages/$repo/os/$arch
+
+## Arch Linux Mirrors (for base packages)
+Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch
+Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch
+Server = https://archlinux.mirror.garr.it/archlinux/$repo/os/$arch
+Server = https://ftp.spline.inf.fu-berlin.de/mirrors/archlinux/$repo/os/$arch
+Server = https://mirror.f4wk.org/archlinux/$repo/os/$arch
