@@ -159,6 +159,11 @@ pub mod fs_ops;
 /// Follows Single Responsibility Principle: only manages network operations.
 pub mod net_ops;
 
+/// Memory operations module.
+/// Provides actual memory information using /proc/meminfo.
+/// Follows Single Responsibility Principle: only manages memory operations.
+pub mod mem_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -190,6 +195,7 @@ pub use scheduler::{Scheduler, ProcessInfo, Priority, SchedulingPolicy, Schedule
 pub use process::{ProcessManager, ProcessInfo as ProcInfo, ProcessError};
 pub use fs_ops::{FsOps, DiskUsage, FileInfo, FsError};
 pub use net_ops::{NetOps, InterfaceInfo, InterfaceType, NetStats, NetError};
+pub use mem_ops::{MemOps, MemoryInfo, MemoryPressure, MemError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
