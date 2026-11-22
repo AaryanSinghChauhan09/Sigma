@@ -1,0 +1,46 @@
+# SigmaOS Desktop Hyprland Metapackage
+# Default desktop session per docs/COMPOSITOR_DECISION.md
+pkgname=sigmaos-desktop-hyprland
+pkgver=0.6.0
+pkgrel=1
+pkgdesc="SigmaOS Hyprland/Wayland desktop metapackage (default session)"
+arch=(x86_64)
+depends=(
+    hyprland
+    waybar
+    wofi
+    mako
+    wl-clipboard
+    xdg-desktop-portal-hyprland
+    xdg-desktop-portal-gtk
+    polkit-gnome
+    qt5-wayland
+    qt6-wayland
+    pipewire pipewire-pulse wireplumber
+    networkmanager
+    blueman
+    cups
+    ttf-dejavu ttf-liberation noto-fonts
+    brightnessctl
+    power-profiles-daemon
+)
+optdepends=(
+    'quickshell: panel/notifications (planned integration)'
+    'grim: screenshots'
+    'slurp: region selection'
+    'wf-recorder: screen recording'
+    'swww: wallpaper daemon'
+)
+package() {
+    mkdir -p "$pkgdir/etc/sigmaos/desktop"
+    echo "hyprland" > "$pkgdir/etc/sigmaos/desktop/current"
+    mkdir -p "$pkgdir/usr/share/wayland-sessions"
+    cat > "$pkgdir/usr/share/wayland-sessions/sigmaos-hyprland.desktop" << 'SESSION'
+[Desktop Entry]
+Name=SigmaOS (Hyprland)
+Comment=SigmaOS default Wayland session
+Exec=Hyprland
+Type=Application
+DesktopNames=Hyprland
+SESSION
+}
