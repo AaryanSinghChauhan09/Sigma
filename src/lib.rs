@@ -434,6 +434,11 @@ pub mod backupmgr_ops;
 /// Follows Single Responsibility Principle: only manages audit operations.
 pub mod auditmgr_ops;
 
+/// Release manager operations module.
+/// Provides release management operations via sigmaos-release.
+/// Follows Single Responsibility Principle: only manages release operations.
+pub mod releasemgr_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -655,6 +660,11 @@ pub mod backupmgr_ops;
 /// Provides audit operations via sigmaos-audit.
 /// Follows Single Responsibility Principle: only manages audit operations.
 pub mod auditmgr_ops;
+
+/// Release manager operations module.
+/// Provides release management operations via sigmaos-release.
+/// Follows Single Responsibility Principle: only manages release operations.
+pub mod releasemgr_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -892,6 +902,7 @@ pub use usermgr_ops::{UserMgrOps, UserMgrError as UserManagerError};
 pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
 pub use backupmgr_ops::{BackupMgrOps, BackupMgrError as BackupManagerError};
 pub use auditmgr_ops::{AuditMgrOps, AuditMgrError as AuditManagerError};
+pub use releasemgr_ops::{ReleaseMgrOps, ReleaseMgrError as ReleaseManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -937,6 +948,7 @@ pub use usermgr_ops::{UserMgrOps, UserMgrError as UserManagerError};
 pub use logmgr_ops::{LogMgrOps, LogMgrError as LogManagerError};
 pub use backupmgr_ops::{BackupMgrOps, BackupMgrError as BackupManagerError};
 pub use auditmgr_ops::{AuditMgrOps, AuditMgrError as AuditManagerError};
+pub use releasemgr_ops::{ReleaseMgrOps, ReleaseMgrError as ReleaseManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
