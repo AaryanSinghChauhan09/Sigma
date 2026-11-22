@@ -515,6 +515,12 @@ pub mod hypervisor_ops;
 pub mod jit_ops;
 /// Deterministic operations for reproducible behavior
 pub mod deterministic_ops;
+/// Interface segregation for fine-grained interfaces
+pub mod interface_ops;
+/// Service discovery for finding available services
+pub mod discovery_ops;
+/// Dependency injection for loose coupling
+pub mod dependency_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -819,6 +825,12 @@ pub mod hypervisor_ops;
 pub mod jit_ops;
 /// Deterministic operations for reproducible behavior
 pub mod deterministic_ops;
+/// Interface segregation for fine-grained interfaces
+pub mod interface_ops;
+/// Service discovery for finding available services
+pub mod discovery_ops;
+/// Dependency injection for loose coupling
+pub mod dependency_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
