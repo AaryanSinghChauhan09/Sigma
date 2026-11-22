@@ -169,6 +169,11 @@ pub mod mem_ops;
 /// Follows Single Responsibility Principle: only manages CPU operations.
 pub mod cpu_ops;
 
+/// Package installation module.
+/// Provides actual package installation using pacman/apt/dnf.
+/// Follows Single Responsibility Principle: only manages package installation.
+pub mod pkg_install;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -202,6 +207,7 @@ pub use fs_ops::{FsOps, DiskUsage, FileInfo, FsError};
 pub use net_ops::{NetOps, InterfaceInfo, InterfaceType, NetStats, NetError};
 pub use mem_ops::{MemOps, MemoryInfo, MemoryPressure, MemError};
 pub use cpu_ops::{CpuOps, CpuInfo, CpuUsage, CpuError};
+pub use pkg_install::{PackageInstaller, PackageInfo, InstallError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
