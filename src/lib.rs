@@ -124,6 +124,11 @@ pub mod desktop;
 /// Follows Single Responsibility Principle: only manages virtualization subsystem.
 pub mod virtualization;
 
+/// Printing module.
+/// Provides printer management and print queue control.
+/// Follows Single Responsibility Principle: only manages printing subsystem.
+pub mod printing;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -148,6 +153,7 @@ pub use backup::{BackupManager, Backup, BackupType, BackupStatus, BackupSchedule
 pub use update::{UpdateManager, Update, UpdateType, UpdateStatus, UpdateError};
 pub use desktop::{DesktopManager, DesktopSession, DesktopEnvironment, DisplayServer, WindowManager, DesktopError};
 pub use virtualization::{VirtualizationManager, Vm, VmConfig, VmStatus, ContainerConfig, VirtualizationError};
+pub use printing::{PrintManager, Printer, PrinterType, PrinterStatus, PrintJob, JobStatus, PrintError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
