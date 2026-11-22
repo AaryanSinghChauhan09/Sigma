@@ -204,6 +204,11 @@ pub mod sys_info;
 /// Follows Single Responsibility Principle: only manages thermal operations.
 pub mod thermal;
 
+/// Power status module.
+/// Provides actual battery and power info using /sys/class/power_supply.
+/// Follows Single Responsibility Principle: only manages power status.
+pub mod power_status;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -244,6 +249,7 @@ pub use disk::{DiskManager, DiskInfo, PartitionInfo, FilesystemInfo, DiskError};
 pub use log_ops::{LogOps, LogEntry as SysLogEntry, LogLevel as SysLogLevel, LogError as SysLogError};
 pub use sys_info::{SysInfo, SystemInfo, SysInfoError};
 pub use thermal::{ThermalMonitor, TemperatureReadings, ThermalZone, ThermalError};
+pub use power_status::{PowerStatus, BatteryInfo, BatteryStatus as PowerBatteryStatus, PowerSupplyInfo, PowerError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
