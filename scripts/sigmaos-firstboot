@@ -1,0 +1,211 @@
+#!/bin/bash
+# SigmaOS First Boot Setup Wizard
+# Interactive configuration for new installations
+
+set -e
+
+VERSION="0.5.0"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+info() { echo -e "${GREEN}[INFO]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+error() { echo -e "${RED}[ERROR]${NC} $1"; }
+header() { echo -e "${CYAN}=== $1 ===${NC}"; }
+
+# Check if already configured
+if [ -f "/etc/sigmaos/firstboot-done" ]; then
+    info "SigmaOS first boot already completed"
+    read -p "Run setup again? (yes/no): " rerun
+    if [ "$rerun" != "yes" ]; then
+        exit 0
+    fi
+fi
+
+echo ""
+header "SigmaOS First Boot Setup"
+echo "Version: $VERSION"
+echo ""
+
+# Step 1: Hostname
+header "Step 1: Hostname"
+current_hostname=$(hostname)
+echo "Current hostname: $current_hostname"
+read -p "Enter new hostname (or press Enter to keep): " new_hostname
+if [ ! -z "$new_hostname" ]; then
+    hostnamectl set-hostname "$new_hostname"
+    info "Hostname set to: $new_hostname"
+fi
+echo ""
+
+# Step 2: Locale
+header "Step 2: Locale"
+echo "Available locales:"
+echo "  1. en_US.UTF-8 (English - United States)"
+echo "  2. en_GB.UTF-8 (English - United Kingdom)"
+echo "  3. de_DE.UTF-8 (German)"
+echo "  4. fr_FR.UTF-8 (French)"
+echo "  5. es_ES.UTF-8 (Spanish)"
+echo "  6. ja_JP.UTF-8 (Japanese)"
+echo "  7. zh_CN.UTF-8 (Chinese Simplified)"
+read -p "Select locale (1-7): " locale_choice
+
+case "$locale_choice" in
+    1) locale="en_US.UTF-8" ;;
+    2) locale="en_GB.UTF-8" ;;
+    3) locale="de_DE.UTF-8" ;;
+    4) locale="fr_FR.UTF-8" ;;
+    5) locale="es_ES.UTF-8" ;;
+    6) locale="ja_JP.UTF-8" ;;
+    7) locale="zh_CN.UTF-8" ;;
+    *) locale="en_US.UTF-8" ;;
+esac
+
+sed -i "s/^LANG=.*/LANG=$locale/" /etc/locale.conf
+info "Locale set to: $locale"
+echo ""
+
+# Step 3: Timezone
+header "Step 3: Timezone"
+read -p "Enter timezone (e.g., UTC, America/New_York, Europe/London): " timezone
+if [ ! -z "$timezone" ]; then
+    ln -sf "/usr/share/zoneinfo/$timezone" /etc/localtime
+    info "Timezone set to: $timezone"
+fi
+echo ""
+
+# Step 4: User Management
+header "Step 4: User Management"
+read -p "Create additional user? (yes/no): " create_user
+if [ "$create_user" = "yes" ]; then
+    read -p "Username: " username
+    if [ ! -z "$username" ]; then
+        useradd -m -G wheel -s /bin/bash "$username"
+        echo "$username:$username" | chpasswd
+        info "User '$username' created"
+        info "Default password: $username (change after first login)"
+    fi
+fi
+echo ""
+
+# Step 5: Performance Profile
+header "Step 5: Performance Profile"
+echo "Select performance profile:"
+echo "  1. Performance (maximum performance)"
+echo "  2. Balanced (default)"
+echo "  3. Powersave (power saving)"
+read -p "Select profile (1-3): " perf_choice
+
+case "$perf_choice" in
+    1) profile="performance" ;;
+    2) profile="balanced" ;;
+    3) profile="powersave" ;;
+    *) profile="balanced" ;;
+esac
+
+sigmaos-config apply performance "$profile" 2>/dev/null || warn "sigmaos-config not available"
+info "Performance profile: $profile"
+echo ""
+
+# Step 6: Desktop Environment
+header "Step 6: Desktop Environment"
+echo "Select desktop environment:"
+echo "  1. None (console only)"
+echo "  2. KDE Plasma"
+echo "  3. GNOME"
+echo "  4. XFCE"
+echo "  5. i3 Window Manager"
+read -p "Select DE (1-5): " de_choice
+
+case "$de_choice" in
+    2) 
+        info "Installing KDE Plasma..."
+        pacman -S --noconfirm plasma-desktop plasma-nm sddm kde-applications 2>/dev/null || warn "Package installation failed"
+        systemctl enable sddm
+        de="kde"
+        ;;
+    3)
+        info "Installing GNOME..."
+        pacman -S --noconfirm gnome gnome-extra gdm 2>/dev/null || warn "Package installation failed"
+        systemctl enable gdm
+        de="gnome"
+        ;;
+    4)
+        info "Installing XFCE..."
+        pacman -S --noconfirm xfce4 xfce4-goodies lightdm lightdm-gtk-greeter 2>/dev/null || warn "Package installation failed"
+        systemctl enable lightdm
+        de="xfce"
+        ;;
+    5)
+        info "Installing i3..."
+        pacman -S --noconfirm i3-wm i3status dmenu rofi picom xorg-server xorg-xinit 2>/dev/null || warn "Package installation failed"
+        de="i3"
+        ;;
+    *)
+        de="none"
+        ;;
+esac
+
+if [ "$de" != "none" ]; then
+    sigmaos-config apply desktop "$de" 2>/dev/null || true
+    info "Desktop environment: $de"
+fi
+echo ""
+
+# Step 7: Services
+header "Step 7: Services"
+read -p "Enable NetworkManager? (yes/no): " enable_nm
+if [ "$enable_nm" = "yes" ]; then
+    systemctl enable NetworkManager
+    systemctl start NetworkManager
+    info "NetworkManager enabled"
+fi
+
+read -p "Enable SSH server? (yes/no): " enable_ssh
+if [ "$enable_ssh" = "yes" ]; then
+    systemctl enable sshd
+    systemctl start sshd
+    info "SSH server enabled"
+fi
+
+read -p "Enable Bluetooth? (yes/no): " enable_bt
+if [ "$enable_bt" = "yes" ]; then
+    pacman -S --noconfirm bluez bluez-utils 2>/dev/null
+    systemctl enable bluetooth
+    systemctl start bluetooth
+    info "Bluetooth enabled"
+fi
+echo ""
+
+# Step 8: Update System
+header "Step 8: System Update"
+read -p "Update system packages? (yes/no): " update_sys
+if [ "$update_sys" = "yes" ]; then
+    info "Updating system..."
+    pacman -Syu --noconfirm
+    info "System updated"
+fi
+echo ""
+
+# Mark first boot as complete
+touch /etc/sigmaos/firstboot-done
+
+header "Setup Complete"
+echo ""
+echo "SigmaOS first boot setup completed successfully!"
+echo ""
+echo "Important notes:"
+echo "  - Change your password: passwd"
+echo "  - Additional users may need password changes"
+echo "  - Reboot to apply all changes"
+echo ""
+echo "For more information, see:"
+echo "  - /usr/share/doc/sigmaos/"
+echo "  - https://github.com/AaryanSinghChauhan09/Sigma"
+echo ""
