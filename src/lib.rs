@@ -451,6 +451,11 @@ pub mod asset_ops;
 /// Follows Single Responsibility Principle: only manages patch management operations.
 pub mod patch_ops;
 
+/// Lifecycle management operations module.
+/// Provides actual lifecycle management operations.
+/// Follows Single Responsibility Principle: only manages lifecycle management operations.
+pub mod lifecycle_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -546,6 +551,7 @@ pub use inventory_ops::{InventoryOps, InventoryItem, InventoryError as Inventory
 pub use disaster_ops::{DisasterOps, DisasterError as DisasterManagerError};
 pub use asset_ops::{AssetOps, Asset, AssetError as AssetManagerError};
 pub use patch_ops::{PatchOps, Patch, PatchError as PatchManagerError};
+pub use lifecycle_ops::{LifecycleOps, LifecycleError as LifecycleManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
