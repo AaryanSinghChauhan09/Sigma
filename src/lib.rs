@@ -396,6 +396,11 @@ pub mod raid_ops;
 /// Follows Single Responsibility Principle: only manages LVM operations.
 pub mod lvm_ops;
 
+/// GPU operations module.
+/// Provides actual GPU operations using nvidia-smi/AMD tools.
+/// Follows Single Responsibility Principle: only manages GPU operations.
+pub mod gpu_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -480,6 +485,7 @@ pub use camera_ops::{CameraOps, CameraInfo, CameraError as CameraManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
+pub use gpu_ops::{GpuOps, GpuInfo, GpuError as GpuManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
