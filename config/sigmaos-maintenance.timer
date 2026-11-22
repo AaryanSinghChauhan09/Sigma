@@ -1,0 +1,10 @@
+[Unit]
+Description=SigmaOS Daily Maintenance
+Documentation=https://github.com/AaryanSinghChauhan09/Sigma
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

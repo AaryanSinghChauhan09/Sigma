@@ -1,0 +1,13 @@
+[Unit]
+Description=SigmaOS System Service
+Documentation=https://github.com/AaryanSinghChauhan09/Sigma
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sigmaos-system-check
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

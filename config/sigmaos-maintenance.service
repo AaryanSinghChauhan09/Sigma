@@ -1,0 +1,8 @@
+[Unit]
+Description=SigmaOS Daily Maintenance
+Documentation=https://github.com/AaryanSinghChauhan09/Sigma
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sigmaos-maintenance
+User=root
