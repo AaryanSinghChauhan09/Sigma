@@ -496,6 +496,11 @@ pub mod platform_ops;
 /// Follows Single Responsibility Principle: only manages cloud native operations.
 pub mod cloud_ops;
 
+/// Email operations module.
+/// Provides actual email operations via sendmail/postfix.
+/// Follows Single Responsibility Principle: only manages email operations.
+pub mod email_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -600,6 +605,7 @@ pub use mesh_ops::{MeshOps, MeshError as MeshManagerError};
 pub use cluster_ops::{ClusterOps, ClusterError as ClusterManagerError};
 pub use platform_ops::{PlatformOps, PlatformError as PlatformManagerError};
 pub use cloud_ops::{CloudOps, CloudError as CloudManagerError};
+pub use email_ops::{EmailOps, EmailError as EmailManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
