@@ -251,12 +251,42 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 ## Project Status
 
 - **Library**: 54 modules, 460 unit tests, 56 doctests
-- **Tools**: 13 system tools
+- **Tools**: 14 system tools
 - **Packages**: 3 metapackages (base, kde, gnome)
+- **Config**: pacman.conf, sysctl, GRUB, KDE configs
+- **Scripts**: ISO build, installer, testing, pipeline
 - **Documentation**: Comprehensive guides
-- **ISO**: Build scripts using archiso
-- **Installer**: Text-based installer
 - **Version**: 0.5.0
+
+## ⚠️ Important: SigmaOS is NOT Yet Bootable
+
+SigmaOS has complete infrastructure but requires an **Arch Linux system** to build and test the actual ISO:
+
+```bash
+# On an Arch system:
+git clone https://github.com/AaryanSinghChauhan09/Sigma
+cd Sigma
+./scripts/sigmaos-pipeline full
+# This will build library, packages, ISO, and test it
+```
+
+See [BOOTABLE_PLAN.md](BOOTABLE_PLAN.md) for detailed steps to make SigmaOS bootable.
+
+## Comparison with Arch/Omarchy
+
+| Feature | SigmaOS | Arch | Omarchy |
+|---------|---------|------|---------|
+| Base | Arch packages | Arch | Arch |
+| ISO Build | archiso scripts (not executed) | archiso | Custom |
+| Bootable ISO | ❌ Not built | ✅ Available | ✅ Available |
+| Installer | Text-based (not tested) | Manual | Custom |
+| CLI Tool | Yes (14 tools) | pacman | Custom |
+| System Library | Rust (54 modules) | None | None |
+| Config Tools | sigmaos-config | Manual | sigma-config |
+| Release Management | sigmaos-release | Manual | Manual |
+| Automation | sigmaos-pipeline | Manual | Manual |
+
+**SigmaOS has better tooling than minimal Arch, but without building/testing the ISO, it remains infrastructure, not a bootable OS.**
 
 ## License
 
