@@ -74,6 +74,11 @@ pub mod audit;
 /// Follows Single Responsibility Principle: only manages package subsystem.
 pub mod package;
 
+/// Hardware detection module.
+/// Provides hardware enumeration and driver management.
+/// Follows Single Responsibility Principle: only manages hardware subsystem.
+pub mod hardware;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -88,6 +93,7 @@ pub use init::{InitManager, ServiceUnit, ServiceState, TargetType};
 pub use container::{ContainerManager, ContainerSpec, Container, ContainerRuntime, ContainerStatus};
 pub use audit::{AuditManager, Vulnerability, AuditRule, AuditResult, VulnerabilitySeverity, AuditStatus};
 pub use package::{PackageManager, Package, PackageVersion, PackageError};
+pub use hardware::{HardwareManager, DeviceInfo, DeviceType, DeviceStatus, HardwareError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
