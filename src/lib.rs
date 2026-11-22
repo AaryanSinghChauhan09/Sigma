@@ -366,6 +366,11 @@ pub mod container_ops;
 /// Follows Single Responsibility Principle: only manages virtualization operations.
 pub mod virt_ops;
 
+/// Printing operations module.
+/// Provides actual printing operations using CUPS.
+/// Follows Single Responsibility Principle: only manages printing operations.
+pub mod print_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -444,6 +449,7 @@ pub use display_ops::{DisplayOps, DisplayError as DisplayManagerError};
 pub use audio_ops::{AudioOps, AudioSink, AudioError as AudioManagerError};
 pub use container_ops::{ContainerOps as CtnManager, ContainerInfo, ContainerError as ContainerManagerError};
 pub use virt_ops::{VirtOps as VmManager, VmInfo, VirtError as VirtManagerError};
+pub use print_ops::{PrintOps, PrinterInfo, PrintError as PrintManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
