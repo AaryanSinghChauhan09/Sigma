@@ -119,6 +119,11 @@ pub mod update;
 /// Follows Single Responsibility Principle: only manages desktop subsystem.
 pub mod desktop;
 
+/// Virtualization module.
+/// Provides virtual machine and container management.
+/// Follows Single Responsibility Principle: only manages virtualization subsystem.
+pub mod virtualization;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -142,6 +147,7 @@ pub use cron::{CronManager, CronJob, CronError};
 pub use backup::{BackupManager, Backup, BackupType, BackupStatus, BackupSchedule, BackupError};
 pub use update::{UpdateManager, Update, UpdateType, UpdateStatus, UpdateError};
 pub use desktop::{DesktopManager, DesktopSession, DesktopEnvironment, DisplayServer, WindowManager, DesktopError};
+pub use virtualization::{VirtualizationManager, Vm, VmConfig, VmStatus, ContainerConfig, VirtualizationError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
