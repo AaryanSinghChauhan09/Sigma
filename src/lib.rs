@@ -441,6 +441,11 @@ pub mod inventory_ops;
 /// Follows Single Responsibility Principle: only manages disaster recovery operations.
 pub mod disaster_ops;
 
+/// Asset management operations module.
+/// Provides actual asset management operations.
+/// Follows Single Responsibility Principle: only manages asset management operations.
+pub mod asset_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -534,6 +539,7 @@ pub use incident_ops::{IncidentOps, IncidentError as IncidentManagerError};
 pub use capacity_ops::{CapacityOps, CapacityError as CapacityManagerError};
 pub use inventory_ops::{InventoryOps, InventoryItem, InventoryError as InventoryManagerError};
 pub use disaster_ops::{DisasterOps, DisasterError as DisasterManagerError};
+pub use asset_ops::{AssetOps, Asset, AssetError as AssetManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
