@@ -184,6 +184,11 @@ pub mod service;
 /// Follows Single Responsibility Principle: only manages kernel operations.
 pub mod kernel;
 
+/// Disk management module.
+/// Provides actual disk management using lsblk, df, and parted.
+/// Follows Single Responsibility Principle: only manages disk operations.
+pub mod disk;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -220,6 +225,7 @@ pub use cpu_ops::{CpuOps, CpuInfo, CpuUsage, CpuError};
 pub use pkg_install::{PackageInstaller, PackageInfo, InstallError};
 pub use service::{ServiceManager, ServiceInfo, ServiceStatus, ServiceError};
 pub use kernel::{KernelManager, ModuleInfo, ModuleState, KernelInfo, KernelError};
+pub use disk::{DiskManager, DiskInfo, PartitionInfo, FilesystemInfo, DiskError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
