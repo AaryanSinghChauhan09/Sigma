@@ -376,6 +376,11 @@ pub mod print_ops;
 /// Follows Single Responsibility Principle: only manages time sync operations.
 pub mod timesync_ops;
 
+/// Camera operations module.
+/// Provides actual camera operations using v4l2.
+/// Follows Single Responsibility Principle: only manages camera operations.
+pub mod camera_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -456,6 +461,7 @@ pub use container_ops::{ContainerOps as CtnManager, ContainerInfo, ContainerErro
 pub use virt_ops::{VirtOps as VmManager, VmInfo, VirtError as VirtManagerError};
 pub use print_ops::{PrintOps, PrinterInfo, PrintError as PrintManagerError};
 pub use timesync_ops::{TimeSyncOps, TimeSyncError as NtpSyncError};
+pub use camera_ops::{CameraOps, CameraInfo, CameraError as CameraManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
