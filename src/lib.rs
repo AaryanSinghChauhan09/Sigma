@@ -294,6 +294,31 @@ pub mod bluetooth_ops;
 /// Follows Single Responsibility Principle: only manages webcam operations.
 pub mod webcam_ops;
 
+/// Printer operations module.
+/// Provides actual printer operations via lp.
+/// Follows Single Responsibility Principle: only manages printer operations.
+pub mod printer_ops;
+
+/// Microphone operations module.
+/// Provides actual microphone operations via arecord.
+/// Follows Single Responsibility Principle: only manages microphone operations.
+pub mod microphone_ops;
+
+/// Joystick operations module.
+/// Provides actual joystick operations via jstest.
+/// Follows Single Responsibility Principle: only manages joystick operations.
+pub mod joystick_ops;
+
+/// Gamepad operations module.
+/// Provides actual gamepad operations via evtest.
+/// Follows Single Responsibility Principle: only manages gamepad operations.
+pub mod gamepad_ops;
+
+/// Touchscreen operations module.
+/// Provides actual touchscreen operations via xinput.
+/// Follows Single Responsibility Principle: only manages touchscreen operations.
+pub mod touchscreen_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -624,6 +649,11 @@ pub use registry_ops::{RegistryOps, RegistryError as RegistryManagerError};
 pub use hardware_ops::{HardwareOps, HardwareError as HardwareManagerError};
 pub use bluetooth_ops::{BluetoothOps, BluetoothError as BluetoothManagerError};
 pub use webcam_ops::{WebcamOps, WebcamError as WebcamManagerError};
+pub use printer_ops::{PrinterOps, PrinterError as PrinterManagerError};
+pub use microphone_ops::{MicrophoneOps, MicrophoneError as MicrophoneManagerError};
+pub use joystick_ops::{JoystickOps, JoystickError as JoystickManagerError};
+pub use gamepad_ops::{GamepadOps, GamepadError as GamepadManagerError};
+pub use touchscreen_ops::{TouchscreenOps, TouchscreenError as TouchscreenManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
