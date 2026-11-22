@@ -59,6 +59,21 @@ pub mod boot;
 /// Follows Single Responsibility Principle: only manages init subsystem.
 pub mod init;
 
+/// Container runtime module.
+/// Provides lightweight container runtime for virtualization.
+/// Follows Single Responsibility Principle: only manages container subsystem.
+pub mod container;
+
+/// Security audit module.
+/// Provides vulnerability scanning and compliance checking.
+/// Follows Single Responsibility Principle: only manages audit subsystem.
+pub mod audit;
+
+/// Package management module.
+/// Provides dependency resolution and package management.
+/// Follows Single Responsibility Principle: only manages package subsystem.
+pub mod package;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -70,6 +85,9 @@ pub use power::{PowerManager, BatteryStatus, PowerProfile, TdpLevel};
 pub use monitoring::{MonitoringManager, SystemMetric, MetricType, HealthStatus};
 pub use boot::{BootManager, BootLoaderType, KernelParams, BootEntry};
 pub use init::{InitManager, ServiceUnit, ServiceState, TargetType};
+pub use container::{ContainerManager, ContainerSpec, Container, ContainerRuntime, ContainerStatus};
+pub use audit::{AuditManager, Vulnerability, AuditRule, AuditResult, VulnerabilitySeverity, AuditStatus};
+pub use package::{PackageManager, Package, PackageVersion, PackageError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {

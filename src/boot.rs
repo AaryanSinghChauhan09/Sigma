@@ -214,7 +214,7 @@ impl BootManager {
         config.push_str(&format!("timeout {}\n", self.timeout));
         config.push_str("editor 0\n\n");
         
-        for (_id, entry) in &self.entries {
+        for (id, entry) in &self.entries {
             config.push_str(&format!("# loader/entries/{}.conf\n", id));
             config.push_str(&format!("title {}\n", entry.title));
             config.push_str(&format!("linux {}\n", entry.kernel));
