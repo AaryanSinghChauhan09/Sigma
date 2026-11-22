@@ -511,6 +511,11 @@ pub mod notify_ops;
 /// Follows Single Responsibility Principle: only manages VPN operations.
 pub mod vpn_ops;
 
+/// Clipboard operations module.
+/// Provides actual clipboard operations via xclip/wl-copy.
+/// Follows Single Responsibility Principle: only manages clipboard operations.
+pub mod clipboard_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -618,6 +623,7 @@ pub use cloud_ops::{CloudOps, CloudError as CloudManagerError};
 pub use email_ops::{EmailOps, EmailError as EmailManagerError};
 pub use notify_ops::{NotifyOps, NotifyError as NotifyManagerError};
 pub use vpn_ops::{VpnOps, VpnError as VpnManagerError};
+pub use clipboard_ops::{ClipboardOps, ClipboardError as ClipboardManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
