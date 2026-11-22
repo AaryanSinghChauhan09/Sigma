@@ -27,9 +27,10 @@ echo "Runtime: $RUN | Image: $IMAGE | Out: $BUILD_DIR"
 
 $RUN pull "$IMAGE"
 
-# Repo mounted read-only at /src; copied to writable /work inside container.
+# `yes |` feeds stdin so pacman/mkarchiso prompts auto-confirm; -i keeps
+# stdin attached. Repo mounted read-only at /src; copied to writable /work.
 # mkarchiso needs privileged mode for loop devices and mounts.
-exec $RUN run --rm \
+exec yes | $RUN run --rm -i \
     --privileged \
     --name "sigmaos-build-$$" \
     -v "$(pwd):/src:ro" \
