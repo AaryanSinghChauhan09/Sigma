@@ -336,6 +336,11 @@ pub mod scheduler_ops;
 /// Follows Single Responsibility Principle: only manages swap operations.
 pub mod swap_ops;
 
+/// Keyboard operations module.
+/// Provides actual keyboard and input device operations.
+/// Follows Single Responsibility Principle: only manages keyboard operations.
+pub mod keyboard_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -408,6 +413,7 @@ pub use uefi_ops::{UefiOps, BootEntry as UefiBootEntry, UefiError as UefiManager
 pub use repo_ops::{RepoOps, RepoInfo, RepoError as RepoManagerError};
 pub use scheduler_ops::{SchedulerOps as CpuScheduler, SchedulerPolicy, SchedulerError as CpuSchedulerError};
 pub use swap_ops::{SwapOps, SwapInfo, SwapError as SwapManagerError};
+pub use keyboard_ops::{KeyboardOps, KeyboardError as KeymapError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
