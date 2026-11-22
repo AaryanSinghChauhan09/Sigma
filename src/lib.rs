@@ -224,6 +224,11 @@ pub mod proc_tree;
 /// Follows Single Responsibility Principle: only manages network stats.
 pub mod net_stats;
 
+/// I/O statistics module.
+/// Provides actual disk I/O stats using /proc/diskstats.
+/// Follows Single Responsibility Principle: only manages I/O stats.
+pub mod io_stats;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -268,6 +273,7 @@ pub use power_status::{PowerStatus, BatteryInfo, BatteryStatus as PowerBatterySt
 pub use mount_ops::{MountOps, MountInfo, MountError};
 pub use proc_tree::{ProcTree, ProcessNode, ProcessTree, ProcTreeError};
 pub use net_stats::{NetStats as IfaceStats, InterfaceStats, NetStatsError};
+pub use io_stats::{IoStats, DiskIoStats, IoStatsError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
