@@ -189,6 +189,11 @@ pub mod kernel;
 /// Follows Single Responsibility Principle: only manages disk operations.
 pub mod disk;
 
+/// Log operations module.
+/// Provides actual log management using journalctl.
+/// Follows Single Responsibility Principle: only manages logging operations.
+pub mod log_ops;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -226,6 +231,7 @@ pub use pkg_install::{PackageInstaller, PackageInfo, InstallError};
 pub use service::{ServiceManager, ServiceInfo, ServiceStatus, ServiceError};
 pub use kernel::{KernelManager, ModuleInfo, ModuleState, KernelInfo, KernelError};
 pub use disk::{DiskManager, DiskInfo, PartitionInfo, FilesystemInfo, DiskError};
+pub use log_ops::{LogOps, LogEntry as SysLogEntry, LogLevel as SysLogLevel, LogError as SysLogError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
