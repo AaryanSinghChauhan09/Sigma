@@ -6,14 +6,14 @@ SigmaOS is a Linux distribution built on Arch Linux with a comprehensive Rust-ba
 
 SigmaOS consists of two main components:
 
-1. **System Library** - A comprehensive Rust library (521+ tests, 75 modules) for system management
+1. **System Library** - A comprehensive Rust library (548+ tests, 82 modules) for system management
 2. **Distribution Tools** - ISO build, installer, and system management tools
 
 ## Features
 
 ### System Library (sigma-system)
 
-75 modules covering all major Linux subsystems:
+82 modules covering all major Linux subsystems:
 
 - **Process/Kernel**: process, cpu_ops, mem_ops, kernel, scheduler_ops
 - **Storage**: disk, fs_ops, mount_ops, disk_space_ops, swap_ops, raid_ops, lvm_ops
@@ -29,6 +29,13 @@ SigmaOS consists of two main components:
 - **Enterprise**: tco_ops, compliance_ops, incident_ops, capacity_ops, inventory_ops, disaster_ops, asset_ops, lifecycle_ops, drift_ops, change_ops, metrics_ops, profile_ops, mesh_ops, cluster_ops, platform_ops, cloud_ops
 - **Media**: email_ops, notify_ops, clipboard_ops, screenshot_ops, record_ops
 - **VPN**: vpn_ops
+- **Hardware**: hardware_ops, gpu_ops, fingerprint_ops, smartcard_ops, sensor_ops
+- **Input**: keyboard_ops, joystick_ops, gamepad_ops, touchscreen_ops, tablet_ops
+- **Media Devices**: sound_ops, microphone_ops, webcam_ops, camera_ops, printer_ops, scanner_ops
+- **Connectivity**: bluetooth_ops, bandwidth_ops
+- **Container**: container_ops, registry_ops
+- **Process Tree**: proc_tree_ops
+- **Project**: project_ops, task_ops
 
 ### Distribution Tools (14 tools)
 
@@ -253,7 +260,7 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 
 ## Project Status
 
-- **Library**: 75 modules, 521 unit tests, 89 doctests
+- **Library**: 82 modules, 548 unit tests, 92 doctests
 - **Tools**: 14 system tools
 - **Packages**: 3 metapackages (base, kde, gnome)
 - **Config**: pacman.conf, sysctl, GRUB, KDE configs

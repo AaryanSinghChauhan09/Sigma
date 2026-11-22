@@ -334,6 +334,16 @@ pub mod scanner_ops;
 /// Follows Single Responsibility Principle: only manages camera operations.
 pub mod camera_ops;
 
+/// Project management operations module.
+/// Provides actual project management operations via git.
+/// Follows Single Responsibility Principle: only manages project operations.
+pub mod project_ops;
+
+/// Task management operations module.
+/// Provides actual task management operations via task.
+/// Follows Single Responsibility Principle: only manages task operations.
+pub mod task_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -455,6 +465,16 @@ pub mod timesync_ops;
 /// Provides actual camera operations using v4l2.
 /// Follows Single Responsibility Principle: only manages camera operations.
 pub mod camera_ops;
+
+/// Project management operations module.
+/// Provides actual project management operations via git.
+/// Follows Single Responsibility Principle: only manages project operations.
+pub mod project_ops;
+
+/// Task management operations module.
+/// Provides actual task management operations via task.
+/// Follows Single Responsibility Principle: only manages task operations.
+pub mod task_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
@@ -672,6 +692,8 @@ pub use touchscreen_ops::{TouchscreenOps, TouchscreenError as TouchscreenManager
 pub use tablet_ops::{TabletOps, TabletError as TabletManagerError};
 pub use scanner_ops::{ScannerOps, ScannerError as ScannerManagerError};
 pub use camera_ops::{CameraOps, CameraError as CameraManagerError};
+pub use project_ops::{ProjectOps, ProjectError as ProjectManagerError};
+pub use task_ops::{TaskOps, TaskError as TaskManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
@@ -697,6 +719,8 @@ pub use virt_ops::{VirtOps as VmManager, VmInfo, VirtError as VirtManagerError};
 pub use print_ops::{PrintOps, PrinterInfo, PrintError as PrintManagerError};
 pub use timesync_ops::{TimeSyncOps, TimeSyncError as NtpSyncError};
 pub use camera_ops::{CameraOps, CameraInfo, CameraError as CameraManagerError};
+pub use project_ops::{ProjectOps, ProjectError as ProjectManagerError};
+pub use task_ops::{TaskOps, TaskError as TaskManagerError};
 pub use sensor_ops::{SensorOps, SensorInfo, SensorError as SensorManagerError};
 pub use raid_ops::{RaidOps, RaidInfo, RaidError as RaidManagerError};
 pub use lvm_ops::{LvmOps, VolumeGroup, LvmError as LvmManagerError};
