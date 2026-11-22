@@ -84,6 +84,11 @@ pub mod hardware;
 /// Follows Single Responsibility Principle: only manages logging subsystem.
 pub mod logging;
 
+/// Time synchronization module.
+/// Provides NTP configuration, timezone management, and clock sync.
+/// Follows Single Responsibility Principle: only manages time subsystem.
+pub mod time_sync;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -100,6 +105,7 @@ pub use audit::{AuditManager, Vulnerability, AuditRule, AuditResult, Vulnerabili
 pub use package::{PackageManager, Package, PackageVersion, PackageError};
 pub use hardware::{HardwareManager, DeviceInfo, DeviceType, DeviceStatus, HardwareError};
 pub use logging::{Logger, LogEntry, LogLevel, LogError};
+pub use time_sync::{TimeManager, NtpServer, TimeSource, TimeError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
