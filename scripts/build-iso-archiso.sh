@@ -330,7 +330,7 @@ echo "=== Building ISO with mkarchiso ==="
 echo "This may take 10-30 minutes depending on your system..."
 echo ""
 
-cd "$WORK_DIR"
+# All paths are absolute — no cd needed (cd broke mkarchiso's realpath).
 $SUDO mkarchiso -v -w "$WORK_DIR" -o "$OUTPUT_DIR" "$PROFILE_DIR"
 
 echo "=== Build complete ==="
