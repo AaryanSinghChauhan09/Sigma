@@ -316,6 +316,11 @@ pub mod logrotate_ops;
 /// Follows Single Responsibility Principle: only manages disk space operations.
 pub mod disk_space_ops;
 
+/// UEFI operations module.
+/// Provides actual UEFI operations using efibootmgr.
+/// Follows Single Responsibility Principle: only manages UEFI operations.
+pub mod uefi_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -384,6 +389,7 @@ pub use cert_ops::{CertOps, CertInfo, CertError};
 pub use archive_ops::{ArchiveOps, ArchiveError};
 pub use logrotate_ops::{LogrotateOps, LogrotateError};
 pub use disk_space_ops::{DiskSpaceOps, DiskSpace, DiskSpaceError};
+pub use uefi_ops::{UefiOps, BootEntry as UefiBootEntry, UefiError as UefiManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
