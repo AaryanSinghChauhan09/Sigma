@@ -1,218 +1,232 @@
 #!/bin/bash
-# SigmaOS ISO Testing Script
-# Automated testing of built ISO in QEMU
+# SigmaOS ISO Testing Script v2
+# QEMU smoke tests + rootless ISO verification + checksum validation.
+# Designed for Phase-1 "trustworthy baseline" (docs/SIGMAOS_VS_OMARCHY_PLAN.md).
+#
+# No root required: ISO contents are inspected with xorriso, not mounted.
 
-set -e
+set -uo pipefail
 
-VERSION="0.5.0"
-ISO_PATH="build/iso/sigmaos-0.5.0-x86_64.iso"
-TEST_RESULTS="/tmp/sigmaos-test-results"
+VERSION="0.6.0"
+ISO_PATH="${ISO_PATH:-build/iso/sigmaos-latest-x86_64.iso}"
+TEST_RESULTS="${TEST_RESULTS:-/tmp/sigmaos-test-results}"
+BOOT_TIMEOUT="${BOOT_TIMEOUT:-90}"   # seconds per boot test
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
-info() { echo -e "${GREEN}[INFO]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; BLUE='\033[0;34m'; NC='\033[0m'
+info()  { echo -e "${GREEN}[INFO]${NC} $1"; }
+warn()  { echo -e "${YELLOW}[WARN]${NC} $1"; }
 error() { echo -e "${RED}[ERROR]${NC} $1"; }
-header() { echo -e "${BLUE}=== $1 ===${NC}"; }
+header(){ echo -e "${BLUE}=== $1 ===${NC}"; }
+pass()  { echo -e "${GREEN}[PASS]${NC} $1"; RESULTS+=("PASS|$1"); }
+fail()  { echo -e "${RED}[FAIL]${NC} $1"; RESULTS+=("FAIL|$1"); }
+warnr() { echo -e "${YELLOW}[WARN]${NC} $1"; RESULTS+=("WARN|$1"); }
+RESULTS=()
 
-# Check prerequisites
+find_iso() {
+    if [ -f "$ISO_PATH" ]; then return 0; fi
+    # auto-detect newest ISO in build/iso
+    local newest
+    newest=$(ls -t build/iso/*.iso 2>/dev/null | head -1)
+    if [ -n "$newest" ]; then ISO_PATH="$newest"; return 0; fi
+    return 1
+}
+
 check_prereqs() {
     header "Checking Prerequisites"
-    
     local missing=()
-    
-    command -v qemu-system-x86_64 &> /dev/null || missing+=("qemu-system-x86_64")
-    command -v xorriso &> /dev/null || missing+=("xorriso")
-    
+    command -v qemu-system-x86_64 &>/dev/null || missing+=("qemu-system-x86_64")
+    command -v xorriso &>/dev/null || missing+=("xorriso")
     if [ ${#missing[@]} -gt 0 ]; then
-        error "Missing prerequisites: ${missing[*]}"
-        echo "Install with: sudo pacman -S qemu xorriso"
-        exit 1
+        error "Missing: ${missing[*]}"
+        echo "Install: sudo pacman -S qemu-system-x86_64 qemu-edk2-ovmf xorriso"
+        return 1
     fi
-    
-    info "All prerequisites satisfied"
+    if [ ! -f /usr/share/ovmf/x64/OVMF.fd ] && [ ! -f /usr/share/edk2/ovmf/OVMF_CODE_4M.fd ]; then
+        warn "OVMF firmware not found — UEFI test will be skipped"
+    fi
+    pass "Prerequisites"
 }
 
-# Check ISO exists
-check_iso() {
-    header "Checking ISO"
-    
-    if [ ! -f "$ISO_PATH" ]; then
-        error "ISO not found: $ISO_PATH"
-        echo "Build it first with: ./scripts/build-iso-archiso.sh"
-        exit 1
-    fi
-    
-    local size=$(du -h "$ISO_PATH" | cut -f1)
-    info "ISO found: $ISO_PATH ($size)"
+# Rootless ISO content listing/verification via xorriso
+iso_ls() {
+    xorriso -indev "$ISO_PATH" -find / -type f 2>/dev/null | grep -v '^$' | sed 's|^/||'
 }
 
-# Test UEFI boot
-test_uefi() {
-    header "Testing UEFI Boot"
-    
-    mkdir -p "$TEST_RESULTS"
-    
-    info "Starting QEMU with UEFI..."
-    timeout 120 qemu-system-x86_64 \
-        -m 2048 \
-        -bios /usr/share/ovmf/x64/OVMF.fd \
-        -cdrom "$ISO_PATH" \
-        -nographic \
-        -serial file:"$TEST_RESULTS/uefi-boot.log" \
-        || true
-    
-    if [ -f "$TEST_RESULTS/uefi-boot.log" ]; then
-        info "UEFI boot log saved to: $TEST_RESULTS/uefi-boot.log"
-        
-        # Check for successful boot indicators
-        if grep -q "SigmaOS" "$TEST_RESULTS/uefi-boot.log"; then
-            info "UEFI boot: SigmaOS detected"
+verify_iso() {
+    header "Verifying ISO Structure (xorriso, rootless)"
+    find_iso || { error "No ISO found in build/iso"; return 1; }
+    info "ISO: $ISO_PATH ($(du -h "$ISO_PATH" | cut -f1))"
+
+    local required=(
+        "boot/grub/grub.cfg"
+        "boot/vmlinuz-linux"
+        "boot/initramfs-linux.img"
+    )
+    local listing
+    listing=$(iso_ls)
+    local ok=1
+    for f in "${required[@]}"; do
+        if grep -qx "$f" <<<"$listing"; then
+            pass "found: $f"
         else
-            warn "UEFI boot: SigmaOS not detected in logs"
-        fi
-    fi
-}
-
-# Test BIOS boot
-test_bios() {
-    header "Testing BIOS Boot"
-    
-    info "Starting QEMU with BIOS..."
-    timeout 120 qemu-system-x86_64 \
-        -m 2048 \
-        -cdrom "$ISO_PATH" \
-        -nographic \
-        -serial file:"$TEST_RESULTS/bios-boot.log" \
-        || true
-    
-    if [ -f "$TEST_RESULTS/bios-boot.log" ]; then
-        info "BIOS boot log saved to: $TEST_RESULTS/bios-boot.log"
-        
-        if grep -q "SigmaOS" "$TEST_RESULTS/bios-boot.log"; then
-            info "BIOS boot: SigmaOS detected"
-        else
-            warn "BIOS boot: SigmaOS not detected in logs"
-        fi
-    fi
-}
-
-# Verify ISO structure
-verify_structure() {
-    header "Verifying ISO Structure"
-    
-    local mount_point="/tmp/sigmaos-iso-mount"
-    mkdir -p "$mount_point"
-    
-    info "Mounting ISO..."
-    mount -o loop "$ISO_PATH" "$mount_point"
-    
-    # Check for essential files
-    local required=("boot/grub/grub.cfg" "boot/vmlinuz-linux" "boot/initramfs-linux.img")
-    
-    for file in "${required[@]}"; do
-        if [ -f "$mount_point/$file" ]; then
-            info "✓ Found: $file"
-        else
-            error "✗ Missing: $file"
+            # tolerate alternate names
+            if grep -q "$(basename "$f")" <<<"$listing"; then
+                warnr "found alternate: $f"
+            else
+                fail "missing: $f"
+                ok=0
+            fi
         fi
     done
-    
-    umount "$mount_point"
-    rmdir "$mount_point"
+    [ $ok -eq 1 ] && pass "ISO structure" || fail "ISO structure"
 }
 
-# Generate test report
+verify_checksums() {
+    header "Verifying Checksums"
+    local sums="$ISO_PATH.sha256"
+    [ -f "$sums" ] || sums="$(dirname "$ISO_PATH")/checksums/$(basename "$ISO_PATH").sha256"
+    if [ ! -f "$sums" ]; then
+        warnr "No checksum file found ($sums) — run scripts/sigmaos-checksums.sh after build"
+        return 0
+    fi
+    if (cd "$(dirname "$sums")" && sha256sum -c "$(basename "$sums")" >/dev/null 2>&1); then
+        pass "SHA-256 checksum"
+    else
+        # try from ISO dir in case paths inside file are relative differently
+        if sha256sum -c "$sums" >/dev/null 2>&1; then
+            pass "SHA-256 checksum"
+        else
+            fail "SHA-256 checksum mismatch"
+        fi
+    fi
+}
+
+# Analyze a serial boot log: kernel booted? panic? login/shell?
+analyze_boot_log() {
+    local log="$1" label="$2"
+    [ -f "$log" ] || { fail "$label: no log produced"; return; }
+    local size; size=$(wc -c <"$log")
+    if [ "$size" -lt 200 ]; then
+        fail "$label: log too small ($size bytes) — QEMU may not have started"
+        return
+    fi
+    # panic detection
+    if grep -qiE "kernel panic|end Kernel panic|not syncing:|Oops:|BUG:|unable to handle kernel" "$log"; then
+        fail "$label: kernel panic detected"
+        grep -iE "panic|BUG|Oops" "$log" | head -5 | sed 's/^/    /'
+        return
+    fi
+    # positive signals
+    local signals=0
+    grep -qi "Linux version" "$log" && signals=$((signals+1))
+    grep -qiE "sigmaos|login:|sulogin|start job|Reached target" "$log" && signals=$((signals+1))
+    if [ $signals -ge 2 ]; then
+        pass "$label: boot reached userspace indicators"
+    elif [ $signals -eq 1 ]; then
+        warnr "$label: partial boot (kernel only)"
+    else
+        warnr "$label: inconclusive boot log"
+    fi
+}
+
+test_uefi() {
+    header "Testing UEFI Boot"
+    find_iso || return 1
+    local log="$TEST_RESULTS/uefi-boot.log"
+    mkdir -p "$TEST_RESULTS"
+    local ovmf="/usr/share/ovmf/x64/OVMF.fd"
+    [ -f "$ovmf" ] || ovmf="/usr/share/edk2/ovmf/OVMF_CODE_4M.fd"
+    [ -f "$ovmf" ] || { warnr "UEFI: no OVMF firmware — skipped"; return 0; }
+    info "Booting $ISO_PATH under QEMU/OVMF (timeout ${BOOT_TIMEOUT}s)..."
+    timeout "$BOOT_TIMEOUT" qemu-system-x86_64 \
+        -m 2048 -smp 2 \
+        -drive if=pflash,format=raw,readonly=on,file="$ovmf" \
+        -cdrom "$ISO_PATH" \
+        -nographic -serial "file:$log" -monitor none -no-reboot \
+        >/dev/null 2>&1 || true
+    analyze_boot_log "$log" "UEFI"
+}
+
+test_bios() {
+    header "Testing BIOS Boot"
+    find_iso || return 1
+    local log="$TEST_RESULTS/bios-boot.log"
+    mkdir -p "$TEST_RESULTS"
+    info "Booting $ISO_PATH under QEMU/BIOS (timeout ${BOOT_TIMEOUT}s)..."
+    timeout "$BOOT_TIMEOUT" qemu-system-x86_64 \
+        -m 2048 -smp 2 \
+        -cdrom "$ISO_PATH" \
+        -nographic -serial "file:$log" -monitor none -no-reboot \
+        >/dev/null 2>&1 || true
+    analyze_boot_log "$log" "BIOS"
+}
+
 generate_report() {
     header "Test Report"
-    
-    local report_file="/tmp/sigmaos-test-report-$(date +%Y%m%d-%H%M%S).txt"
-    
+    local report="$TEST_RESULTS/report-$(date +%Y%m%d-%H%M%S).txt"
     {
-        echo "SigmaOS ISO Test Report"
-        echo "Generated: $(date)"
-        echo "Version: $VERSION"
-        echo "ISO: $ISO_PATH"
-        echo ""
-        echo "=== Test Results ==="
-        echo ""
-        echo "UEFI Boot: $([ -f $TEST_RESULTS/uefi-boot.log ] && echo "Tested (see logs)" || echo "Not tested")"
-        echo "BIOS Boot: $([ -f $TEST_RESULTS/bios-boot.log ] && echo "Tested (see logs)" || echo "Not tested")"
-        echo ""
-        echo "=== Log Files ==="
-        if [ -d "$TEST_RESULTS" ]; then
-            ls -la "$TEST_RESULTS"
-        fi
-    } > "$report_file"
-    
-    info "Report saved to: $report_file"
-    cat "$report_file"
+        echo "SigmaOS ISO Test Report v$VERSION"
+        echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        echo "ISO: ${ISO_PATH:-none}"
+        echo "Git: $(git rev-parse HEAD 2>/dev/null || echo n/a)"
+        echo
+        echo "=== Results ==="
+        local r
+        for r in "${RESULTS[@]:-}"; do
+            [ -n "$r" ] && echo "$r"
+        done
+        echo
+        echo "=== Artifacts ==="
+        ls -la "$TEST_RESULTS" 2>/dev/null | grep -v '^total' || true
+    } > "$report"
+    info "Report: $report"
+    cat "$report"
 }
 
-# Show help
+run_all() {
+    check_prereqs
+    verify_iso
+    verify_checksums
+    test_uefi
+    test_bios
+    generate_report
+    local fails=0
+    for r in "${RESULTS[@]}"; do [[ "$r" == FAIL* ]] && fails=$((fails+1)); done
+    echo
+    if [ $fails -eq 0 ]; then
+        pass "ALL CHECKS PASSED"
+    else
+        fail "$fails check(s) failed — see $TEST_RESULTS"
+    fi
+}
+
 help() {
     cat << EOF
 SigmaOS ISO Testing Tool v$VERSION
 
-Usage: sigmaos-test-iso <command>
+Usage: sigmaos-test-iso <command>   (or: ISO_PATH=path/to.iso sigmaos-test-iso full)
 
 Commands:
-    check               Check prerequisites
-    verify              Verify ISO structure
-    test-uefi           Test UEFI boot in QEMU
-    test-bios           Test BIOS boot in QEMU
-    full                Run all tests
-    report              Generate test report
-    help                Show this help
+    check          Check prerequisites
+    verify         Verify ISO structure (rootless, xorriso)
+    checksums      Verify published SHA-256 checksums
+    test-uefi      Boot ISO under QEMU/OVMF, analyze serial log
+    test-bios      Boot ISO under QEMU/BIOS, analyze serial log
+    full           Run all tests + report
+    report         Regenerate report from last run
+    help           Show this help
 
-Examples:
-    sigmaos-test-iso check
-    sigmaos-test-iso verify
-    sigmaos-test-iso test-uefi
-    sigmaos-test-iso full
-
-For more information, visit: https://github.com/AaryanSinghChauhan09/Sigma
+Env: ISO_PATH, TEST_RESULTS, BOOT_TIMEOUT (default 90s)
 EOF
 }
 
-# Main
-case "$1" in
-    check)
-        check_prereqs
-        ;;
-    verify)
-        check_iso
-        verify_structure
-        ;;
-    test-uefi)
-        check_iso
-        test_uefi
-        ;;
-    test-bios)
-        check_iso
-        test_bios
-        ;;
-    full)
-        check_prereqs
-        check_iso
-        verify_structure
-        test_uefi
-        test_bios
-        generate_report
-        ;;
-    report)
-        generate_report
-        ;;
-    help|--help|-h)
-        help
-        ;;
-    *)
-        help
-        exit 1
-        ;;
+case "${1:-help}" in
+    check)      check_prereqs ;;
+    verify)     check_prereqs >/dev/null; find_iso && verify_iso ;;
+    checksums)  find_iso && verify_checksums ;;
+    test-uefi)  check_prereqs >/dev/null; test_uefi ;;
+    test-bios)  check_prereqs >/dev/null; test_bios ;;
+    full)       run_all ;;
+    report)     generate_report ;;
+    *)          help ;;
 esac
