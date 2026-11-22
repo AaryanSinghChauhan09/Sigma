@@ -23,7 +23,7 @@ pub enum DisplayError {
     /// Display manager not found.
     DisplayManagerNotFound(String),
     /// Failed to set display.
-    SetError(String),
+    ManagementError(String),
     /// IO error.
     IoError(String),
 }
@@ -32,7 +32,7 @@ impl std::fmt::Display for DisplayError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             DisplayError::DisplayManagerNotFound(name) => write!(f, "Display manager '{}' not found", name),
-            DisplayError::SetError(msg) => write!(f, "Failed to set display: {}", msg),
+            DisplayError::ManagementError(msg) => write!(f, "Failed to set display: {}", msg),
             DisplayError::IoError(msg) => write!(f, "IO error: {}", msg),
         }
     }

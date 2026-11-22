@@ -351,6 +351,11 @@ pub mod locale_ops;
 /// Follows Single Responsibility Principle: only manages display operations.
 pub mod display_ops;
 
+/// Audio operations module.
+/// Provides actual audio operations using PipeWire/PulseAudio.
+/// Follows Single Responsibility Principle: only manages audio operations.
+pub mod audio_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -426,6 +431,7 @@ pub use swap_ops::{SwapOps, SwapInfo, SwapError as SwapManagerError};
 pub use keyboard_ops::{KeyboardOps, KeyboardError as KeymapError};
 pub use locale_ops::{LocaleOps, LocaleError as SystemLocaleError};
 pub use display_ops::{DisplayOps, DisplayError as DisplayManagerError};
+pub use audio_ops::{AudioOps, AudioSink, AudioError as AudioManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
