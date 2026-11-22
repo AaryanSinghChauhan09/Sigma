@@ -27,15 +27,33 @@ SigmaOS consists of two main components:
 - **Virtualization**: container_ops, virt_ops, uefi_ops
 - **Package**: pkg_install, repo_ops
 
-### Distribution Tools
+### Distribution Tools (13 tools)
 
-- **sigmaos** - Main CLI tool for system management
-- **sigmaos-config** - System configuration with performance/desktop profiles
-- **sigmaos-pkg** - Package manager wrapper with SigmaOS repository support
-- **sigmaos-service** - Service manager with profile-based configuration
-- **sigmaos-release** - Release snapshot and rollback system
-- **sigmaos-update** - System update tool with security/kernel updates
-- **sigmaos-firstboot** - Interactive first-boot configuration wizard
+**Core Management:**
+- sigmaos - Main CLI tool
+- sigmaos-config - System configuration
+- sigmaos-service - Service manager
+
+**Package Management:**
+- sigmaos-pkg - Package manager wrapper
+- sigmaos-build-pkg - Package build system
+- sigmaos-mirror - Mirror configuration
+
+**Updates & Releases:**
+- sigmaos-update - System updates
+- sigmaos-release - Release snapshots
+- sigmaos-news - News feed
+
+**Backup & Audit:**
+- sigmaos-backup - Backup/restore
+- sigmaos-audit - Security audit
+
+**Installation:**
+- sigmaos-firstboot - First-boot wizard
+- sigmaos-chroot - Chroot tool
+
+**Security:**
+- sigmaos-keyring - GPG keyring
 
 ### ISO Build & Installation
 
@@ -233,7 +251,8 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 ## Project Status
 
 - **Library**: 54 modules, 460 unit tests, 56 doctests
-- **Tools**: 7 system tools
+- **Tools**: 13 system tools
+- **Packages**: 3 metapackages (base, kde, gnome)
 - **Documentation**: Comprehensive guides
 - **ISO**: Build scripts using archiso
 - **Installer**: Text-based installer
