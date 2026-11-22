@@ -476,6 +476,11 @@ pub mod metrics_ops;
 /// Follows Single Responsibility Principle: only manages performance profiling operations.
 pub mod profile_ops;
 
+/// Service mesh operations module.
+/// Provides actual service mesh operations.
+/// Follows Single Responsibility Principle: only manages service mesh operations.
+pub mod mesh_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -576,6 +581,7 @@ pub use drift_ops::{DriftOps, DriftError as DriftManagerError};
 pub use change_ops::{ChangeOps, ChangeError as ChangeManagerError};
 pub use metrics_ops::{MetricsOps, MetricsError as MetricsManagerError};
 pub use profile_ops::{ProfileOps, ProfileError as ProfileManagerError};
+pub use mesh_ops::{MeshOps, MeshError as MeshManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
