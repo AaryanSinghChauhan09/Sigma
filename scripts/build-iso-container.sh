@@ -1,68 +1,49 @@
 #!/bin/bash
 # SigmaOS ISO Build in Docker/Container
-# This script builds SigmaOS ISO using Arch Linux container
-# Useful for building on non-Arch systems
+# Builds the archiso profile inside an Arch Linux container — works on
+# non-Arch hosts (e.g. Mint/Ubuntu) where pacstrap/mkarchiso are absent.
+#
+# Requirements: docker or podman; ~25 GB free disk; network access.
 
-set -e
+set -euo pipefail
 
-VERSION="0.5.0"
-CONTAINER_NAME="sigmaos-build"
-IMAGE="archlinux:latest"
+VERSION="${VERSION:-0.5.0}"
+IMAGE="${IMAGE:-archlinux:latest}"
+BUILD_DIR="$(pwd)/build/container-out"
+mkdir -p "$BUILD_DIR"
 
-echo "=== SigmaOS Container Build ==="
-echo "Version: $VERSION"
-echo ""
-
-# Check for Docker or Podman
-if command -v docker &> /dev/null; then
-    CONTAINER_CMD="docker"
-elif command -v podman &> /dev/null; then
-    CONTAINER_CMD="podman"
+# Pick container runtime
+if command -v docker &>/dev/null; then
+    RUN="docker"
+elif command -v podman &>/dev/null; then
+    RUN="podman"
 else
-    echo "Error: Neither Docker nor Podman found"
-    echo "Install Docker: https://docs.docker.com/get-docker/"
-    echo "Or Podman: https://podman.io/getting-started/installation"
+    echo "Error: neither docker nor podman found" >&2
     exit 1
 fi
 
-echo "Using container runtime: $CONTAINER_CMD"
+echo "=== SigmaOS Container ISO Build ==="
+echo "Runtime: $RUN | Image: $IMAGE | Out: $BUILD_DIR"
 
-# Pull Arch Linux image
-echo "Pulling Arch Linux image..."
-$CONTAINER_CMD pull $IMAGE
+$RUN pull "$IMAGE"
 
-# Create build directory
-BUILD_DIR="$(pwd)/build"
-mkdir -p "$BUILD_DIR"
-
-# Run build in container
-echo "Building ISO in container..."
-$CONTAINER_CMD run --rm -it \
-    --name $CONTAINER_NAME \
-    -v "$(pwd):/sigmaos:ro" \
-    -v "$BUILD_DIR:/build" \
-    -w /sigmaos \
-    $IMAGE \
-    bash -c "
+# Repo mounted read-only at /src; copied to writable /work inside container.
+# mkarchiso needs privileged mode for loop devices and mounts.
+exec $RUN run --rm \
+    --privileged \
+    --name "sigmaos-build-$$" \
+    -v "$(pwd):/src:ro" \
+    -v "$BUILD_DIR:/out" \
+    "$IMAGE" \
+    bash -c '
         set -e
-        echo 'Installing build dependencies...'
-        pacman -Sy --noconfirm archiso git base-devel
-        
-        echo 'Running ISO build...'
+        pacman -Sy --noconfirm --needed archiso git base-devel xorriso squashfs-tools
+        cp -a /src /work
+        cd /work
         ./scripts/build-iso-archiso.sh
-        
-        echo 'Copying ISO to build directory...'
-        cp -r build/iso/* /build/
-        
-        echo 'Build complete!'
-    "
-
-echo ""
-echo "=== Build Complete ==="
-echo "ISO location: $BUILD_DIR/"
-echo ""
-echo "ISO files:"
-ls -lh "$BUILD_DIR"/*.iso 2>/dev/null || echo "No ISO found in build directory"
-echo ""
-echo "To test in QEMU:"
-echo "  qemu-system-x86_64 -m 2048 -cdrom $BUILD_DIR/sigmaos-$VERSION-x86_64.iso -boot d"
+        mkdir -p /out
+        cp -a build/iso/*.iso /out/ 2>/dev/null || true
+        cp -a build/iso/checksums /out/ 2>/dev/null || true
+        echo "=== container build finished ==="
+        ls -lh /out/
+    '
