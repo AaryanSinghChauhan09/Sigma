@@ -49,6 +49,16 @@ pub mod power;
 /// Follows Single Responsibility Principle: only manages monitoring subsystem.
 pub mod monitoring;
 
+/// Boot configuration module.
+/// Provides bootloader configuration (GRUB, systemd-boot) and kernel parameters.
+/// Follows Single Responsibility Principle: only manages boot subsystem.
+pub mod boot;
+
+/// Init system module.
+/// Provides systemd service configuration and unit management.
+/// Follows Single Responsibility Principle: only manages init subsystem.
+pub mod init;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -58,6 +68,8 @@ pub use security::{SecurityManager, SecureBootState, TpmVersion, IntegrityCheck}
 pub use filesystem::{FileSystemManager, FileSystemType, Snapshot, MountOption};
 pub use power::{PowerManager, BatteryStatus, PowerProfile, TdpLevel};
 pub use monitoring::{MonitoringManager, SystemMetric, MetricType, HealthStatus};
+pub use boot::{BootManager, BootLoaderType, KernelParams, BootEntry};
+pub use init::{InitManager, ServiceUnit, ServiceState, TargetType};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {

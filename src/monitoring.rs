@@ -399,7 +399,6 @@ mod tests {
 
     #[test]
     fn test_monitoring_manager_set_threshold_invalid() {
-        let mut mgr = MonitoringManager::new();
         let threshold = Threshold::new(90.0, 70.0);
         assert!(threshold.is_err());
     }
