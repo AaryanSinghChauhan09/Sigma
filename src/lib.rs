@@ -481,6 +481,14 @@ pub mod observer_ops;
 /// Factory pattern module.
 /// Implements Factory design pattern for object creation.
 pub mod factory_ops;
+/// Thread pool module for efficient task execution
+pub mod pool_ops;
+/// Resource pool for managing reusable resources
+pub mod resource_pool_ops;
+/// Connection pool for database/network connections
+pub mod connection_pool_ops;
+/// Mutex operations for thread synchronization
+pub mod mutex_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -751,6 +759,14 @@ pub mod observer_ops;
 /// Factory pattern module.
 /// Implements Factory design pattern for object creation.
 pub mod factory_ops;
+/// Thread pool module for efficient task execution
+pub mod pool_ops;
+/// Resource pool for managing reusable resources
+pub mod resource_pool_ops;
+/// Connection pool for database/network connections
+pub mod connection_pool_ops;
+/// Mutex operations for thread synchronization
+pub mod mutex_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
