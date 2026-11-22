@@ -6,14 +6,14 @@ SigmaOS is a Linux distribution built on Arch Linux with a comprehensive Rust-ba
 
 SigmaOS consists of two main components:
 
-1. **System Library** - A comprehensive Rust library (511+ tests, 72 modules) for system management
+1. **System Library** - A comprehensive Rust library (521+ tests, 75 modules) for system management
 2. **Distribution Tools** - ISO build, installer, and system management tools
 
 ## Features
 
 ### System Library (sigma-system)
 
-72 modules covering all major Linux subsystems:
+75 modules covering all major Linux subsystems:
 
 - **Process/Kernel**: process, cpu_ops, mem_ops, kernel, scheduler_ops
 - **Storage**: disk, fs_ops, mount_ops, disk_space_ops, swap_ops, raid_ops, lvm_ops
@@ -21,12 +21,14 @@ SigmaOS consists of two main components:
 - **System**: sys_info, thermal, power_status, io_stats, resource_monitor, sensor_ops
 - **Services**: service, systemd_ops, cron_ops, timer_ops, session_ops
 - **Security**: firewall_ops, cert_ops, user_group_ops
-- **Desktop**: display_ops, audio_ops, keyboard_ops, locale_ops, gpu_ops, fingerprint_ops, smartcard_ops
+- **Desktop**: display_ops, audio_ops, keyboard_ops, locale_ops, gpu_ops, fingerprint_ops, smartcard_ops, sound_ops
 - **Backup**: backup_ops, archive_ops, logrotate_ops
 - **Config**: timezone_ops, hostname_ops, env_ops, file_watcher
 - **Virtualization**: container_ops, virt_ops, uefi_ops
 - **Package**: pkg_install, repo_ops, patch_ops
 - **Enterprise**: tco_ops, compliance_ops, incident_ops, capacity_ops, inventory_ops, disaster_ops, asset_ops, lifecycle_ops, drift_ops, change_ops, metrics_ops, profile_ops, mesh_ops, cluster_ops, platform_ops, cloud_ops
+- **Media**: email_ops, notify_ops, clipboard_ops, screenshot_ops, record_ops
+- **VPN**: vpn_ops
 
 ### Distribution Tools (14 tools)
 
@@ -251,7 +253,7 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 
 ## Project Status
 
-- **Library**: 72 modules, 511 unit tests, 82 doctests
+- **Library**: 75 modules, 521 unit tests, 89 doctests
 - **Tools**: 14 system tools
 - **Packages**: 3 metapackages (base, kde, gnome)
 - **Config**: pacman.conf, sysctl, GRUB, KDE configs

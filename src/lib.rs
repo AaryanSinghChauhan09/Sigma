@@ -264,6 +264,11 @@ pub mod file_watcher;
 /// Follows Single Responsibility Principle: only manages sound operations.
 pub mod sound_ops;
 
+/// Bandwidth operations module.
+/// Provides actual bandwidth monitoring via ifstat.
+/// Follows Single Responsibility Principle: only manages bandwidth operations.
+pub mod bandwidth_ops;
+
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
 /// Follows Single Responsibility Principle: only manages resource monitoring.
@@ -588,6 +593,7 @@ pub use systemd_ops::{SystemdOps, SystemStatus, UnitStatus, SystemdError};
 pub use dns_ops::{DnsOps, DnsError};
 pub use file_watcher::{FileWatcherOps, FileWatcherError};
 pub use sound_ops::{SoundOps, SoundError as SoundManagerError};
+pub use bandwidth_ops::{BandwidthOps, BandwidthError as BandwidthManagerError};
 pub use resource_monitor::{ResourceMonitor, ResourceSnapshot, ResourceError};
 pub use cron_ops::{CronOps, CronJob as CronJobOp, CronError as CronOpError};
 pub use timer_ops::{TimerOps, TimerInfo, TimerError};
