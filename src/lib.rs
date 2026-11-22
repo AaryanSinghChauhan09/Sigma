@@ -527,6 +527,12 @@ pub mod demeter_ops;
 pub mod cohesion_ops;
 /// Coupling minimization for loose dependencies
 pub mod coupling_ops;
+/// Liskov Substitution Principle for substitutable types
+pub mod liskov_ops;
+/// Open-Closed Principle for extensible systems
+pub mod ocp_ops;
+/// Layered design for system architecture
+pub mod layered_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -843,6 +849,12 @@ pub mod demeter_ops;
 pub mod cohesion_ops;
 /// Coupling minimization for loose dependencies
 pub mod coupling_ops;
+/// Liskov Substitution Principle for substitutable types
+pub mod liskov_ops;
+/// Open-Closed Principle for extensible systems
+pub mod ocp_ops;
+/// Layered design for system architecture
+pub mod layered_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
