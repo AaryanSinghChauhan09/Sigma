@@ -295,6 +295,12 @@ pub mod proxy_ops;
 pub mod backup_ops;
 
 /// User group operations module.
+
+/// Certificate operations module.
+/// Provides actual SSL/TLS certificate operations using openssl.
+/// Follows Single Responsibility Principle: only manages certificate operations.
+pub mod cert_ops;
+
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
 pub mod user_group_ops;
@@ -358,6 +364,10 @@ pub use firewall_ops::{FirewallOps as FwManager, FirewallRule as FwRule, Firewal
 pub use proxy_ops::{ProxyOps, ProxyConfig, ProxyError};
 pub use backup_ops::{BackupOps as RealBackupOps, BackupError as RealBackupError};
 pub use user_group_ops::{UserGroupOps, UserInfo, GroupInfo, UserGroupError};
+pub use cert_ops::{CertOps, CertInfo, CertError};
+/// Certificate operations module.
+/// Provides actual SSL/TLS certificate operations using openssl.
+/// Follows Single Responsibility Principle: only manages certificate operations.
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
