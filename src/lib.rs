@@ -219,6 +219,11 @@ pub mod mount_ops;
 /// Follows Single Responsibility Principle: only manages process tree.
 pub mod proc_tree;
 
+/// Network statistics module.
+/// Provides actual network interface stats using /sys/class/net.
+/// Follows Single Responsibility Principle: only manages network stats.
+pub mod net_stats;
+
 /// Public re-exports for convenient access following Demeter's Law.
 pub use adjustments::{SystemAdjuster, GovernorMode};
 pub use persona::{SystemPersona, PersonaManager};
@@ -262,6 +267,7 @@ pub use thermal::{ThermalMonitor, TemperatureReadings, ThermalZone, ThermalError
 pub use power_status::{PowerStatus, BatteryInfo, BatteryStatus as PowerBatteryStatus, PowerSupplyInfo, PowerError};
 pub use mount_ops::{MountOps, MountInfo, MountError};
 pub use proc_tree::{ProcTree, ProcessNode, ProcessTree, ProcTreeError};
+pub use net_stats::{NetStats as IfaceStats, InterfaceStats, NetStatsError};
 
 /// Convenience function to create a PersonaManager with fail-fast validation
 pub fn create_persona_manager(initial: SystemPersona) -> PersonaManager {
