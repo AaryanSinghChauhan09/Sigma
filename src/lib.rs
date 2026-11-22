@@ -466,6 +466,11 @@ pub mod drift_ops;
 /// Follows Single Responsibility Principle: only manages change management operations.
 pub mod change_ops;
 
+/// Metrics collection operations module.
+/// Provides actual metrics collection operations.
+/// Follows Single Responsibility Principle: only manages metrics collection operations.
+pub mod metrics_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -564,6 +569,7 @@ pub use patch_ops::{PatchOps, Patch, PatchError as PatchManagerError};
 pub use lifecycle_ops::{LifecycleOps, LifecycleError as LifecycleManagerError};
 pub use drift_ops::{DriftOps, DriftError as DriftManagerError};
 pub use change_ops::{ChangeOps, ChangeError as ChangeManagerError};
+pub use metrics_ops::{MetricsOps, MetricsError as MetricsManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
