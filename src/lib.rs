@@ -501,6 +501,11 @@ pub mod cloud_ops;
 /// Follows Single Responsibility Principle: only manages email operations.
 pub mod email_ops;
 
+/// Notification operations module.
+/// Provides actual notification operations via notify-send.
+/// Follows Single Responsibility Principle: only manages notification operations.
+pub mod notify_ops;
+
 /// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
@@ -606,6 +611,7 @@ pub use cluster_ops::{ClusterOps, ClusterError as ClusterManagerError};
 pub use platform_ops::{PlatformOps, PlatformError as PlatformManagerError};
 pub use cloud_ops::{CloudOps, CloudError as CloudManagerError};
 pub use email_ops::{EmailOps, EmailError as EmailManagerError};
+pub use notify_ops::{NotifyOps, NotifyError as NotifyManagerError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
