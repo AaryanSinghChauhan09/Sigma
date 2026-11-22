@@ -301,6 +301,12 @@ pub mod backup_ops;
 /// Follows Single Responsibility Principle: only manages certificate operations.
 pub mod cert_ops;
 
+/// Archive operations module.
+/// Provides actual archive operations using tar and zip.
+/// Follows Single Responsibility Principle: only manages archive operations.
+pub mod archive_ops;
+
+/// User group operations module.
 /// Provides actual user and group operations using useradd/groupadd.
 /// Follows Single Responsibility Principle: only manages user/group operations.
 pub mod user_group_ops;
@@ -365,6 +371,7 @@ pub use proxy_ops::{ProxyOps, ProxyConfig, ProxyError};
 pub use backup_ops::{BackupOps as RealBackupOps, BackupError as RealBackupError};
 pub use user_group_ops::{UserGroupOps, UserInfo, GroupInfo, UserGroupError};
 pub use cert_ops::{CertOps, CertInfo, CertError};
+pub use archive_ops::{ArchiveOps, ArchiveError};
 /// Certificate operations module.
 /// Provides actual SSL/TLS certificate operations using openssl.
 /// Follows Single Responsibility Principle: only manages certificate operations.
