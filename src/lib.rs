@@ -521,6 +521,12 @@ pub mod interface_ops;
 pub mod discovery_ops;
 /// Dependency injection for loose coupling
 pub mod dependency_ops;
+/// Law of Demeter for minimizing coupling
+pub mod demeter_ops;
+/// Cohesion maximization for related functionality
+pub mod cohesion_ops;
+/// Coupling minimization for loose dependencies
+pub mod coupling_ops;
 
 /// Resource monitor module.
 /// Provides actual system resource monitoring using /proc and /sys.
@@ -831,6 +837,12 @@ pub mod interface_ops;
 pub mod discovery_ops;
 /// Dependency injection for loose coupling
 pub mod dependency_ops;
+/// Law of Demeter for minimizing coupling
+pub mod demeter_ops;
+/// Cohesion maximization for related functionality
+pub mod cohesion_ops;
+/// Coupling minimization for loose dependencies
+pub mod coupling_ops;
 
 /// Sensor operations module.
 /// Provides actual sensor operations using /sys/class/hwmon.
