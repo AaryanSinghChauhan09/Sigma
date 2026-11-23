@@ -106,7 +106,6 @@ zstd
 grub
 efibootmgr
 syslinux
-systemd-boot
 os-prober
 mkinitcpio
 sudo
@@ -139,9 +138,7 @@ less
 man-db
 man-pages
 tzdata
-locales
 kbd
-console-setup
 gettext
 groff
 perl
@@ -157,7 +154,6 @@ xfsprogs
 cryptsetup
 lvm2
 mdadm
-reiserfsprogs
 jfsutils
 f2fs-tools
 nilfs-utils
@@ -181,7 +177,7 @@ wget
 rsync
 ca-certificates
 base-devel
- pacman-contrib
+pacman-contrib
 
 # System monitoring
 htop
@@ -190,7 +186,7 @@ strace
 lsof
 tmux
 screen
-neofetch
+fastfetch
 btop
 
 # Installation tools
@@ -307,7 +303,7 @@ if [ -z "$DISPLAY" ] && [ $(tty) = "/dev/tty1" ]; then
     echo "  /root/install-sigmaos.sh"
     echo ""
     echo "To view system information, run:"
-    echo "  neofetch"
+    echo "  fastfetch"
     echo ""
     echo "To start a shell, press Ctrl+C"
     echo "=========================================="
