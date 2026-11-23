@@ -49,6 +49,7 @@ arch='x86_64'
 # "realpath: '': No such file or directory".
 pacman_conf='/etc/pacman.conf'
 buildmodes=('iso')
+bootmodes=('bios.syslinux' 'uefi.systemd-boot')
 EOF
 
 # Create packages list - comprehensive like Arch's releng
