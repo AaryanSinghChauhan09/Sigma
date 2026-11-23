@@ -1,6 +1,20 @@
 # SigmaOS
 
-SigmaOS is a sovereign Linux distribution with a comprehensive Rust-based system management library and suite of command-line tools. Built with modular architecture and community-oriented development, SigmaOS provides a complete operating system ecosystem with programmatic system management.
+SigmaOS is an **Arch-based Linux distribution** built on the stock Linux kernel and official Arch packages, with an Omarchy-inspired pre-configured Hyprland desktop. It is not a custom-kernel project.
+
+## Repository Map
+
+| Repository | Role | Status |
+|---|---|---|
+| [SigmaOS-ISO](https://github.com/AaryanSinghChauhan09/SigmaOS-ISO) | **The bootable system** — archiso profile, live desktop, installer, releases | Working |
+| This repo (`Sigma`) | Component registry & control plane — Rust system library, CLI tools, ISO build scripts | Working (library); tools vary |
+| `SigmaOS-*` (200 repos) | Individual components: desktop apps, themes, plugins, libraries | Mixed maturity |
+
+**To try SigmaOS, use SigmaOS-ISO** — it owns the live image, installer, and release process:
+
+- **Download:** https://aaryansinghchauhan09.github.io/Sigma/download.html
+- **Releases:** https://github.com/AaryanSinghChauhan09/SigmaOS-ISO/releases
+- **Latest verified ISO:** `sigmaos-desktop-2026.11.23-x86_64.iso` (BIOS + UEFI, QEMU-tested)
 
 ## What Is SigmaOS?
 
@@ -8,6 +22,8 @@ SigmaOS consists of two main components:
 
 1. **System Library** - A comprehensive Rust library (600+ tests, 159 modules) for system management
 2. **Distribution Tools** - ISO build, installer, and system management tools
+
+> **Status legend:** ✅ working · 🧪 experimental · 📋 planned. Claims below describe the component library's coverage; individual `sigmaos-*` tools vary in maturity — check each component repo's `COMPONENT.toml` and CI status.
 
 ## Features
 
@@ -135,20 +151,19 @@ sigmaos monitor cpu
 
 ### Building an ISO
 
-```bash
-# On Linux-based systems
-./scripts/build-iso-archiso.sh
+**The supported path is [SigmaOS-ISO](https://github.com/AaryanSinghChauhan09/SigmaOS-ISO)** — it contains the maintained archiso profile and release pipeline. The scripts in `scripts/` are experimental alternatives kept for reference:
 
-# Alternative method
-./scripts/build-iso-improved.sh
+```bash
+# Experimental — not the release path
+./scripts/build-iso-archiso.sh
 ```
 
 ### Installing SigmaOS
 
-1. Boot the ISO
-2. Run: `sudo /root/install-sigmaos.sh`
-3. Follow the prompts
-4. Reboot into your new system
+1. Download the latest ISO from [SigmaOS-ISO releases](https://github.com/AaryanSinghChauhan09/SigmaOS-ISO/releases) (see [download page](https://aaryansinghchauhan09.github.io/Sigma/download.html))
+2. Write it to USB (`dd`) or boot it in a VM — **test in a disposable VM first**
+3. Boot the live ISO → Hyprland desktop starts automatically
+4. Run the installer from the live session (`sigmaos-install`) or install manually with `pacman`/`arch-install` conventions
 
 ### First Boot Setup
 
@@ -281,19 +296,11 @@ sudo chmod +x /usr/local/bin/sigmaos-*
 - **Documentation**: Comprehensive guides
 - **Version**: 0.5.0
 
-## ⚠️ Important: SigmaOS is NOT Yet Bootable
+## Bootable Status
 
-SigmaOS has complete infrastructure but requires a **Linux system** to build and test the actual ISO:
+✅ **SigmaOS-ISO is bootable and verified** — the live ISO boots to a Hyprland desktop in QEMU (BIOS + UEFI), with published releases and checksums. See [SigmaOS-ISO](https://github.com/AaryanSinghChauhan09/SigmaOS-ISO).
 
-```bash
-# On a Linux system:
-git clone https://github.com/AaryanSinghChauhan09/Sigma
-cd Sigma
-./scripts/sigmaos-pipeline full
-# This will build library, packages, ISO, and test it
-```
-
-See [BOOTABLE_PLAN.md](BOOTABLE_PLAN.md) for detailed steps to make SigmaOS bootable.
+The scripts under `scripts/` in this repo are **experimental** and not the release path. For a reproducible image, use the SigmaOS-ISO archiso profile.
 
 ## Technical Details
 
@@ -301,7 +308,7 @@ See [BOOTABLE_PLAN.md](BOOTABLE_PLAN.md) for detailed steps to make SigmaOS boot
 |---------|---------|
 | Base | Arch Linux packages |
 | ISO Build | archiso via `scripts/build-iso-container.sh` (Docker) |
-| Bootable ISO | ✅ Builds; live-boot verification in progress |
+| Bootable ISO | ✅ Verified in QEMU (BIOS + UEFI) — see SigmaOS-ISO releases |
 | Installer | `scripts/install-sigmaos.sh` |
 | CLI Tool | Yes (14 tools) |
 | System Library | Rust (159 modules, enterprise ops) |
