@@ -35,7 +35,6 @@ exec yes | $RUN run --rm -i \
     --name "sigmaos-build-$$" \
     -v "$(pwd):/src:ro" \
     -v "$BUILD_DIR:/out" \
-    -v sigmaos-pacman-cache:/work/build/archiso/x86_64/airootfs/var/cache/pacman/pkg \
     "$IMAGE" \
     bash -c '
         set -e
