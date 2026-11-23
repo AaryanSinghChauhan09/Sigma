@@ -121,3 +121,18 @@ rebrand commit + `SIGMAOS_FORK.md` in each):
 All MIT-licensed; upstream copyright retained. Fork policy per
 `SIGMAOS_FORK.md` in each repo: SigmaOS branding on repo docs, upstream
 names kept for compatibility (pkgs.omarchy.org URLs, package names, paths).
+
+## Fork status (final batch)
+
+Additional Omarchy forks pushed this session:
+
+- `SigmaOS-theme-marketplace` @ `ad52c77` — themes.omarchy.org site (Rails)
+- `SigmaOS-plugin-registry` @ `d1a9877` — plugin index
+- `SigmaOS-local-ai` @ `96f6430` — local-model engine/recipes (repo created after quota reset)
+
+Previously-blocked component repos now on GitHub (quota reset):
+`SigmaOS-speedtest`, `SigmaOS-site`, `SigmaOS-mac-support`,
+`SigmaOS-shell-config`, `SigmaOS-omarchy-mac-pkgs`, `SigmaOS-dkms`,
+`SigmaOS-sec-audit`, `SigmaOS-live-media`, `SigmaOS-ports`.
+
+Only `SigmaOS-wiki-hub` remains uncreated (throttled again at last repo).
