@@ -92,3 +92,19 @@ manifests, plugin/theme marketplaces, archiso ISO pipeline, pkgs repo).
   (e.g. themes-loops + themes-intros → SigmaOS-themes).
 - All repos GPL-3.0-or-later, SigmaOS identity only, no upstream references
   in shipped metadata.
+
+---
+
+## Fork status (updated)
+
+`SigmaOS-omarchy` is now a **real fork** of `omacom/omarchy` — full upstream
+history (8,206 commits) plus SigmaOS rebrand commit `846060e64` adding
+`SIGMAOS_FORK.md` fork policy and SigmaOS-branded README. MIT license and
+upstream copyright retained. The earlier Rust scaffold was replaced via
+force-push (it was a placeholder, not the Omarchy codebase).
+
+Fork policy: SigmaOS identity for user-facing branding; upstream names kept
+only for compatibility (package names, paths, license). Divergence per
+`docs/COMPOSITOR_DECISION.md`, `docs/THEME_DECISION.md`,
+`docs/COMPETITIVE_STRATEGY.md`. Periodic upstream syncs preserve SigmaOS
+decisions.
