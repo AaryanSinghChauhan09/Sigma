@@ -44,6 +44,10 @@ profile_name='sigmaos'
 description='SigmaOS Live System - Based on Arch Linux'
 version='$VERSION'
 arch='x86_64'
+# archiso 92 bug: _read_profile realpaths \$pacman_conf before _set_overrides
+# defaults it — profiledef.sh must set it or mkarchiso dies with
+# "realpath: '': No such file or directory".
+pacman_conf='/etc/pacman.conf'
 EOF
 
 # Create packages list - comprehensive like Arch's releng
