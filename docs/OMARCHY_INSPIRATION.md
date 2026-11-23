@@ -136,3 +136,14 @@ Previously-blocked component repos now on GitHub (quota reset):
 `SigmaOS-sec-audit`, `SigmaOS-live-media`, `SigmaOS-ports`.
 
 Only `SigmaOS-wiki-hub` remains uncreated (throttled again at last repo).
+
+## Fork status (app batch)
+
+Additional Omarchy forks live on GitHub: `SigmaOS-plain`, `SigmaOS-omaview`,
+`SigmaOS-omadots`, `SigmaOS-omafind` (repos pre-existed; fork force-pushed).
+
+15 more forks staged locally in `~/sigmaos-repos/` with upstream remotes and
+`push-forks.sh` (unshallow → create → push, idempotent) — awaiting
+repo-creation quota: hype, signed, omawrite, omachee, omacon, omacut,
+omakub, omapager, omarchs, omareel, omasnap, omaterm, mac-installer,
+wiki-hub, plugin-marketplace (needs partial-clone approach).
