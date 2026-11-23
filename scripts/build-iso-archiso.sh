@@ -216,6 +216,17 @@ Include = /etc/pacman.d/mirrorlist
 Include = /etc/pacman.d/mirrorlist
 EOF
 
+# Live system needs its own pacman.conf + mirrorlist (mkarchiso requires
+# airootfs/etc/pacman.conf to exist when listing installed packages)
+mkdir -p "$PROFILE_DIR/airootfs/etc/pacman.d"
+cp "$PROFILE_DIR/pacman.conf" "$PROFILE_DIR/airootfs/etc/pacman.conf"
+cat > "$PROFILE_DIR/airootfs/etc/pacman.d/mirrorlist" << 'EOF'
+Server = https://geo.mirror.pkgbuild.com/$repo/os/$arch
+Server = https://ftp.osuosl.org/pub/archlinux/$repo/os/$arch
+Server = https://mirror.clarkson.edu/archlinux/$repo/os/$arch
+Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch
+EOF
+
 # Apply SigmaOS base configuration
 echo "sigmaos" > "$PROFILE_DIR/airootfs/etc/hostname"
 echo "en_US.UTF-8 UTF-8" > "$PROFILE_DIR/airootfs/etc/locale.gen"
