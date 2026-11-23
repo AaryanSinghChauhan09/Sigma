@@ -48,6 +48,7 @@ arch='x86_64'
 # defaults it — profiledef.sh must set it or mkarchiso dies with
 # "realpath: '': No such file or directory".
 pacman_conf='/etc/pacman.conf'
+buildmodes=('iso')
 EOF
 
 # Create packages list - comprehensive like Arch's releng
