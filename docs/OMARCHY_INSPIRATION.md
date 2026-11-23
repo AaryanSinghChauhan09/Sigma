@@ -147,3 +147,27 @@ Additional Omarchy forks live on GitHub: `SigmaOS-plain`, `SigmaOS-omaview`,
 repo-creation quota: hype, signed, omawrite, omachee, omacon, omacut,
 omakub, omapager, omarchs, omareel, omasnap, omaterm, mac-installer,
 wiki-hub, plugin-marketplace (needs partial-clone approach).
+
+## Fork fleet status (full pass)
+
+**Live on GitHub (13 Omarchy forks):** omarchy, omarchy-pkgs, omarchy-iso,
+theme-registry, theme-marketplace, plugin-registry, local-ai, mac-support,
+omarchy-mac-pkgs, plain, omaview, omadots, omafind.
+
+**Staged locally (40 forks, awaiting repo-creation quota):**
+`~/sigmaos-repos/` — each has full/partial upstream history, `origin` →
+SigmaOS repo, `upstream` → omacom repo, `SIGMAOS_FORK.md`, rebranded README.
+`push-forks.sh` unshallows → creates → pushes (idempotent).
+
+Groups staged: apps (hype, signed, omawrite, omachee, omacon, omacut,
+omakub, omapager, omarchs, omareel, omasnap, omaterm, omacalc, omamac?),
+desktop/shell (ui, configurator, notification-center, port-forward,
+hyprland-titlebars, fish, zsh, lazyvim, mirror, chromium, quickshell, sddm,
+screensaver, amiga-screensaver, audio-tuner, themes: osaka-jade,
+synthwave84, themes-loops, theme-sync, site-crt), mac (mac-installer,
+maclab), try/state (try-omarchy, try-omarchy-windows, state-of-omarchy),
+plugin-marketplace (needs partial-clone), wiki-hub.
+
+**Remaining omacom repos not yet forked** are mostly niche/experimental
+(library images, themes for specific apps, research tools) — candidates for
+the research layer rather than forks.
