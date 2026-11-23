@@ -286,6 +286,12 @@ PasswordAuthentication yes
 X11Forwarding no
 EOF
 
+# Live initramfs must include the archiso hook to find/mount airootfs.sfs
+cat > "$PROFILE_DIR/airootfs/etc/mkinitcpio.conf" << 'EOF'
+HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block filesystems fsck archiso)
+COMPRESSION="zstd"
+EOF
+
 # Create live boot configuration with auto-login
 mkdir -p "$PROFILE_DIR/airootfs/etc/systemd/system/getty@tty1.service.d"
 cat > "$PROFILE_DIR/airootfs/etc/systemd/system/getty@tty1.service.d/autologin.conf" << 'EOF'
