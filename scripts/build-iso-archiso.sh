@@ -376,12 +376,20 @@ echo ""
 $SUDO mkarchiso -v -w "$WORK_DIR" -o "$OUTPUT_DIR" "$PROFILE_DIR"
 
 echo "=== Build complete ==="
-echo "ISO: $OUTPUT_DIR/sigmaos-$VERSION-x86_64.iso"
-cd - > /dev/null
 
-# Generate checksum
+# mkarchiso names output mkarchiso-<profile>-<arch>.iso — rename to ours.
+ISO_GLOB="$OUTPUT_DIR"/*.iso
+ISO_FILE=$(ls -t $ISO_GLOB 2>/dev/null | head -1)
+if [ -n "$ISO_FILE" ] && [ "$ISO_FILE" != "$OUTPUT_DIR/sigmaos-$VERSION-x86_64.iso" ]; then
+    mv "$ISO_FILE" "$OUTPUT_DIR/sigmaos-$VERSION-x86_64.iso"
+fi
+
+echo "ISO: $OUTPUT_DIR/sigmaos-$VERSION-x86_64.iso"
+
+# Generate checksum (non-fatal — never block artifact handoff on this)
 cd "$OUTPUT_DIR"
-sha256sum "sigmaos-$VERSION-x86_64.iso" > "sigmaos-$VERSION-x86_64.iso.sha256"
+[ -f "sigmaos-$VERSION-x86_64.iso" ] && \
+    sha256sum "sigmaos-$VERSION-x86_64.iso" > "sigmaos-$VERSION-x86_64.iso.sha256" || true
 
 echo ""
 echo "=== Summary ==="
