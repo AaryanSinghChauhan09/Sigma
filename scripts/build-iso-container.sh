@@ -38,6 +38,11 @@ exec yes | $RUN run --rm -i \
     "$IMAGE" \
     bash -c '
         set -e
+        cat > /etc/pacman.d/mirrorlist << 'MIRRORS'
+Server = https://geo.mirror.pkgbuild.com/$repo/os/$arch
+Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch
+Server = https://archlinux.mirror.constant.com/$repo/os/$arch
+MIRRORS
         pacman -Sy --noconfirm --needed archiso git base-devel xorriso squashfs-tools
         # copy source excluding heavy build artifacts
         mkdir -p /work
