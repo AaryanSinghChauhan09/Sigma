@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Security Management — SigmaOS</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--accent:#7aa2f7;--muted:#8b949e;--card:#161b22;--border:#30363d}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem}
+header h1{font-size:1.4rem;margin:0}header h1 a{color:var(--accent);text-decoration:none}
+header .tag{color:var(--muted);font-size:.85rem}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{width:260px;padding:1.5rem;border-right:1px solid var(--border);flex-shrink:0}
+nav ul{list-style:none;padding:0;margin:0}nav li{margin:.35rem 0}
+nav a{color:var(--muted);text-decoration:none;font-size:.9rem}nav a:hover{color:var(--accent)}
+main{flex:1;padding:2rem;min-width:0}
+main h1{border-bottom:1px solid var(--border);padding-bottom:.5rem}
+main h2{margin-top:2rem;color:var(--accent)}
+main code{background:var(--card);padding:.15em .4em;border-radius:4px;font-size:.9em}
+main pre{background:var(--card);padding:1rem;border-radius:8px;overflow-x:auto}
+main pre code{background:none;padding:0}
+main table{border-collapse:collapse;width:100%}main th,main td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
+main th{background:var(--card)}
+main a{color:var(--accent)}
+.hero{text-align:center;padding:4rem 2rem}
+.hero h1{font-size:2.6rem;border:none}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:640px;margin:1rem auto}
+.btn{display:inline-block;background:var(--accent);color:#0d1117;padding:.7rem 1.6rem;border-radius:8px;text-decoration:none;font-weight:600;margin:.3rem}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;padding:1rem 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card h3{margin:0 0 .4rem;color:var(--accent);font-size:1rem}
+.card p{margin:0;color:var(--muted);font-size:.85rem}
+footer{border-top:1px solid var(--border);padding:1.5rem 2rem;color:var(--muted);font-size:.85rem;text-align:center}
+@media(max-width:800px){nav{display:none}.layout{flex-direction:column}}
+</style></head><body>
+<header><h1><a href="https://aaryansinghchauhan09.github.io/Sigma/">Σ SigmaOS</a></h1><span class="tag">Sovereign Arch Linux Desktop</span></header>
+<div class="layout"><nav><ul><li><a href="https://aaryansinghchauhan09.github.io/Sigma/boot-configuration.html">Boot Configuration</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/container-runtime.html">Container Runtime</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/filesystem-management.html">Filesystem Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/hardware-detection.html">Hardware Detection</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/init-system.html">Init System</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/logging-system.html">Logging System</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/memory-management.html">Memory Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/monitoring-module.html">Monitoring Module</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/network-management.html">Network Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/package-management.html">Package Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/power-management.html">Power Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/security-audit.html">Security Audit</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/security-management.html">Security Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/sigma-wiki.html">Sigma Wiki</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/time-synchronization.html">Time Synchronization</a></li></ul></nav><main><h1 id="sigmaos-security-management-module">SigmaOS Security Management Module</h1>
+<h2 id="overview">Overview</h2>
+<p>The security management module provides secure boot verification, TPM 2.0 integration, and integrity checks. It is inspired by Linux kernel integrity subsystem and Arch Linux security practices.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Secure Boot</strong>: Configure and verify secure boot state</li>
+<li><strong>TPM Integration</strong>: Support for TPM 1.2 and TPM 2.0 with PCR banks</li>
+<li><strong>Integrity Checks</strong>: Verify system component integrity</li>
+<li><strong>Security Scoring</strong>: Calculate overall security score (0-100)</li>
+<li><strong>Key Management</strong>: Manage secure boot keys</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-rust">use sigma_system::{SecurityManager, SecureBootState, TpmVersion, TpmConfig, SecureBootKey};
+
+// Create a security manager with TPM 2.0
+let tpm_config = TpmConfig::new(TpmVersion::Tpm20)
+    .with_pcr_bank(&quot;sha256&quot;)
+    .enable_attestation();
+let mut mgr = SecurityManager::new(SecureBootState::Enabled, tpm_config);
+
+// Add secure boot keys
+let key = SecureBootKey::new(&quot;sigmaos-key&quot;, &quot;rsa&quot;)
+    .with_owner(&quot;SigmaOS&quot;)
+    .with_fingerprint(&quot;ABCD1234&quot;);
+mgr.add_key(key).unwrap();
+
+// Add integrity checks
+mgr.add_integrity_check(&quot;kernel&quot;, sigma_system::IntegrityCheck::Passed);
+mgr.add_integrity_check(&quot;initramfs&quot;, sigma_system::IntegrityCheck::Passed);
+
+// Generate configurations
+let efi_config = mgr.generate_efi_vars_config();
+let tpm_config = mgr.generate_tpm_config();
+let report = mgr.generate_integrity_report();
+
+println!(&quot;Security Score: {}&quot;, mgr.security_score());
+println!(&quot;Recommendation: {}&quot;, mgr.get_security_recommendation());
+</code></pre>
+<h2 id="configuration">Configuration</h2>
+<h3 id="securebootstate">SecureBootState</h3>
+<ul>
+<li><code>Enabled</code>: Secure boot is enabled</li>
+<li><code>Disabled</code>: Secure boot is disabled</li>
+<li><code>Unknown</code>: Secure boot state unknown</li>
+</ul>
+<h3 id="tpmconfig">TpmConfig</h3>
+<ul>
+<li><code>version</code>: TPM version (None, 1.2, 2.0)</li>
+<li><code>enabled</code>: TPM enabled</li>
+<li><code>pcr_banks</code>: PCR banks to use (sha1, sha256, etc.)</li>
+<li><code>attestation_enabled</code>: Enable remote attestation</li>
+</ul>
+<h3 id="securebootkey">SecureBootKey</h3>
+<ul>
+<li><code>key_id</code>: Key identifier</li>
+<li><code>key_type</code>: Key type (rsa, ecdsa, etc.)</li>
+<li><code>owner</code>: Key owner</li>
+<li><code>fingerprint</code>: Key fingerprint</li>
+</ul>
+<h2 id="api-reference">API Reference</h2>
+<h3 id="integritycheck">IntegrityCheck</h3>
+<ul>
+<li><code>Passed</code>: Check passed</li>
+<li><code>Failed</code>: Check failed</li>
+<li><code>Skipped</code>: Check skipped</li>
+</ul>
+<h3 id="methods">Methods</h3>
+<ul>
+<li><code>add_key()</code>: Add a secure boot key</li>
+<li><code>add_integrity_check()</code>: Add an integrity check result</li>
+<li><code>security_score()</code>: Calculate overall security score</li>
+<li><code>all_integrity_checks_passed()</code>: Check if all checks passed</li>
+<li><code>get_security_recommendation()</code>: Get security recommendations</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<h3 id="setting-up-tpm-20">Setting Up TPM 2.0</h3>
+<pre><code class="language-rust">let tpm_config = TpmConfig::new(TpmVersion::Tpm20)
+    .with_pcr_bank(&quot;sha256&quot;)
+    .with_pcr_bank(&quot;sha1&quot;)
+    .enable_attestation();
+</code></pre>
+<h3 id="managing-keys">Managing Keys</h3>
+<pre><code class="language-rust">let platform_key = SecureBootKey::new(&quot;PK&quot;, &quot;rsa&quot;)
+    .with_owner(&quot;Platform&quot;)
+    .with_fingerprint(&quot;PK1234&quot;);
+
+let key_exchange_key = SecureBootKey::new(&quot;KEK&quot;, &quot;rsa&quot;)
+    .with_owner(&quot;Platform&quot;)
+    .with_fingerprint(&quot;KEK5678&quot;);
+
+let db_key = SecureBootKey::new(&quot;db&quot;, &quot;rsa&quot;)
+    .with_owner(&quot;SigmaOS&quot;)
+    .with_fingerprint(&quot;DB9012&quot;);
+</code></pre>
+<h3 id="security-score-calculation">Security Score Calculation</h3>
+<p>The security score is calculated as:
+- Secure Boot enabled: +30 points
+- TPM 2.0 enabled: +40 points
+- TPM 1.2 enabled: +20 points
+- Keys registered: +10 points
+- All integrity checks passed: +20 points</p>
+<h2 id="integration-with-other-modules">Integration with Other Modules</h2>
+<p>The security module integrates with:
+- <strong>Boot module</strong>: Secure boot verification during boot
+- <strong>Filesystem module</strong>: Disk encryption (LUKS)
+- <strong>Network module</strong>: Firewall rules for security
+- <strong>Monitoring module</strong>: Security event monitoring</p>
+<h2 id="principles-applied">Principles Applied</h2>
+<ul>
+<li>Single Responsibility: Only manages security subsystem</li>
+<li>Fail-Fast: Validates keys before adding</li>
+<li>Clear Abstraction: Well-defined public API</li>
+<li>AAA Testing: All tests follow Arrange-Act-Assert pattern</li>
+</ul></main></div>
+<footer>SigmaOS — inspired by Arch Linux &amp; Omarchy · <a href="https://github.com/AaryanSinghChauhan09/Sigma" style="color:var(--accent)">GitHub</a></footer>
+</body></html>

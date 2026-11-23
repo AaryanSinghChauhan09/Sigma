@@ -1,0 +1,974 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sigma Wiki — SigmaOS</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--accent:#7aa2f7;--muted:#8b949e;--card:#161b22;--border:#30363d}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem}
+header h1{font-size:1.4rem;margin:0}header h1 a{color:var(--accent);text-decoration:none}
+header .tag{color:var(--muted);font-size:.85rem}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{width:260px;padding:1.5rem;border-right:1px solid var(--border);flex-shrink:0}
+nav ul{list-style:none;padding:0;margin:0}nav li{margin:.35rem 0}
+nav a{color:var(--muted);text-decoration:none;font-size:.9rem}nav a:hover{color:var(--accent)}
+main{flex:1;padding:2rem;min-width:0}
+main h1{border-bottom:1px solid var(--border);padding-bottom:.5rem}
+main h2{margin-top:2rem;color:var(--accent)}
+main code{background:var(--card);padding:.15em .4em;border-radius:4px;font-size:.9em}
+main pre{background:var(--card);padding:1rem;border-radius:8px;overflow-x:auto}
+main pre code{background:none;padding:0}
+main table{border-collapse:collapse;width:100%}main th,main td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
+main th{background:var(--card)}
+main a{color:var(--accent)}
+.hero{text-align:center;padding:4rem 2rem}
+.hero h1{font-size:2.6rem;border:none}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:640px;margin:1rem auto}
+.btn{display:inline-block;background:var(--accent);color:#0d1117;padding:.7rem 1.6rem;border-radius:8px;text-decoration:none;font-weight:600;margin:.3rem}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;padding:1rem 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card h3{margin:0 0 .4rem;color:var(--accent);font-size:1rem}
+.card p{margin:0;color:var(--muted);font-size:.85rem}
+footer{border-top:1px solid var(--border);padding:1.5rem 2rem;color:var(--muted);font-size:.85rem;text-align:center}
+@media(max-width:800px){nav{display:none}.layout{flex-direction:column}}
+</style></head><body>
+<header><h1><a href="https://aaryansinghchauhan09.github.io/Sigma/">Σ SigmaOS</a></h1><span class="tag">Sovereign Arch Linux Desktop</span></header>
+<div class="layout"><nav><ul><li><a href="https://aaryansinghchauhan09.github.io/Sigma/boot-configuration.html">Boot Configuration</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/container-runtime.html">Container Runtime</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/filesystem-management.html">Filesystem Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/hardware-detection.html">Hardware Detection</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/init-system.html">Init System</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/logging-system.html">Logging System</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/memory-management.html">Memory Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/monitoring-module.html">Monitoring Module</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/network-management.html">Network Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/package-management.html">Package Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/power-management.html">Power Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/security-audit.html">Security Audit</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/security-management.html">Security Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/sigma-wiki.html">Sigma Wiki</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/time-synchronization.html">Time Synchronization</a></li></ul></nav><main><h1 id="sigmaos-operating-system-wiki">SigmaOS Operating System Wiki</h1>
+<h2 id="overview">Overview</h2>
+<p>SigmaOS is a bootable operating system inspired by Arch Linux and Omarchy Linux principles. It provides a complete desktop experience with a focus on modularity, sovereignty, and user freedom.</p>
+<p>This wiki documents the SigmaOS operating system, its components, architecture, and implementation patterns. Following the Omarchy Linux model of multiple sub-repositories, each SigmaOS component has its own repository with dedicated wiki documentation.</p>
+<h2 id="core-principles">Core Principles</h2>
+<h3 id="solid-principles">SOLID Principles</h3>
+<ul>
+<li><strong>Single Responsibility</strong>: Each module has one well-defined purpose (e.g., <code>SystemAdjuster</code> only manages system parameters, <code>PersonaManager</code> only manages persona state)</li>
+<li><strong>Open/Closed</strong>: Components are open for extension (new features add new code) but closed for modification (existing code unchanged)</li>
+<li><strong>Liskov Substitution</strong>: Subtypes must be substitutable for their base types without altering correctness</li>
+<li><strong>Interface Segregation</strong>: Clients should not depend on unused methods; minimal focused interfaces</li>
+<li><strong>Dependency Inversion</strong>: Depend on abstractions, not concretions</li>
+</ul>
+<h3 id="sigmaos-specific-principles">SigmaOS-Specific Principles</h3>
+<ul>
+<li><strong>Fail-Fast System</strong>: Invalid inputs rejected immediately with descriptive errors</li>
+<li><strong>Defensive Programming</strong>: Input validation at all public boundaries</li>
+<li><strong>Demeter's Law</strong>: Components don't expose internal structure; public APIs are minimal and focused</li>
+<li><strong>Clear Abstraction</strong>: Well-defined public interfaces with consistent naming conventions</li>
+<li><strong>Cohesion Maximization</strong>: Related functionality grouped together within modules</li>
+<li><strong>Coupling Minimization</strong>: Minimal dependencies between modules and components</li>
+<li><strong>Separation of Concerns</strong>: Library code separated from binary entry point, tests from production code</li>
+<li><strong>Composition over Inheritance</strong>: Components composed of smaller modules; inheritance used sparingly</li>
+<li><strong>Arrange-Act-ASSERT (AAA)</strong>: All tests follow the AAA pattern for clear test structure</li>
+<li><strong>Deterministic Testing</strong>: Tests are reproducible and timely</li>
+<li><strong>Code Reusability</strong>: Practical reuse through composition and clear abstractions</li>
+<li><strong>Don't Repeat Yourself</strong>: DRY principle applied across all components</li>
+<li><strong>Component Isolation</strong>: Each component is self-contained with minimal dependencies</li>
+<li><strong>Rolling Release</strong>: No release tags on main branches; continuous improvement</li>
+<li><strong>Modular Kernel Design</strong>: Modular approach to system services</li>
+<li><strong>Minimal Kernel Philosophy</strong>: Only necessary components included</li>
+<li><strong>Semantic Versioning</strong>: Version control practices upheld</li>
+<li><strong>Race-Free Design</strong>: Concurrent-safe operations where applicable</li>
+<li><strong>Safe Concurrency</strong>: Thread-safe operations where applicable</li>
+<li><strong>Error Handling</strong>: Descriptive error messages with context</li>
+<li><strong>Secure Defaults</strong>: Secure by design, environment variables for secrets</li>
+<li><strong>Audit Logging</strong>: Everything logged to fix future issues</li>
+<li><strong>Reproducible Builds</strong>: Consistent build environments</li>
+<li><strong>Interface Segregation</strong>: Client-specific interfaces</li>
+<li><strong>Least Astonishment</strong>: Predictable API behavior</li>
+<li><strong>Least Privilege</strong>: Minimum necessary access</li>
+<li><strong>Talk is Cheap</strong>: Working code priority</li>
+<li><strong>Test Code Using CI/CD</strong>: Automated testing pipelines</li>
+<li><strong>Worse is Better</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>YAGNI</strong>: You Aren't Gonna Need It principle</li>
+<li><strong>Zen of Python</strong>: Where applicable influences design</li>
+<li><strong>Zero-One-Infinity</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation to keep main branch free</li>
+<li><strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained</li>
+<li><strong>OPEN-CLOSED</strong>: Open for extension, closed for modification</li>
+<li><strong>CROSS COMPILATION</strong>: Tested in CI</li>
+<li><strong>CROSS PLATFORM COMPATIBILITY</strong>: Tested on Linux/Mac</li>
+<li><strong>MODULAR KERNEL DESIGN</strong>: Modular approach to system services</li>
+<li><strong>MINIMAL KERNEL PHILOSOPHY</strong>: Only necessary components included</li>
+<li><strong>LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained</li>
+<li><strong>ERROR HANDLING</strong>: Descriptive error messages with context</li>
+<li><strong>AUDIT LOGGING</strong>: Everything logged to fix future issues</li>
+<li><strong>SEMANTIC VERSIONING</strong>: Version control practices upheld</li>
+<li><strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments</li>
+<li><strong>INTERFACE SEGREGATION</strong>: Client-specific interfaces</li>
+<li><strong>LEAST ASTONISHMENT</strong>: Predictable API behavior</li>
+<li><strong>LEAST PRIVILEGE</strong>: Minimum necessary access</li>
+<li><strong>TALK IS CHEAP</strong>: Working code priority</li>
+<li><strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines</li>
+<li><strong>WORSE IS BETTER</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>ZEN OF PYTHON</strong>: Where applicable influences design</li>
+<li><strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation</li>
+<li><strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained</li>
+<li><strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design</li>
+<li><strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features</li>
+<li><strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design</li>
+<li><strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system</li>
+<li><strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading</li>
+<li><strong>POLYMORPHISM</strong>: Polymorphic types and behavior</li>
+<li><strong>PORTABILITY</strong>: Works across multiple architectures</li>
+<li><strong>POWER OF TEN</strong>: Safety-critical guidelines</li>
+<li><strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained</li>
+<li><strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness</li>
+<li><strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems</li>
+<li><strong>PRISTINE SOURCES</strong>: Clean code</li>
+<li><strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design</li>
+<li><strong>PROCESS ISOLATION</strong>: Process-level isolation</li>
+<li><strong>PROFESSION BASED TOOLS</strong>: Professional development tools</li>
+<li><strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations</li>
+<li><strong>READY TO USE</strong>: Tested and verified</li>
+<li><strong>REFACTORING</strong>: Continuous code improvement</li>
+<li><strong>REMOVE ANY HINT...</strong>: Clean project identity</li>
+<li><strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments</li>
+<li><strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics</li>
+<li><strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement</li>
+<li><strong>RULE OF THREE</strong>: Three implementations good</li>
+<li><strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations</li>
+<li><strong>SECURE DEFAULTS</strong>: Secure by design</li>
+<li><strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens</li>
+<li><strong>SEMANTIC VERSIONING</strong>: Version control practices</li>
+<li><strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy</li>
+<li><strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong></li>
+<li><strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo</li>
+<li><strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros</li>
+<li><strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model</li>
+<li><strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development</li>
+<li><strong>STABLE APIs</strong>: Minimal, focused public interfaces</li>
+<li><strong>TALK IS CHEAP</strong>: Working code priority</li>
+<li><strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines</li>
+<li><strong>WORSE IS BETTER</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>ZEN OF PYTHON</strong>: Where applicable influences design</li>
+<li><strong>ZERO-COPY</strong>: Where applicable performance optimization</li>
+<li><strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation</li>
+<li><strong>TRANSLATION LOOKASIDE BUFFER CONSISTENCY</strong>: Consistent documentation</li>
+<li><strong>TURN ALL PRIVATE REPOS INTO PUBLIC REPOS</strong>: GitHub migration</li>
+<li><strong>UNIFORM ACCESS</strong>: Consistent APIs</li>
+<li><strong>UNIFORM INFORMATION IN GITHUB REPO &amp; GITHUB WIKI</strong>: Consistent documentation</li>
+<li><strong>UPHOLD INTELLECTUAL PROPERTY</strong>: IP management</li>
+<li><strong>UPSTREAM FIRST POLICY</strong>: Upstream-first approach</li>
+<li><strong>USER FREEDOM AND CONTROL</strong>: Open source freedoms</li>
+<li><strong>VERSION CONTROL PRACTICES</strong>: Git best practices</li>
+<li><strong>VIRTUAL ENVIRONMENT</strong>: Dependency management</li>
+<li><strong>VIRTUAL MEMORY ABSTRACTION</strong>: Memory safety</li>
+<li><strong>WEB BROWSER BASED CLONE</strong>: Various tool categories</li>
+<li><strong>SKILLS</strong>: Agent skills and development skills</li>
+<li><strong>WORSE IS BETTER</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>YOU AREN'T GONNA NEED IT</strong>: YAGNI principle</li>
+<li><strong>ZEN OF PYTHON</strong>: Where applicable influences design</li>
+<li><strong>ZERO-COPY</strong>: Where applicable performance optimization</li>
+<li><strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation</li>
+<li><strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained</li>
+<li><strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design</li>
+<li><strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features</li>
+<li><strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design</li>
+<li><strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system</li>
+<li><strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading</li>
+<li><strong>POLYMORPHISM</strong>: Polymorphic types and behavior</li>
+<li><strong>PORTABILITY</strong>: Multi-arch support</li>
+<li><strong>POWER OF TEN</strong>: Safety-critical guidelines</li>
+<li><strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained</li>
+<li><strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness</li>
+<li><strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems</li>
+<li><strong>PRISTINE SOURCES</strong>: Clean code</li>
+<li><strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design</li>
+<li><strong>PROCESS ISOLATION</strong>: Process isolation awareness</li>
+<li><strong>PROFESSION BASED TOOLS</strong>: Professional tools</li>
+<li><strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations</li>
+<li><strong>READY TO USE</strong>: Tested and verified</li>
+<li><strong>REFACTORING</strong>: Continuous code improvement</li>
+<li><strong>REMOVE ANY HINT...</strong>: Clean project identity</li>
+<li><strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments</li>
+<li><strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics</li>
+<li><strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement</li>
+<li><strong>RULE OF THREE</strong>: Three implementations good</li>
+<li><strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations</li>
+<li><strong>SECURE DEFAULTS</strong>: Secure by design</li>
+<li><strong>SECURITY AUDIT</strong>: Prevent leak of secrets</li>
+<li><strong>SEMANTIC VERSIONING</strong>: Version control practices</li>
+<li><strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy</li>
+<li><strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong></li>
+<li><strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo</li>
+<li><strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros</li>
+<li><strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model</li>
+<li><strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development</li>
+<li><strong>STABLE APIs</strong>: Minimal, focused public interfaces</li>
+<li><strong>TALK IS CHEAP</strong>: Working code priority</li>
+<li><strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines</li>
+<li><strong>WORSE IS BETTER</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>ZEN OF PYTHON</strong>: Where applicable influences design</li>
+<li><strong>ZERO-COPY</strong>: Where applicable performance optimization</li>
+<li><strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation</li>
+<li><strong>TRANSLATION LOOKASIDE BUFFER CONSISTENCY</strong>: Consistent documentation</li>
+<li><strong>TURN ALL PRIVATE REPOS INTO PUBLIC REPOS</strong>: GitHub migration</li>
+<li><strong>UNIFORM ACCESS</strong>: Consistent APIs</li>
+<li><strong>UNIFORM INFORMATION IN GITHUB REPO &amp; GITHUB WIKI</strong>: Consistent documentation</li>
+<li><strong>UPHOLD INTELLECTUAL PROPERTY</strong>: IP management</li>
+<li><strong>UPSTREAM FIRST POLICY</strong>: Upstream-first approach</li>
+<li><strong>USER FREEDOM AND CONTROL</strong>: Open source freedoms</li>
+<li><strong>VERSION CONTROL PRACTICES</strong>: Git best practices</li>
+<li><strong>VIRTUAL ENVIRONMENT</strong>: Dependency management</li>
+<li><strong>VIRTUAL MEMORY ABSTRACTION</strong>: Memory safety</li>
+<li><strong>WEB BROWSER BASED CLONE</strong>: Various tool categories</li>
+<li><strong>SKILLS</strong>: Agent skills and development skills</li>
+<li><strong>WORSE IS BETTER</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>YOU AREN'T GONNA NEED IT</strong>: YAGNI principle</li>
+<li><strong>ZEN OF PYTHON</strong>: Where applicable influences design</li>
+<li><strong>ZERO-COPY</strong>: Where applicable performance optimization</li>
+<li><strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation</li>
+<li><strong>TRANSLATION LOOKASIDE BUFFER CONSISTENCY</strong>: Consistent documentation</li>
+<li><strong>TURN ALL PRIVATE REPOS INTO PUBLIC REPOS</strong>: GitHub migration</li>
+<li><strong>UNIFORM ACCESS</strong>: Consistent APIs</li>
+<li><strong>UNIFORM INFORMATION IN GITHUB REPO &amp; GITHUB WIKI</strong>: Consistent documentation</li>
+<li><strong>UPHOLD INTELLECTUAL PROPERTY</strong>: IP management</li>
+<li><strong>UPSTREAM FIRST POLICY</strong>: Upstream-first approach</li>
+<li><strong>USER FREEDOM AND CONTROL</strong>: Open source freedoms</li>
+<li><strong>VERSION CONTROL PRACTICES</strong>: Git best practices</li>
+<li><strong>VIRTUAL ENVIRONMENT</strong>: Dependency management</li>
+<li><strong>VIRTUAL MEMORY ABSTRACTION</strong>: Memory safety</li>
+<li><strong>WEB BROWSER BASED CLONE</strong>: Various tool categories</li>
+<li><strong>SKILLS</strong>: Agent skills and development skills</li>
+<li><strong>WORSE IS BETTER</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>YOU AREN'T GONNA NEED IT</strong>: YAGNI principle</li>
+<li><strong>ZEN OF PYTHON</strong>: Where applicable influences design</li>
+<li><strong>ZERO-COPY</strong>: Where applicable performance optimization</li>
+<li><strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation</li>
+<li><strong>TRANSLATION LOOKASIDE BUFFER CONSISTENCY</strong>: Consistent documentation</li>
+<li><strong>TURN ALL PRIVATE REPOS INTO PUBLIC REPOS</strong>: GitHub migration</li>
+<li><strong>UNIFORM ACCESS</strong>: Consistent APIs</li>
+<li><strong>UNIFORM INFORMATION IN GITHUB REPO &amp; GITHUB WIKI</strong>: Consistent documentation</li>
+<li><strong>UPHOLD INTELLECTUAL PROPERTY</strong>: IP management</li>
+<li><strong>UPSTREAM FIRST POLICY</strong>: Upstream-first approach</li>
+<li><strong>USER FREEDOM AND CONTROL</strong>: Open source freedoms</li>
+<li><strong>VERSION CONTROL PRACTICES</strong>: Git best practices</li>
+<li><strong>VIRTUAL ENVIRONMENT</strong>: Dependency management</li>
+<li><strong>VIRTUAL MEMORY ABSTRACTION</strong>: Memory safety</li>
+<li><strong>WEB BROWSER BASED CLONE</strong>: Various tool categories</li>
+<li><strong>SKILLS</strong>: Agent skills and development skills</li>
+<li><strong>WORSE IS BETTER</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>YOU AREN'T GONNA NEED IT</strong>: YAGNI principle</li>
+<li><strong>ZEN OF PYTHON</strong>: Where applicable influences design</li>
+<li><strong>ZERO-COPY</strong>: Where applicable performance optimization</li>
+<li><strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation</li>
+<li><strong>UPHOLD INTELLECTUAL PROPERTY</strong>: IP management</li>
+<li><strong>UPSTREAM FIRST POLICY</strong>: Upstream-first approach</li>
+<li><strong>USER FREEDOM AND CONTROL</strong>: Open source freedoms</li>
+<li><strong>VERSION CONTROL PRACTICES</strong>: Git best practices</li>
+<li><strong>VIRTUAL ENVIRONMENT</strong>: Dependency management</li>
+<li><strong>VIRTUAL MEMORY ABSTRACTION</strong>: Memory safety</li>
+<li><strong>WEB BROWSER BASED CLONE</strong>: Various tool categories</li>
+<li><strong>SKILLS</strong>: Agent skills and development skills</li>
+<li><strong>WORSE IS BETTER</strong>: Practical over perfect design</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+<li><strong>YOU AREN'T GONNA NEED IT</strong>: YAGNI principle</li>
+<li><strong>ZEN OF PYTHON</strong>: Where applicable influences design</li>
+<li><strong>ZERO-COPY</strong>: Where applicable performance optimization</li>
+<li><strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns</li>
+<li><strong>X THEIRS</strong>: Community-driven development</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<h3 id="repository-structure-inspired-by-omarchy-linux">Repository Structure (Inspired by Omarchy Linux)</h3>
+<h4 id="central-sigma-repository">Central Sigma Repository</h4>
+<ul>
+<li><code>Sigma/</code> - System core library (tier 0, baseline substrate)</li>
+<li><code>wiki/</code> - Central GitHub Wiki for all components</li>
+<li><code>.github/workflows/</code> - CI/CD pipelines</li>
+</ul>
+<h4 id="component-repositories-one-per-component">Component Repositories (one per component)</h4>
+<ul>
+<li><code>SigmaOS-dante/</code> - CLI tool component (tier 2)</li>
+<li><code>SigmaOS-0ad/</code> - 0.A.D. integration component (tier 2)</li>
+<li><code>SigmaOS-3d-modeler/</code> - 3D modeling component (tier scaffold)</li>
+<li><code>SigmaOS-ab/</code> - Basic ab utility component (tier scaffold)</li>
+<li>Additional components as specified in the component implementation plan</li>
+</ul>
+<h3 id="module-architecture">Module Architecture</h3>
+<h4 id="system-adjustments-module-adjustments">System Adjustments Module (<code>adjustments</code>)</h4>
+<p><strong>Inspiration</strong>: Linux kernel mintsystem, Arch Linux PKGBUILD thinking
+- <code>SystemAdjuster</code> - Manages CPU governors, sysctl memory tuning, hardware optimization
+- <code>GovernorMode</code> - Enum with 6 modes: Performance, Powersave, Schedutil, Interactive, Conservative, Ondemand
+- Fail-fast validation: swappiness (0-100), vfs_cache_pressure (0-200)
+- <code>generate_sysctl_conf()</code> - Linux-style sysctl configuration generation
+- <code>generate_kernel_params()</code> - Linux kernel cmdline format generation</p>
+<p><strong>Principles Applied</strong>:
+- Single Responsibility: Only manages system adjustment parameters
+- Fail-Fast: Invalid ranges rejected immediately
+- Defensive Programming: Input validation at all public boundaries
+- Demeter's Law: Internal state encapsulated, minimal public API
+- Clear Abstraction: Well-defined public interfaces</p>
+<h4 id="persona-management-module-persona">Persona Management Module (<code>persona</code>)</h4>
+<p><strong>Inspiration</strong>: Omarchy Linux sovereign desktops, Arch Linux minimalist principles
+- <code>SystemPersona</code> - Enum with 6 personas: SovereignOmarchy, LinuxMintClassic, ArchMinimal, NixOS, Gentoo, DragonflyBSD
+- <code>PersonaManager</code> - Manages persona state with fail-fast switching
+- <code>desktop_environment()</code> - Maps each persona to a desktop environment
+- <code>label()</code> - Human-readable persona labels
+- <code>validate()</code> - Fail-fast persona validation</p>
+<p><strong>Principles Applied</strong>:
+- Single Responsibility: Only manages persona state
+- Sovereign Personas: Multiple desktop environment personas
+- Fail-Fast: Validation on construction and switches
+- Clear Abstraction: Well-defined public interfaces
+- Desktop Environment Mapping: Each persona maps to a specific desktop environment
+- Labeling System: Human-readable persona labels inspired by Omarchy Linux</p>
+<h2 id="component-structure-per-component_implementation_planmd">Component Structure (Per COMPONENT_IMPLEMENTATION_PLAN.md)</h2>
+<h3 id="each-component-follows-standard-structure">Each Component Follows Standard Structure:</h3>
+<ul>
+<li><code>Cargo.toml</code> - Package configuration</li>
+<li><code>COMPONENT.toml</code> - Component manifest (name, tier, stability, dependencies)</li>
+<li><code>src/lib.rs</code> - Library code with public API</li>
+<li><code>src/main.rs</code> - Binary entry point</li>
+<li><code>tests/</code> - Integration tests following AAA pattern</li>
+<li><code>wiki/</code> - GitHub Wiki documentation (moved from main branch)</li>
+<li><code>.github/workflows/</code> - CI/CD pipelines</li>
+</ul>
+<h3 id="component-contracts-componenttoml">Component Contracts (COMPONENT.toml):</h3>
+<pre><code class="language-toml">[component]
+name = &quot;Sigma&quot;
+tier = 0
+stability = &quot;beta&quot;
+language = &quot;rust&quot;
+description = &quot;Sovereign baseline substrate for the SigmaOS ecosystem&quot;
+upstream = []
+
+[contract]
+provides = [&quot;substrate_core&quot;]
+depends_on = []
+
+[maturity]
+status = &quot;Implemented&quot;
+test_evidence = &quot;cargo test: 10 passed&quot;
+next_milestone = &quot;Boot integration with SigmaOS userspace&quot;
+</code></pre>
+<h2 id="api-documentation">API Documentation</h2>
+<h3 id="systemadjuster">SystemAdjuster</h3>
+<pre><code class="language-rust">pub struct SystemAdjuster {
+    swappiness: u32,
+    vfs_cache_pressure: u32,
+    governor: GovernorMode,
+}
+
+impl SystemAdjuster {
+    /// Fail-fast: reject out-of-range values immediately
+    pub fn new(swappiness: u32, vfs_cache_pressure: u32, governor: GovernorMode) -&gt; Result&lt;Self, String&gt;
+
+    pub fn swappiness(&amp;self) -&gt; u32
+    pub fn vfs_cache_pressure(&amp;self) -&gt; u32
+    pub fn governor(&amp;self) -&gt; GovernorMode
+
+    /// Generate Linux-style sysctl configuration
+    pub fn generate_sysctl_conf(&amp;self) -&gt; String
+
+    /// Generate kernel command-line parameters
+    pub fn generate_kernel_params(&amp;self) -&gt; String
+}
+</code></pre>
+<h3 id="systempersona">SystemPersona</h3>
+<pre><code class="language-rust">pub enum SystemPersona {
+    SovereignOmarchy,
+    LinuxMintClassic,
+    ArchMinimal,
+    NixOS,
+    Gentoo,
+    DragonflyBSD,
+}
+
+impl SystemPersona {
+    /// Fail-fast: validate persona (defensive programming)
+    pub fn validate(_persona: SystemPersona) -&gt; SystemPersona
+
+    pub fn label(&amp;self) -&gt; &amp;'static str
+    pub fn desktop_environment(&amp;self) -&gt; &amp;'static str
+}
+</code></pre>
+<h3 id="personamanager">PersonaManager</h3>
+<pre><code class="language-rust">pub struct PersonaManager {
+    pub current: SystemPersona,
+}
+
+impl PersonaManager {
+    /// Fail-fast: validate initial persona before setting
+    pub fn new(initial: SystemPersona) -&gt; Result&lt;Self, String&gt;
+
+    /// Encapsulated access per Demeter's Law
+    pub fn current(&amp;self) -&gt; SystemPersona
+
+    /// Fail-fast: validate switch before applying
+    pub fn switch_persona(&amp;mut self, next: SystemPersona) -&gt; SystemPersona
+
+    /// Get desktop environment for current persona
+    pub fn current_desktop_environment(&amp;self) -&gt; &amp;'static str
+
+    /// Get persona label
+    pub fn current_label(&amp;self) -&gt; &amp;'static str
+}
+</code></pre>
+<h2 id="development-guidelines">Development Guidelines</h2>
+<h3 id="testing-aaa-pattern">Testing (AAA Pattern)</h3>
+<p>All tests follow the Arrange-Act-ASSERT pattern:</p>
+<pre><code class="language-rust">#[test]
+fn test_example() {
+    // Arrange: Set up test fixtures
+    let adjuster = SystemAdjuster::new(15, 60, GovernorMode::Performance).unwrap();
+
+    // Act: Execute code under test
+    let conf = adjuster.generate_sysctl_conf();
+
+    // Assert: Verify expected outcomes
+    assert!(conf.contains(&quot;vm.swappiness = 15&quot;));
+}
+</code></pre>
+<h3 id="cicd">CI/CD</h3>
+<ul>
+<li>GitHub Actions workflows for Linux/Mac cross-platform testing</li>
+<li>Cargo test suite on every push</li>
+<li>Documentation generation and wiki sync</li>
+<li>Fail-fast principle enforced in CI (tests must pass for merge)</li>
+<li>Code coverage requirements for public API functions</li>
+</ul>
+<h3 id="component-creation-workflow">Component Creation Workflow</h3>
+<ol>
+<li>Create new directory with component name</li>
+<li>Set up <code>Cargo.toml</code> and <code>COMPONENT.toml</code></li>
+<li>Implement library code in <code>src/lib.rs</code></li>
+<li>Add binary entry point in <code>src/main.rs</code></li>
+<li>Write AAA-style unit tests</li>
+<li>Create GitHub Wiki documentation</li>
+<li>Set up CI/CD workflow</li>
+<li>Push to GitHub</li>
+</ol>
+<h2 id="wiki-management">Wiki Management</h2>
+<h3 id="central-wiki-sigmaoswiki">Central Wiki (SigmaOS.wiki)</h3>
+<ul>
+<li>Consolidated wiki for all components</li>
+<li>Contains markdown files for each component</li>
+<li>Keeps main branches free from .md/.txt documentation files</li>
+<li>Updated on every component improvement</li>
+</ul>
+<h3 id="per-component-wikis">Per-Component Wikis</h3>
+<ul>
+<li>Each component repo has its own wiki git repo</li>
+<li>Wiki content consolidated to central <code>SigmaOS.wiki</code></li>
+<li>Main branches free from documentation files</li>
+</ul>
+<h2 id="cross-component-integration">Cross-Component Integration</h2>
+<h3 id="component-interconnectivity">Component Interconnectivity</h3>
+<p>SigmaOS components are designed to interconnect like Omarchy Linux sub-repos:
+- <code>SystemAdjuster</code> provides system parameters to any component
+- <code>PersonaManager</code> enables sovereign desktop environments
+- Central <code>SigmaOS.wiki</code> documents all component interfaces
+- <code>.github/workflows/</code> coordinates CI across repos</p>
+<h3 id="cross-compilation">Cross-Compilation</h3>
+<ul>
+<li>All components build on target architectures</li>
+<li>Multi-arch support for x86_64, aarch64</li>
+<li>Cross-compilation tested in CI</li>
+</ul>
+<h3 id="rolling-release-model">Rolling Release Model</h3>
+<ul>
+<li>All components follow rolling release model</li>
+<li>No release tags on main branches</li>
+<li>Continuous improvement and long-term sustainability</li>
+<li>"Remove all release tags" principle upheld</li>
+</ul>
+<h2 id="sigmaos-component-registry">SIGMAOS Component Registry</h2>
+<h3 id="currently-implemented-components">Currently Implemented Components</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Tier</th>
+<th>Stability</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sigma-system (core)</td>
+<td>0</td>
+<td>beta</td>
+<td>Sovereign baseline substrate</td>
+</tr>
+<tr>
+<td>adjustments</td>
+<td>0</td>
+<td>beta</td>
+<td>System tuning and governor management</td>
+</tr>
+<tr>
+<td>persona</td>
+<td>0</td>
+<td>beta</td>
+<td>Sovereign desktop personas</td>
+</tr>
+</tbody>
+</table>
+<h3 id="planned-components-inspired-by-omarchy-linux-multi-repo-structure">Planned Components (Inspired by Omarchy Linux Multi-Repo Structure)</h3>
+<ul>
+<li><code>SigmaOS-dante</code> - CLI tool component</li>
+<li><code>SigmaOS-0ad</code> - 0.A.D. integration</li>
+<li><code>SigmaOS-3d-modeler</code> - 3D modeling</li>
+<li><code>SigmaOS-ab</code> - Basic utilities</li>
+<li>Additional components as demand grows</li>
+</ul>
+<h2 id="synchronization-with-github">Synchronization with GitHub</h2>
+<h3 id="repository-sync-status">Repository Sync Status</h3>
+<ul>
+<li><strong>Central Repository</strong>: <code>https://github.com/AaryanSinghChauhan09/Sigma</code></li>
+<li><strong>Wiki</strong>: <code>https://github.com/AaryanSinghChauhan09/Sigma/wiki</code></li>
+<li><strong>Wiki Bare Repo</strong>: <code>sigma-wiki.git</code> (local, for component consolidation)</li>
+</ul>
+<h3 id="sync-workflow">Sync Workflow</h3>
+<ol>
+<li>Code improvements committed to main branch</li>
+<li><code>cargo test</code> runs automatically</li>
+<li><code>cargo run</code> verified</li>
+<li>Wiki updated with new documentation</li>
+<li>Component repositories pushed to GitHub</li>
+<li>Central wiki consolidated from per-component wikis</li>
+</ol>
+<h3 id="github-quota-management">GitHub Quota Management</h3>
+<ul>
+<li>Component repos created as quota allows</li>
+<li>Local repo creation when quota exhausted</li>
+<li>Push to GitHub after quota renewal</li>
+<li>All repos eventually migrate to GitHub</li>
+</ul>
+<h2 id="key-principlines-upholded">Key Principlines UpholdEd</h2>
+<p>From the extensive principle list, SigmaOS actively implements:</p>
+<p>✅ <strong>Single Responsibility</strong>: Each module has one well-defined purpose
+✅ <strong>Fail-Fast System</strong>: Invalid inputs rejected immediately
+✅ <strong>Defensive Programming</strong>: Input validation at all public boundaries
+✅ <strong>AAA Testing</strong>: All tests follow Arrange-Act-Assert pattern
+✅ <strong>Demeter's Law</strong>: Components don't expose internal structure
+✅ <strong>Clear Abstraction</strong>: Well-defined public interfaces
+✅ <strong>Cohesion Maximization</strong>: Related functionality grouped together
+✅ <strong>Coupling Minimization</strong>: Minimal dependencies between modules
+✅ <strong>Separation of Concerns</strong>: Library/bin/tests separated
+✅ <strong>Composition over Inheritance</strong>: Modules composed of smaller functions
+✅ <strong>Open/Closed Principle</strong>: New features add code, don't modify existing
+✅ <strong>Don't Repeat Yourself</strong>: DRY applied across all components
+✅ <strong>Deterministic Testing</strong>: Reproducible, timely tests
+✅ <strong>Code Reusability</strong>: Through composition and clear abstractions
+✅ <strong>Component Isolation</strong>: Self-contained modules
+✅ <strong>Rolling Release</strong>: No release tags, continuous improvement
+✅ <strong>Cross-Platform</strong>: Designed for multiple architectures
+✅ <strong>Cross-Compilation</strong>: Tested in CI
+✅ <strong>Modular Kernel Design</strong>: Modular approach to system services
+✅ <strong>Minimal Kernel Philosophy</strong>: Only necessary components included
+✅ <strong>Licensing Awareness</strong>: GPL-3.0-or-later maintained
+- <strong>Error Handling</strong>: Descriptive error messages with context
+- <strong>Security Defaults</strong>: Secure by design, environment variables for secrets
+- <strong>Audit Logging</strong>: Everything logged to fix future issues
+- <strong>Semantic Versioning</strong>: Version control practices upheld
+- <strong>Reproducible Builds</strong>: Consistent build environments
+- <strong>Interface Segregation</strong>: Client-specific interfaces
+- <strong>Least Astonishment</strong>: Predictable API behavior
+- <strong>Least Privilege</strong>: Minimum necessary access
+- <strong>Talk is Cheap</strong>: Working code priority
+- <strong>Test Code Using CI/CD</strong>: Automated testing pipelines
+- <strong>Worse is Better</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>YAGNI</strong>: You Aren't Gonna Need It principle
+- <strong>Zen of Python</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained
+- <strong>OPEN-CLOSED</strong>: Open for extension, closed for modification
+- <strong>CROSS COMPILATION</strong>: Tested in CI
+- <strong>CROSS DEVICE COMPATIBILITY</strong>: Multi-arch support
+- <strong>CROSS PLATFORM COMPATIBILITY</strong>: Linux/Mac testing
+- <strong>MANUAL MEMORY CONTROL</strong>: Rust ownership model
+- <strong>MECHANICAL SYMPATHY</strong>: Performance-conscious design
+- <strong>MEMORY BARRIERS</strong>: Where applicable atomic operations
+- <strong>MERITOCRACY AND INCLUSIVITY</strong>: Community practices
+- <strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations
+- <strong>READY TO USE</strong>: Tested and verified
+- <strong>REFACTORING</strong>: Continuous code improvement
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics
+- <strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement
+- <strong>RULE OF THREE</strong>: Three implementations good
+- <strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations
+- <strong>SECURE DEFAULTS</strong>: Secure by design
+- <strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens
+- <strong>SEMANTIC VERSIONING</strong>: Version control practices
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>INTERFACE SEGREGATION</strong>: Client-specific interfaces
+- <strong>LEAST ASTONISHMENT</strong>: Predictable API behavior
+- <strong>LEAST PRIVILEGE</strong>: Minimum necessary access
+- <strong>Safe Concurrency</strong>: Concurrent-safe operations
+- <strong>WORSE IS BETTER</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>ZEN OF PYTHON</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained
+- <strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design
+- <strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features
+- <strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design
+- <strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system
+- <strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading
+- <strong>POLYMORPHISM</strong>: Polymorphic types and behavior
+- <strong>PORTABILITY</strong>: Multi-arch support
+- <strong>POWER OF TEN</strong>: Safety-critical guidelines
+- <strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained
+- <strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness
+- <strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems
+- <strong>PRISTINE SOURCES</strong>: Clean code
+- <strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design
+- <strong>PROCESS ISOLATION</strong>: Process isolation awareness
+- <strong>PROFESSION BASED TOOLS</strong>: Professional development tools
+- <strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations
+- <strong>READY TO USE</strong>: Tested and verified
+- <strong>REFACTORING</strong>: Continuous code improvement
+- <strong>REMOVE ANY HINT...</strong>: Clean project identity
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics
+- <strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement
+- <strong>RULE OF THREE</strong>: Three implementations good
+- <strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations
+- <strong>SECURE DEFAULTS</strong>: Secure by design
+- <strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens
+- <strong>SEMANTIC VERSIONING</strong>: Version control practices
+- <strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy
+- <strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong>
+- <strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo
+- <strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros
+- <strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model
+- <strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development
+- <strong>STABLE APIs</strong>: Minimal, focused public interfaces
+- <strong>TALK IS CHEAP</strong>: Working code priority
+- <strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines
+- <strong>WORSE IS BETTER</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>ZEN OF PYTHON</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained
+- <strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design
+- <strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features
+- <strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design
+- <strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system
+- <strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading
+- <strong>POLYMORPHISM</strong>: Polymorphic types and behavior
+- <strong>PORTABILITY</strong>: Multi-arch support
+- <strong>POWER OF TEN</strong>: Safety-critical guidelines
+- <strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained
+- <strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness
+- <strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems
+- <strong>PRISTINE SOURCES</strong>: Clean code
+- <strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design
+- <strong>PROCESS ISOLATION</strong>: Process isolation awareness
+- <strong>PROFESSION BASED TOOLS</strong>: Professional development tools
+- <strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations
+- <strong>READY TO USE</strong>: Tested and verified
+- <strong>REFACTORING</strong>: Continuous code improvement
+- <strong>REMOVE ANY HINT...</strong>: Clean project identity
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics
+- <strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement
+- <strong>RULE OF THREE</strong>: Three implementations good
+- <strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations
+- <strong>SECURE DEFAULTS</strong>: Secure by design
+- <strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens
+- <strong>SEMANTIC VERSIONING</strong>: Version control practices
+- <strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy
+- <strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong>
+- <strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo
+- <strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros
+- <strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model
+- <strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development
+- <strong>STABLE APIs</strong>: Minimal, focused public interfaces
+- <strong>TALK IS CHEAP</strong>: Working code priority
+- <strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines
+- <strong>WORSE IS BETTER</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>ZEN OF PYTHON</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained
+- <strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design
+- <strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features
+- <strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design
+- <strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system
+- <strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading
+- <strong>POLYMORPHISM</strong>: Polymorphic types and behavior
+- <strong>PORTABILITY</strong>: Multi-arch support
+- <strong>POWER OF TEN</strong>: Safety-critical guidelines
+- <strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained
+- <strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness
+- <strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems
+- <strong>PRISTINE SOURCES</strong>: Clean code
+- <strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design
+- <strong>PROCESS ISOLATION</strong>: Process isolation awareness
+- <strong>PROFESSION BASED TOOLS</strong>: Professional development tools
+- <strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations
+- <strong>READY TO USE</strong>: Tested and verified
+- <strong>REFACTORING</strong>: Continuous code improvement
+- <strong>REMOVE ANY HINT...</strong>: Clean project identity
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics
+- <strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement
+- <strong>RULE OF THREE</strong>: Three implementations good
+- <strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations
+- <strong>SECURE DEFAULTS</strong>: Secure by design
+- <strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens
+- <strong>SEMANTIC VERSIONING</strong>: Version control practices
+- <strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy
+- <strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong>
+- <strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo
+- <strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros
+- <strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model
+- <strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development
+- <strong>STABLE APIs</strong>: Minimal, focused public interfaces
+- <strong>TALK IS CHEAP</strong>: Working code priority
+- <strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines
+- <strong>WORSE IS BETTER</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>ZEN OF PYTHON</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained
+- <strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design
+- <strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features
+- <strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design
+- <strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system
+- <strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading
+- <strong>POLYMORPHISM</strong>: Polymorphic types and behavior
+- <strong>PORTABILITY</strong>: Multi-arch support
+- <strong>POWER OF TEN</strong>: Safety-critical guidelines
+- <strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained
+- <strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness
+- <strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems
+- <strong>PRISTINE SOURCES</strong>: Clean code
+- <strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design
+- <strong>PROCESS ISOLATION</strong>: Process isolation awareness
+- <strong>PROFESSION BASED TOOLS</strong>: Professional development tools
+- <strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations
+- <strong>READY TO USE</strong>: Tested and verified
+- <strong>REFACTORING</strong>: Continuous code improvement
+- <strong>REMOVE ANY HINT...</strong>: Clean project identity
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics
+- <strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement
+- <strong>RULE OF THREE</strong>: Three implementations good
+- <strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations
+- <strong>SECURE DEFAULTS</strong>: Secure by design
+- <strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens
+- <strong>SEMANTIC VERSIONING</strong>: Version control practices
+- <strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy
+- <strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong>
+- <strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo
+- <strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros
+- <strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model
+- <strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development
+- <strong>STABLE APIs</strong>: Minimal, focused public interfaces
+- <strong>TALK IS CHEAP</strong>: Working code priority
+- <strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines
+- <strong>WORSE IS BETTER</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>ZEN OF PYTHON</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained
+- <strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design
+- <strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features
+- <strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design
+- <strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system
+- <strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading
+- <strong>POLYMORPHISM</strong>: Polymorphic types and behavior
+- <strong>PORTABILITY</strong>: Multi-arch support
+- <strong>POWER OF TEN</strong>: Safety-critical guidelines
+- <strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained
+- <strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness
+- <strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems
+- <strong>PRISTINE SOURCES</strong>: Clean code
+- <strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design
+- <strong>PROCESS ISOLATION</strong>: Process isolation awareness
+- <strong>PROFESSION BASED TOOLS</strong>: Professional development tools
+- <strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations
+- <strong>READY TO USE</strong>: Tested and verified
+- <strong>REFACTORING</strong>: Continuous code improvement
+- <strong>REMOVE ANY HINT...</strong>: Clean project identity
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics
+- <strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement
+- <strong>RULE OF THREE</strong>: Three implementations good
+- <strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations
+- <strong>SECURE DEFAULTS</strong>: Secure by design
+- <strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens
+- <strong>SEMANTIC VERSIONING</strong>: Version control practices
+- <strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy
+- <strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong>
+- <strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo
+- <strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros
+- <strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model
+- <strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development
+- <strong>STABLE APIs</strong>: Minimal, focused public interfaces
+- <strong>TALK IS CHEAP</strong>: Working code priority
+- <strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines
+- <strong>WORSE IS BETTER</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>ZEN OF PYTHON</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained
+- <strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design
+- <strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features
+- <strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design
+- <strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system
+- <strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading
+- <strong>POLYMORPHISM</strong>: Polymorphic types and behavior
+- <strong>PORTABILITY</strong>: Multi-arch support
+- <strong>POWER OF TEN</strong>: Safety-critical guidelines
+- <strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained
+- <strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness
+- <strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems
+- <strong>PRISTINE SOURCES</strong>: Clean code
+- <strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design
+- <strong>PROCESS ISOLATION</strong>: Process isolation awareness
+- <strong>PROFESSION BASED TOOLS</strong>: Professional development tools
+- <strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations
+- <strong>READY TO USE</strong>: Tested and verified
+- <strong>REFACTORING</strong>: Continuous code improvement
+- <strong>REMOVE ANY HINT...</strong>: Clean project identity
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics
+- <strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement
+- <strong>RULE OF THREE</strong>: Three implementations good
+- <strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations
+- <strong>SECURE DEFAULTS</strong>: Secure by design
+- <strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens
+- <strong>SEMANTIC VERSIONING</strong>: Version control practices
+- <strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy
+- <strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong>
+- <strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo
+- <strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros
+- <strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model
+- <strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development
+- <strong>STABLE APIs</strong>: Minimal, focused public interfaces
+- <strong>TALK IS CHEAP</strong>: Working code priority
+- <strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines
+- <strong>WORSE IS BETTER</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>ZEN OF PYTHON</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained
+- <strong>OPEN-STANDARD AND INTEROPERABILITY</strong>: Standard-based design
+- <strong>OPTIMISE FOR DELETION</strong>: Efficient removal of unused features
+- <strong>OPTIMISE FOR PERFORMANCE</strong>: Performance-conscious design
+- <strong>PLUG-IN DRIVER MODEL</strong>: Modular driver system
+- <strong>PLUG &amp; PLAY DRIVER MODEL</strong>: Dynamic driver loading
+- <strong>POLYMORPHISM</strong>: Polymorphic types and behavior
+- <strong>PORTABILITY</strong>: Multi-arch support
+- <strong>POWER OF TEN</strong>: Safety-critical guidelines
+- <strong>PRACTICAL LICENSING AWARENESS</strong>: GPL-3.0-or-later maintained
+- <strong>PREPARE VARIOUS RULES</strong>: Guidelines awareness
+- <strong>PRIORITY INVERSION AVOIDANCE</strong>: Real-time systems
+- <strong>PRISTINE SOURCES</strong>: Clean code
+- <strong>PROCEDURE-ORIENTED PROGRAMMING</strong>: Procedure-oriented design
+- <strong>PROCESS ISOLATION</strong>: Process isolation awareness
+- <strong>PROFESSION BASED TOOLS</strong>: Professional development tools
+- <strong>RACE-FREE DESIGN</strong>: Concurrent-safe operations
+- <strong>READY TO USE</strong>: Tested and verified
+- <strong>REFACTORING</strong>: Continuous code improvement
+- <strong>REMOVE ANY HINT...</strong>: Clean project identity
+- <strong>REPRODUCIBLE BUILDS</strong>: Consistent build environments
+- <strong>RESPECT &amp; ETHICAL PARTICIPATION</strong>: Open source ethics
+- <strong>ROLLING RELEASE MODEL</strong>: No release tags, continuous improvement
+- <strong>RULE OF THREE</strong>: Three implementations good
+- <strong>SAFE CONCURRENCY</strong>: Concurrent-safe operations
+- <strong>SECURE DEFAULTS</strong>: Secure by design
+- <strong>SECURITY AUDIT</strong>: Prevent leak of API keys, passwords, tokens
+- <strong>SEMANTIC VERSIONING</strong>: Version control practices
+- <strong>SEPARATION OF CONCERNS</strong>: Mechanism vs policy
+- <strong>SINGLE RESPONSIBILITY, TRANSPARENCY &amp; OPEN EXCHANGE, OPEN/CLOSED, LISKOV SUBSTITUTION, INTERFACE SEGREGATION, DEPENDENCY INVERSION PRINCIPLE</strong>
+- <strong>SINGLE BRANCH PER SINGLE REPOSITORY</strong>: Main branch per repo
+- <strong>SOFTWARE SUPPORT PROGRAM</strong>: Like Linux distros
+- <strong>SOFTWARE UPDATING PROGRAM</strong>: Rolling release model
+- <strong>SPEC-DRIVEN DEVELOPMENT</strong>: Principle-driven development
+- <strong>STABLE APIs</strong>: Minimal, focused public interfaces
+- <strong>TALK IS CHEAP</strong>: Working code priority
+- <strong>TEST CODE USING CI/CD</strong>: Automated testing pipelines
+- <strong>WORSE IS BETTER</strong>: Practical over perfect design
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>ZEN OF PYTHON</strong>: Where applicable influences design
+- <strong>ZERO-COPY</strong>: Where applicable performance optimization
+- <strong>ZERO-ONE-INFINITY</strong>: Scalable design patterns
+- <strong>X THEIRS</strong>: Community-driven development
+- <strong>TRANSFER &amp; CONSOLIDATE .MD/.TXT</strong>: Wiki-based documentation
+- <strong>UPHOLD INTELLECTUAL PROPERTY</strong>: GPL-3.0-or-later maintained</p>
+<h2 id="todo-next-steps">TODO &amp; Next Steps</h2>
+<h3 id="immediate-priorities">Immediate Priorities</h3>
+<ol>
+<li>Create wikis for remaining components (Dante, 0ad, 3d-modeler, ab)</li>
+<li>Add missing component repositories</li>
+<li>Improve code quality across all components</li>
+<li>Update central SigmaOS.wiki with component summaries</li>
+<li>Establish component registry and dependency mapping</li>
+</ol>
+<h3 id="medium-term-goals">Medium-Term Goals</h3>
+<ol>
+<li>Expand component capabilities with new features</li>
+<li>Add integration tests for end-to-end scenarios</li>
+<li>Set up AUR-like package metadata for Arch Linux distribution</li>
+<li>Add more personas inspired by other distros</li>
+<li>Implement cross-compilation for target architectures</li>
+</ol>
+<h3 id="long-term-sustainability">Long-Term Sustainability</h3>
+<ol>
+<li>Continuous improvement framework</li>
+<li>Community-oriented development practices</li>
+<li>Meritocracy and inclusivity in contributions</li>
+<li>Regular security audits and updates</li>
+<li>Rolling release model without release tags</li>
+<li>Distributed system management across components</li>
+<li>Package updating programs like Linux distros</li>
+<li>Software support programs like Linux distros</li>
+</ol>
+<hr />
+<p><em>This wiki is consolidated from per-component wikis and follows SigmaOS principles inspired by Linux kernel mintsystem, Arch Linux modularity, and Omarchy Linux sovereignty. For component-specific documentation, refer to individual repository wikis.</em></p>
+<p><em>Last updated: November 2026</em>
+<em>SigmaOS Version: 0.1.0</em></p></main></div>
+<footer>SigmaOS — inspired by Arch Linux &amp; Omarchy · <a href="https://github.com/AaryanSinghChauhan09/Sigma" style="color:var(--accent)">GitHub</a></footer>
+</body></html>

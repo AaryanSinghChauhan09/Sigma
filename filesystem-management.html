@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Filesystem Management — SigmaOS</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--accent:#7aa2f7;--muted:#8b949e;--card:#161b22;--border:#30363d}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem}
+header h1{font-size:1.4rem;margin:0}header h1 a{color:var(--accent);text-decoration:none}
+header .tag{color:var(--muted);font-size:.85rem}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{width:260px;padding:1.5rem;border-right:1px solid var(--border);flex-shrink:0}
+nav ul{list-style:none;padding:0;margin:0}nav li{margin:.35rem 0}
+nav a{color:var(--muted);text-decoration:none;font-size:.9rem}nav a:hover{color:var(--accent)}
+main{flex:1;padding:2rem;min-width:0}
+main h1{border-bottom:1px solid var(--border);padding-bottom:.5rem}
+main h2{margin-top:2rem;color:var(--accent)}
+main code{background:var(--card);padding:.15em .4em;border-radius:4px;font-size:.9em}
+main pre{background:var(--card);padding:1rem;border-radius:8px;overflow-x:auto}
+main pre code{background:none;padding:0}
+main table{border-collapse:collapse;width:100%}main th,main td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
+main th{background:var(--card)}
+main a{color:var(--accent)}
+.hero{text-align:center;padding:4rem 2rem}
+.hero h1{font-size:2.6rem;border:none}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:640px;margin:1rem auto}
+.btn{display:inline-block;background:var(--accent);color:#0d1117;padding:.7rem 1.6rem;border-radius:8px;text-decoration:none;font-weight:600;margin:.3rem}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;padding:1rem 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card h3{margin:0 0 .4rem;color:var(--accent);font-size:1rem}
+.card p{margin:0;color:var(--muted);font-size:.85rem}
+footer{border-top:1px solid var(--border);padding:1.5rem 2rem;color:var(--muted);font-size:.85rem;text-align:center}
+@media(max-width:800px){nav{display:none}.layout{flex-direction:column}}
+</style></head><body>
+<header><h1><a href="https://aaryansinghchauhan09.github.io/Sigma/">Σ SigmaOS</a></h1><span class="tag">Sovereign Arch Linux Desktop</span></header>
+<div class="layout"><nav><ul><li><a href="https://aaryansinghchauhan09.github.io/Sigma/boot-configuration.html">Boot Configuration</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/container-runtime.html">Container Runtime</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/filesystem-management.html">Filesystem Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/hardware-detection.html">Hardware Detection</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/init-system.html">Init System</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/logging-system.html">Logging System</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/memory-management.html">Memory Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/monitoring-module.html">Monitoring Module</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/network-management.html">Network Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/package-management.html">Package Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/power-management.html">Power Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/security-audit.html">Security Audit</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/security-management.html">Security Management</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/sigma-wiki.html">Sigma Wiki</a></li><li><a href="https://aaryansinghchauhan09.github.io/Sigma/time-synchronization.html">Time Synchronization</a></li></ul></nav><main><h1 id="sigmaos-filesystem-management-module">SigmaOS Filesystem Management Module</h1>
+<h2 id="overview">Overview</h2>
+<p>The filesystem management module provides filesystem management, ZFS/Btrfs support, and snapshot operations. It is inspired by Linux VFS and Arch Linux storage management.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Multiple Filesystems</strong>: Support for Ext4, Xfs, Btrfs, Zfs, F2fs, Swap</li>
+<li><strong>Snapshot Management</strong>: Create and manage Btrfs/ZFS snapshots</li>
+<li><strong>Mount Configuration</strong>: Generate fstab and crypttab entries</li>
+<li><strong>Btrfs Subvolumes</strong>: Generate Btrfs subvolume commands</li>
+<li><strong>ZFS Pools</strong>: Generate ZFS pool creation commands</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-rust">use sigma_system::{FileSystemManager, FileSystemType, MountPoint, MountOption, Snapshot};
+
+// Create a filesystem manager
+let mut mgr = FileSystemManager::new(FileSystemType::Btrfs);
+
+// Add mount points
+let root = MountPoint::new(&quot;/dev/sda1&quot;, &quot;/&quot;, FileSystemType::Btrfs)
+    .with_option(MountOption::Noatime)
+    .with_option(MountOption::Compress);
+mgr.add_mount_point(root).unwrap();
+
+let home = MountPoint::new(&quot;/dev/sda2&quot;, &quot;/home&quot;, FileSystemType::Btrfs)
+    .with_option(MountOption::Noatime);
+mgr.add_mount_point(home).unwrap();
+
+// Create snapshots
+let snapshot = Snapshot::new(&quot;snap-2024-01-01&quot;, &quot;backup&quot;, &quot;/home&quot;);
+mgr.create_snapshot(snapshot).unwrap();
+
+// Generate configurations
+let fstab = mgr.generate_fstab();
+let crypttab = mgr.generate_crypttab();
+let btrfs_commands = mgr.generate_btrfs_subvolume_commands();
+</code></pre>
+<h2 id="configuration">Configuration</h2>
+<h3 id="filesystemtype">FileSystemType</h3>
+<ul>
+<li><code>Ext4</code>: Standard Linux filesystem</li>
+<li><code>Xfs</code>: High-performance filesystem</li>
+<li><code>Btrfs</code>: Advanced filesystem with snapshots</li>
+<li><code>Zfs</code>: Enterprise-grade filesystem</li>
+<li><code>F2fs</code>: Flash-friendly filesystem</li>
+<li><code>Swap</code>: Swap space</li>
+</ul>
+<h3 id="mountoption">MountOption</h3>
+<ul>
+<li><code>Noatime</code>: Disable access time updates</li>
+<li><code>Nodiratime</code>: Disable directory access time updates</li>
+<li><code>Relatime</code>: Relative access time updates</li>
+<li><code>Noexec</code>: Disable execution</li>
+<li><code>Nosuid</code>: Disable SUID/SGID</li>
+<li><code>Nodev</code>: Disable device files</li>
+<li><code>Ro</code>: Read-only</li>
+<li><code>Rw</code>: Read-write</li>
+<li><code>Compress</code>: Enable compression</li>
+<li><code>Zstd</code>: Use Zstd compression</li>
+<li><code>Lzo</code>: Use LZO compression</li>
+</ul>
+<h3 id="snapshot">Snapshot</h3>
+<ul>
+<li><code>id</code>: Snapshot identifier</li>
+<li><code>name</code>: Snapshot name</li>
+<li><code>filesystem</code>: Target filesystem</li>
+<li><code>timestamp</code>: Creation timestamp</li>
+<li><code>readonly</code>: Read-only or writable</li>
+</ul>
+<h2 id="api-reference">API Reference</h2>
+<h3 id="methods">Methods</h3>
+<ul>
+<li><code>add_mount_point()</code>: Add a mount point configuration</li>
+<li><code>create_snapshot()</code>: Create a filesystem snapshot</li>
+<li><code>remove_snapshot()</code>: Remove a snapshot</li>
+<li><code>generate_fstab()</code>: Generate /etc/fstab entries</li>
+<li><code>generate_crypttab()</code>: Generate /etc/crypttab entries</li>
+<li><code>generate_btrfs_subvolume_commands()</code>: Generate Btrfs commands</li>
+<li><code>generate_zfs_pool_commands()</code>: Generate ZFS commands</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<h3 id="configuring-btrfs-with-compression">Configuring Btrfs with Compression</h3>
+<pre><code class="language-rust">let root = MountPoint::new(&quot;/dev/sda1&quot;, &quot;/&quot;, FileSystemType::Btrfs)
+    .with_option(MountOption::Noatime)
+    .with_option(MountOption::Zstd)
+    .with_option(MountOption::Discard);
+mgr.add_mount_point(root).unwrap();
+</code></pre>
+<h3 id="creating-snapshots">Creating Snapshots</h3>
+<pre><code class="language-rust">// Read-only snapshot
+let backup = Snapshot::new(&quot;backup-$(date +%Y%m%d)&quot;, &quot;system-backup&quot;, &quot;/&quot;);
+
+// Writable snapshot for testing
+let test = Snapshot::new(&quot;test-snapshot&quot;, &quot;test&quot;, &quot;/&quot;).writable();
+</code></pre>
+<h3 id="zfs-pool-configuration">ZFS Pool Configuration</h3>
+<pre><code class="language-rust">let zfs_mgr = FileSystemManager::new(FileSystemType::Zfs);
+let pool = MountPoint::new(&quot;tank&quot;, &quot;/mnt&quot;, FileSystemType::Zfs);
+zfs_mgr.add_mount_point(pool).unwrap();
+let commands = zfs_mgr.generate_zfs_pool_commands();
+</code></pre>
+<h2 id="integration-with-other-modules">Integration with Other Modules</h2>
+<p>The filesystem module integrates with:
+- <strong>Security module</strong>: LUKS encryption for disk security
+- <strong>Boot module</strong>: Root filesystem for boot
+- <strong>Memory module</strong>: Swap partition configuration
+- <strong>Init module</strong>: Filesystem-dependent service ordering</p>
+<h2 id="principles-applied">Principles Applied</h2>
+<ul>
+<li>Single Responsibility: Only manages filesystem subsystem</li>
+<li>Fail-Fast: Validates paths before adding mount points</li>
+<li>Clear Abstraction: Well-defined public API</li>
+<li>AAA Testing: All tests follow Arrange-Act-Assert pattern</li>
+</ul></main></div>
+<footer>SigmaOS — inspired by Arch Linux &amp; Omarchy · <a href="https://github.com/AaryanSinghChauhan09/Sigma" style="color:var(--accent)">GitHub</a></footer>
+</body></html>
