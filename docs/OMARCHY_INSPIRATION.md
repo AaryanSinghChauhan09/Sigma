@@ -108,3 +108,16 @@ only for compatibility (package names, paths, license). Divergence per
 `docs/COMPOSITOR_DECISION.md`, `docs/THEME_DECISION.md`,
 `docs/COMPETITIVE_STRATEGY.md`. Periodic upstream syncs preserve SigmaOS
 decisions.
+
+## Fork status (updated)
+
+Core Omarchy forks now live on GitHub (full upstream history + SigmaOS
+rebrand commit + `SIGMAOS_FORK.md` in each):
+
+- `SigmaOS-omarchy` @ `846060e64` — distro/desktop (8,206 commits)
+- `SigmaOS-omarchy-pkgs` @ `fdb7af21` — package recipes/tooling (63M)
+- `SigmaOS-omarchy-iso` @ `c6257b0` — ISO builder/presets/manifests (59M)
+
+All MIT-licensed; upstream copyright retained. Fork policy per
+`SIGMAOS_FORK.md` in each repo: SigmaOS branding on repo docs, upstream
+names kept for compatibility (pkgs.omarchy.org URLs, package names, paths).
