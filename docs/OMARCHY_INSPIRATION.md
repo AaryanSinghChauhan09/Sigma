@@ -150,9 +150,11 @@ wiki-hub, plugin-marketplace (needs partial-clone approach).
 
 ## Fork fleet status (full pass)
 
-**Live on GitHub (13 Omarchy forks):** omarchy, omarchy-pkgs, omarchy-iso,
+**Live on GitHub (27 Omarchy forks):** omarchy, omarchy-pkgs, omarchy-iso,
 theme-registry, theme-marketplace, plugin-registry, local-ai, mac-support,
-omarchy-mac-pkgs, plain, omaview, omadots, omafind.
+omarchy-mac-pkgs, plain, omaview, omadots, omafind, quickshell, mirror,
+configurator, notification-center, fish, zsh, chromium, audio-tuner,
+theme-sync, cards, checkmate, herdr, aether.nvim, tte-go.
 
 **Staged locally (40 forks, awaiting repo-creation quota):**
 `~/sigmaos-repos/` — each has full/partial upstream history, `origin` →
