@@ -105,6 +105,8 @@ zstd
 # Boot and init
 grub
 efibootmgr
+syslinux
+systemd-boot
 os-prober
 mkinitcpio
 sudo
@@ -329,6 +331,33 @@ To install SigmaOS:
 For help:
   https://github.com/AaryanSinghChauhan09/Sigma/wiki
 ==========================================
+EOF
+
+# Bootloader configs required by mkarchiso bootmodes
+# (BIOS syslinux + UEFI systemd-boot)
+mkdir -p "$PROFILE_DIR/syslinux"
+cat > "$PROFILE_DIR/syslinux/syslinux.cfg" << 'EOF'
+DEFAULT archiso_syslinux
+PROMPT 0
+TIMEOUT 20
+
+LABEL archiso_syslinux
+    LINUX /arch/boot/x86_64/vmlinuz-linux
+    APPEND archisobasedir=arch archisolabel=SIGMAOS archisodevice=tty0 quiet
+    INITRD /arch/boot/x86_64/initramfs-linux.img
+EOF
+
+mkdir -p "$PROFILE_DIR/efiboot/loader/entries"
+cat > "$PROFILE_DIR/efiboot/loader/loader.conf" << 'EOF'
+timeout 10
+default sigmaos.conf
+editor no
+EOF
+cat > "$PROFILE_DIR/efiboot/loader/entries/sigmaos.conf" << 'EOF'
+title   SigmaOS Live
+linux   /arch/boot/x86_64/vmlinuz-linux
+initrd  /arch/boot/x86_64/initramfs-linux.img
+options archisobasedir=arch archisolabel=SIGMAOS archisodevice=tty0 quiet
 EOF
 
 # Build the ISO using mkarchiso
