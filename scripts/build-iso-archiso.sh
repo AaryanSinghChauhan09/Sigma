@@ -349,9 +349,9 @@ PROMPT 0
 TIMEOUT 20
 
 LABEL archiso_syslinux
-    LINUX /arch/boot/x86_64/vmlinuz-linux
-    APPEND archisobasedir=arch archisolabel=SIGMAOS archisodevice=tty0 quiet
-    INITRD /arch/boot/x86_64/initramfs-linux.img
+    LINUX /mkarchiso/boot/x86_64/vmlinuz-linux
+    APPEND archisobasedir=mkarchiso archisolabel=SIGMAOS archisodevice=tty0 quiet
+    INITRD /mkarchiso/boot/x86_64/initramfs-linux.img
 EOF
 
 mkdir -p "$PROFILE_DIR/efiboot/loader/entries"
@@ -362,9 +362,9 @@ editor no
 EOF
 cat > "$PROFILE_DIR/efiboot/loader/entries/sigmaos.conf" << 'EOF'
 title   SigmaOS Live
-linux   /arch/boot/x86_64/vmlinuz-linux
-initrd  /arch/boot/x86_64/initramfs-linux.img
-options archisobasedir=arch archisolabel=SIGMAOS archisodevice=tty0 quiet
+linux   /mkarchiso/boot/x86_64/vmlinuz-linux
+initrd  /mkarchiso/boot/x86_64/initramfs-linux.img
+options archisobasedir=mkarchiso archisolabel=SIGMAOS archisodevice=tty0 quiet
 EOF
 
 # Build the ISO using mkarchiso
