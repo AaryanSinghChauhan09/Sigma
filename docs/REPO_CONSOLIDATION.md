@@ -52,10 +52,11 @@ Status labels: **canonical** (keep), **absorbed** (fold into canonical, archive)
 | Repo | Status | Notes |
 |---|---|---|
 | SigmaOS-plugin-registry | canonical | Plugin data/registry |
-| SigmaOS-plugin-marketplace-tools | canonical | Submission/validation tooling |
-| SigmaOS-plugin-marketplace-worker | canonical | Marketplace backend |
-| SigmaOS-plugin-marketplace-site | canonical | Marketplace frontend |
-| SigmaOS-plugin-marketplace-assets | pending | Preview images — needs LFS decision |
+| SigmaOS-plugin-marketplace-tools | canonical | Consolidated marketplace fork: site/ + worker/ + root tooling merged 2026-11-24 |
+| SigmaOS-plugin-marketplace-worker | archived → tools | Merged into plugin-marketplace-tools (site/worker reunified) |
+| SigmaOS-plugin-marketplace-site | archived → tools | Merged into plugin-marketplace-tools (site/worker reunified) |
+| SigmaOS-plugin-marketplace-assets | pending | Preview images — needs LFS decision; merged site references generated images not yet vendored |
+| SigmaOS-plugin-marketplace | distinct | SigmaOS-native Rust marketplace component (cinnamon-spices-inspired), not the omarchy fork |
 | SigmaOS-local-ai | distinct | Local AI features |
 
 ## App forks (distinct — keep)
