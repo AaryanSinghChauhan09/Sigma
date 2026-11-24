@@ -76,8 +76,32 @@ folio, gliff, monologue, owe, aether, omarchy-mac-pkgs.
 - SigmaOS-configurator — fork replaced scaffold (done)
 - SigmaOS-speedtest, SigmaOS-ports, SigmaOS-dkms, SigmaOS-sec-audit, SigmaOS-live-media — scaffolds pending real impl or fork equivalents
 
+## Archived stubs / empty duplicates (2026-11-24)
+
+Empty scaffolding accidents archived on GitHub (content preserved in canonical repos):
+
+| Repo | Reason |
+|---|---|
+| SigmaOS-cards-checkmate-dup | Empty stub; canonical = SigmaOS-cards |
+| SigmaOS-m1n1-done | Empty stub; canonical = SigmaOS-m1n1 |
+| SigmaOS-omarchy-pkgs-sigmaos | Empty repo; canonical = SigmaOS-omarchy-pkgs (private) |
+| SigmaOS-site-crt2 | Empty repo; canonical = SigmaOS-site-crt |
+| SigmaOS-omarchy-plugin-marketplace-tools | Empty misnamed repo; canonical = SigmaOS-plugin-marketplace-tools |
+| SigmaOS-omachee-plugin-marketplace-tools | Empty misnamed repo; canonical = SigmaOS-plugin-marketplace-tools |
+| SigmaOS-omakub | Empty repo; upstream push blocked by secret scanning (user decision) |
+
+## GitHub Wikis
+
+GitHub only materializes `<repo>.wiki.git` after the Wiki tab is opened once in
+a browser — there is no API/CLI path to create it. Staged Home.md content for
+every SigmaOS-* component lives in `sigmaos-repos/sigmaos-wiki-staging/` on the
+build host, and `sigmaos-repos/push-wikis.sh` pushes it to any wiki that has
+been initialized. Until the one-time browser visit per repo, wikis remain
+pending; the staging content is the source of truth in the meantime.
+
 ## Action items
 
 1. Archive "absorbed" repos after canonical repos document the absorbed content.
 2. Replace remaining scaffolds with forks or real implementations.
 3. Do NOT delete — mark archived on GitHub to preserve links/history.
+4. Open the Wiki tab once per SigmaOS-* repo, then run `push-wikis.sh`.
