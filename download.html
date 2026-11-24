@@ -30,20 +30,22 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2rem;color:var(--muted)
 <p>Bootable x86_64 live ISO — Arch-based, Hyprland desktop with Omarchy-inspired
 pre-configuration (Catppuccin theme, gradient borders, SUPER+SPACE launcher).</p>
 
-<h2>Latest Release — UEFI Verified (2026.11.24)</h2>
-<p><a class="btn" href="https://github.com/AaryanSinghChauhan09/SigmaOS-ISO/releases/tag/sigmaos-desktop-2026.11.24-uefi">Download from GitHub Releases</a></p>
-<p><strong>Recommended.</strong> First release with verified UEFI boot. The earlier
-2026.11.23 MVP build boots BIOS-only — use this one instead.</p>
+<h2>Latest Release — Fully Verified (2026.11.24)</h2>
+<p><a class="btn" href="https://github.com/AaryanSinghChauhan09/SigmaOS-ISO/releases/tag/sigmaos-desktop-2026.11.24-run30">Download from GitHub Releases</a></p>
+<p><strong>Recommended.</strong> Latest CI-verified build: UEFI <em>and</em> BIOS boot
+confirmed in QEMU, plus an automated installer dry-run that proves
+<code>sigmaos-install</code> plans safely without touching the disk.
+Earlier 2026.11.23 builds boot BIOS-only — use this one instead.</p>
 <p><strong>Tip:</strong> try SigmaOS in a VM (instructions below) before installing
 to bare metal.</p>
 <table>
 <tr><th>File</th><td><code>sigmaos-desktop-2026.11.24-x86_64.iso</code></td></tr>
 <tr><th>Size</th><td>~3.5 GB (split into 2 parts on the release)</td></tr>
-<tr><th>SHA-256</th><td><code>ac2a325cde0d3545bf92107c2a53e53e71cedb0641dd35378798c786ef7d5800</code></td></tr>
+<tr><th>SHA-256</th><td><code>bc6a5ba6d250720b03e766dc954f5f89e1a3b4c4bf7a4a1d2009f1e700beee42</code></td></tr>
 <tr><th>Boot</th><td>BIOS + UEFI (hybrid, USB-<code>dd</code>-able) — both verified in QEMU</td></tr>
 <tr><th>Desktop</th><td>Hyprland (Wayland) + Waybar + rofi + foot</td></tr>
 <tr><th>Tools</th><td>sigmaos-doctor diagnostics, sigmaos-theme (3 themes), sigmaos-welcome</td></tr>
-<tr><th>Verified</th><td>QEMU/KVM boot test — BIOS and UEFI both reach the live desktop</td></tr>
+<tr><th>Verified</th><td>QEMU/KVM boot test (BIOS+UEFI) and installer dry-run — all green in CI</td></tr>
 </table>
 
 <h2>Reassemble the ISO</h2>
@@ -98,7 +100,7 @@ sha256sum -c sigmaos-desktop-2026.11.24-x86_64.iso.sha256</code></pre>
 <tr><td>ARM / aarch64</td><td>Not supported (x86_64 only)</td></tr>
 </table>
 <ul>
-<li>Releases before 2026.11.24 have broken UEFI — use this release.</li>
+<li>Releases before 2026.11.24 have broken UEFI — use this release. The <code>-uefi</code> and <code>-run28</code> tags are superseded by <code>-run30</code>.</li>
 <li>Full install (<code>sigmaos-install --destructive</code>) is experimental; dry-run is safety-tested.</li>
 <li>Snapshot/rollback is not yet implemented — don't rely on it.</li>
 <li>Recovery: <code>sigmaos-theme reset</code> restores defaults; <code>sigmaos-doctor</code> (SUPER+/) diagnoses problems.</li>
