@@ -30,30 +30,37 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2rem;color:var(--muted)
 <p>Bootable x86_64 live ISO — Arch-based, Hyprland desktop with Omarchy-inspired
 pre-configuration (Catppuccin theme, gradient borders, SUPER+SPACE launcher).</p>
 
-<h2>Latest Release — MVP Edition (2026.11.23)</h2>
-<p><a class="btn" href="https://github.com/AaryanSinghChauhan09/SigmaOS-ISO/releases/tag/sigmaos-desktop-2026.11.23-mvp">Download from GitHub Releases</a></p>
+<h2>Latest Release — UEFI Verified (2026.11.24)</h2>
+<p><a class="btn" href="https://github.com/AaryanSinghChauhan09/SigmaOS-ISO/releases/tag/sigmaos-desktop-2026.11.24-uefi">Download from GitHub Releases</a></p>
+<p><strong>Recommended.</strong> First release with verified UEFI boot. The earlier
+2026.11.23 MVP build boots BIOS-only — use this one instead.</p>
 <table>
-<tr><th>File</th><td><code>sigmaos-desktop-2026.11.23-mvp.iso</code></td></tr>
-<tr><th>Size</th><td>~2.9 GB (split into 2 parts on the release)</td></tr>
-<tr><th>SHA-256</th><td><code>cce8d42bdbea82704e83a1debd25397883136a1c2ba4e7f821e4f77a5b442be9</code></td></tr>
-<tr><th>Boot</th><td>BIOS + UEFI (hybrid, USB-<code>dd</code>-able)</td></tr>
+<tr><th>File</th><td><code>sigmaos-desktop-2026.11.24-x86_64.iso</code></td></tr>
+<tr><th>Size</th><td>~3.5 GB (split into 2 parts on the release)</td></tr>
+<tr><th>SHA-256</th><td><code>ac2a325cde0d3545bf92107c2a53e53e71cedb0641dd35378798c786ef7d5800</code></td></tr>
+<tr><th>Boot</th><td>BIOS + UEFI (hybrid, USB-<code>dd</code>-able) — both verified in QEMU</td></tr>
 <tr><th>Desktop</th><td>Hyprland (Wayland) + Waybar + rofi + foot</td></tr>
-<tr><th>New</th><td>sigmaos-doctor diagnostics, sigmaos-theme (3 themes), sigmaos-welcome</td></tr>
-<tr><th>Verified</th><td>QEMU/KVM boot test — desktop renders, input works</td></tr>
+<tr><th>Tools</th><td>sigmaos-doctor diagnostics, sigmaos-theme (3 themes), sigmaos-welcome</td></tr>
+<tr><th>Verified</th><td>QEMU/KVM boot test — BIOS and UEFI both reach the live desktop</td></tr>
 </table>
 
 <h2>Reassemble the ISO</h2>
-<pre><code>cat sigmaos-desktop-2026.11.23-mvp.iso.part* &gt; sigmaos-desktop-2026.11.23-mvp.iso
-sha256sum -c sigmaos-desktop-2026.11.23-mvp.iso.sha256</code></pre>
+<pre><code>cat sigmaos-desktop-2026.11.24-x86_64.iso.part* &gt; sigmaos-desktop-2026.11.24-x86_64.iso
+sha256sum -c sigmaos-desktop-2026.11.24-x86_64.iso.sha256</code></pre>
 
 <h2>Write to USB</h2>
-<pre><code>sudo dd if=sigmaos-desktop-2026.11.23-mvp.iso of=/dev/sdX bs=4M status=progress oflag=sync</code></pre>
+<pre><code>sudo dd if=sigmaos-desktop-2026.11.24-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync</code></pre>
 <p><strong>Warning:</strong> replace <code>/dev/sdX</code> with your USB device — this erases it.</p>
 
 <h2>Try in QEMU</h2>
-<pre><code>qemu-system-x86_64 -m 4G -enable-kvm -cdrom sigmaos-desktop-2026.11.23-mvp.iso</code></pre>
+<pre><code>qemu-system-x86_64 -m 4G -enable-kvm -cdrom sigmaos-desktop-2026.11.24-x86_64.iso</code></pre>
 <p>Or with VNC for headless testing:</p>
-<pre><code>qemu-system-x86_64 -m 4G -enable-kvm -cdrom sigmaos-desktop-2026.11.23-mvp.iso -vnc :1</code></pre>
+<pre><code>qemu-system-x86_64 -m 4G -enable-kvm -cdrom sigmaos-desktop-2026.11.24-x86_64.iso -vnc :1</code></pre>
+<p>UEFI test (needs <code>ovmf</code> installed):</p>
+<pre><code>qemu-system-x86_64 -m 4G -enable-kvm \
+  -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
+  -drive if=pflash,format=raw,file=OVMF_VARS.fd \
+  -cdrom sigmaos-desktop-2026.11.24-x86_64.iso -boot d</code></pre>
 
 <h2>Desktop Controls</h2>
 <table>
