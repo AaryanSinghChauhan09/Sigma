@@ -34,6 +34,8 @@ pre-configuration (Catppuccin theme, gradient borders, SUPER+SPACE launcher).</p
 <p><a class="btn" href="https://github.com/AaryanSinghChauhan09/SigmaOS-ISO/releases/tag/sigmaos-desktop-2026.11.24-uefi">Download from GitHub Releases</a></p>
 <p><strong>Recommended.</strong> First release with verified UEFI boot. The earlier
 2026.11.23 MVP build boots BIOS-only — use this one instead.</p>
+<p><strong>Tip:</strong> try SigmaOS in a VM (instructions below) before installing
+to bare metal.</p>
 <table>
 <tr><th>File</th><td><code>sigmaos-desktop-2026.11.24-x86_64.iso</code></td></tr>
 <tr><th>Size</th><td>~3.5 GB (split into 2 parts on the release)</td></tr>
@@ -85,6 +87,23 @@ sha256sum -c sigmaos-desktop-2026.11.24-x86_64.iso.sha256</code></pre>
 <li><code>sigmaos-theme list|&lt;name&gt;|reset</code> — catppuccin, tokyo-night, gruvbox; backs up config first</li>
 <li><code>sigmaos-welcome</code> — first-login cheatsheet (auto-shows once)</li>
 </ul>
+<h2>Compatibility &amp; Known Issues</h2>
+<table>
+<tr><th>Platform</th><th>Status</th></tr>
+<tr><td>BIOS boot (SeaBIOS)</td><td>Verified in QEMU</td></tr>
+<tr><td>UEFI boot (OVMF/EDK2)</td><td>Verified in QEMU (2026.11.24+)</td></tr>
+<tr><td>USB (<code>dd</code>)</td><td>Supported — hybrid ISO</td></tr>
+<tr><td>Secure Boot</td><td>Not supported — unsigned image</td></tr>
+<tr><td>NVIDIA GPU</td><td>Experimental — untested</td></tr>
+<tr><td>ARM / aarch64</td><td>Not supported (x86_64 only)</td></tr>
+</table>
+<ul>
+<li>Releases before 2026.11.24 have broken UEFI — use this release.</li>
+<li>Full install (<code>sigmaos-install --destructive</code>) is experimental; dry-run is safety-tested.</li>
+<li>Snapshot/rollback is not yet implemented — don't rely on it.</li>
+<li>Recovery: <code>sigmaos-theme reset</code> restores defaults; <code>sigmaos-doctor</code> (SUPER+/) diagnoses problems.</li>
+</ul>
+
 <h2>Earlier Releases</h2>
 <p>Previous builds are in the <a href="https://github.com/AaryanSinghChauhan09/SigmaOS-ISO/releases">SigmaOS-ISO releases</a>.</p>
 </main></div>
