@@ -1,9 +1,27 @@
 # SigmaOS ISO Build Guide (Reproducible)
 
+> **The supported ISO build lives in
+> [SigmaOS-ISO](https://github.com/AaryanSinghChauhan09/SigmaOS-ISO).**
+> That repository owns the archiso profile, the bootable image, the
+> installer, and the release pipeline. The scripts below are kept for
+> reference/experimentation and are **not** the release path — several are
+> stale (e.g. `build-iso-archiso.sh` references an `archiso-profiles/`
+> directory that no longer exists in this repo).
+>
+> To build the real ISO:
+>
+> ```sh
+> git clone https://github.com/AaryanSinghChauhan09/SigmaOS-ISO
+> cd SigmaOS-ISO
+> scripts/build_archiso.sh --validate-only   # any host
+> scripts/build_archiso.sh --docker          # any Linux host with Docker
+> sudo scripts/build_archiso.sh --native     # Arch Linux host
+> ```
+
 Phase-1 requirement from `docs/SIGMAOS_VS_OMARCHY_PLAN.md`: a contributor must
 be able to build and boot the ISO using documented steps.
 
-## Prerequisites
+## Prerequisites (experimental scripts below)
 
 - Arch Linux (or Arch-based) build host — pacstrap/mkinitcpio/mkarchiso are
   Arch tools

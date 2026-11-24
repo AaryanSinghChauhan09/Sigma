@@ -1,4 +1,7 @@
 #!/bin/bash
+# DEPRECATED: experimental script kept for reference. The supported ISO
+# build lives in https://github.com/AaryanSinghChauhan09/SigmaOS-ISO
+# (scripts/build_archiso.sh). This script may be stale or broken.
 # SigmaOS ISO Build in Docker/Container
 # Builds the archiso profile inside an Arch Linux container — works on
 # non-Arch hosts (e.g. Mint/Ubuntu) where pacstrap/mkarchiso are absent.

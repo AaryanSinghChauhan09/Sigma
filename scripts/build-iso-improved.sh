@@ -1,4 +1,7 @@
 #!/bin/bash
+# DEPRECATED: experimental script kept for reference. The supported ISO
+# build lives in https://github.com/AaryanSinghChauhan09/SigmaOS-ISO
+# (scripts/build_archiso.sh). This script may be stale or broken.
 # SigmaOS ISO Build Script (Improved)
 # Creates a bootable SigmaOS live ISO using Arch Linux packages as base
 # This version uses mkarchiso for proper ISO creation when available
