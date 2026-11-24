@@ -99,6 +99,22 @@ build host, and `sigmaos-repos/push-wikis.sh` pushes it to any wiki that has
 been initialized. Until the one-time browser visit per repo, wikis remain
 pending; the staging content is the source of truth in the meantime.
 
+Wiki staging: 104 component Home.md files generated (2026-11-24), each with
+repo name, short description, and links to SigmaOS/ISO/main.
+
+## Component manifests (2026-11-24)
+
+All 100 SigmaOS-* repos now have consistent `COMPONENT.toml` (not `COMPONENT.tomL`)
+with proper name/id/metadata. Previously 32 repos had real manifests, 68 had
+broken template stubs with `$(basename $d)` placeholders; these were normalized
+and committed in bulk.
+
+## Branch hygiene (2026-11-24)
+
+All SigmaOS-* repos now use `main` as the canonical branch. SigmaOS-configurator
+was migrated from `master` to `main` (master branch deleted on GitHub); all
+others were already `main`.
+
 ## Action items
 
 1. Archive "absorbed" repos after canonical repos document the absorbed content.
