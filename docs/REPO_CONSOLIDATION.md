@@ -77,7 +77,7 @@ folio, gliff, monologue, owe, aether.
 - SigmaOS-browser (real impl) vs SigmaOS-chromium (fork) — keep both, distinct purposes
 - SigmaOS-notifications (scaffold) vs SigmaOS-notification-center (fork) — resolved 2026-11-25: scaffold archived; notification-center is the canonical bar widget and daemon/toast/DND live in SigmaOS core
 - SigmaOS-configurator — fork replaced scaffold (done)
-- SigmaOS-speedtest, SigmaOS-ports, SigmaOS-dkms, SigmaOS-sec-audit, SigmaOS-live-media — scaffolds pending real impl or fork equivalents
+- SigmaOS-speedtest, SigmaOS-ports, SigmaOS-dkms, SigmaOS-sec-audit, SigmaOS-live-media — implemented Rust components (CLI/library); keep as canonical, no fork collision
 
 ## Archived stubs / empty duplicates (2026-11-24)
 
