@@ -9,9 +9,9 @@ Status labels: **canonical** (keep), **absorbed** (fold into canonical, archive)
 |---|---|---|
 | SigmaOS-theme-registry | canonical | Theme data/validation/catalog — upstream omarchy-theme-registry fork |
 | SigmaOS-theme-marketplace | canonical | Theme marketplace site — upstream fork |
-| SigmaOS-themes-intros | absorbed → theme-registry | Intro/theme packs belong in registry |
-| SigmaOS-themes-loops | absorbed → theme-registry | Loop themes belong in registry |
-| SigmaOS-theme-sync | absorbed → theme-marketplace | Sync tooling serves marketplace |
+| SigmaOS-themes-intros | archived | Placeholder never implemented; archived 2026-11-25 |
+| SigmaOS-themes-loops | canonical | Built-in theme live background loops; ships `sigmaos-themes-loops` package |
+| SigmaOS-theme-sync | distinct | Chromium extension for desktop-to-web theme sync |
 | SigmaOS-osaka-jade-theme | absorbed → theme-registry | Registry entry added (`themes/sigmaos-osaka-jade.json`), pending commit |
 | SigmaOS-synthwave84-theme | absorbed → theme-registry | Registry entry added (`themes/sigmaos-synthwave84.json`), pending commit |
 | SigmaOS-site-crt | distinct | CRT variant site — keep if maintained |
@@ -26,7 +26,7 @@ Status labels: **canonical** (keep), **absorbed** (fold into canonical, archive)
 | SigmaOS-zsh | absorbed → dots | Zsh config lives in `SigmaOS-dots` (`config/zsh`, `config/shell`, `bin`); repo kept for package builds until packaging migrates |
 | SigmaOS-lazyvim | distinct | Editor config — separate concern |
 | SigmaOS-quickshell | canonical | Shell UI framework fork |
-| SigmaOS-hyprland-titlebars | absorbed → packages/sigmaos-desktop-hyprland | Desktop package concern |
+| SigmaOS-hyprland-titlebars | canonical | Standalone Hyprland plugin; ships `sigmaos-hyprland-titlebars` package built from GitHub releases |
 
 ## Sites / docs
 
