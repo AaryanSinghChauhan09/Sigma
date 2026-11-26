@@ -75,7 +75,7 @@ folio, gliff, monologue, owe, aether.
 ## Scaffold vs fork collisions (resolve on push)
 
 - SigmaOS-browser (real impl) vs SigmaOS-chromium (fork) — keep both, distinct purposes
-- SigmaOS-notifications (scaffold) vs SigmaOS-notification-center (fork) — fork wins, archive scaffold
+- SigmaOS-notifications (scaffold) vs SigmaOS-notification-center (fork) — resolved 2026-11-25: scaffold archived; notification-center is the canonical bar widget and daemon/toast/DND live in SigmaOS core
 - SigmaOS-configurator — fork replaced scaffold (done)
 - SigmaOS-speedtest, SigmaOS-ports, SigmaOS-dkms, SigmaOS-sec-audit, SigmaOS-live-media — scaffolds pending real impl or fork equivalents
 
@@ -92,6 +92,7 @@ Empty scaffolding accidents archived on GitHub (content preserved in canonical r
 | SigmaOS-omarchy-plugin-marketplace-tools | Empty misnamed repo; canonical = SigmaOS-plugin-marketplace-tools |
 | SigmaOS-omachee-plugin-marketplace-tools | Empty misnamed repo; canonical = SigmaOS-plugin-marketplace-tools |
 | SigmaOS-omakub | Empty repo; upstream push blocked by secret scanning (user decision) |
+| SigmaOS-notifications | Stub scaffold (28-line lib + spec); notification UI = SigmaOS-notification-center, daemon/toast/DND = SigmaOS core |
 
 ## GitHub Wikis
 
