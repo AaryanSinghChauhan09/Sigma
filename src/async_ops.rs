@@ -13,9 +13,9 @@
 //! use sigma_system::async_ops::*;
 //!
 //! let async_ops = AsyncOps::new();
-//! if let Ok(result) = async_ops.read_file_async("/path/to/file").await {
-//!     println!("File content: {}", result);
-//! }
+//! let future = async_ops.read_file_async("/path/to/file");
+//! // Await `future` inside an async context (e.g. #[tokio::test] or main).
+//! let _ = future;
 //! ```
 
 use std::path::Path;

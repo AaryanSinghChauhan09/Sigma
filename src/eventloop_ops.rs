@@ -10,7 +10,9 @@
 //! use sigma_system::eventloop_ops::*;
 //!
 //! let eventloop = EventLoopOps::new();
-//! eventloop.run();
+//! eventloop.start();
+//! assert!(eventloop.is_running());
+//! eventloop.stop();
 //! ```
 
 use std::sync::{Arc, Mutex};

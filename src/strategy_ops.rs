@@ -9,8 +9,9 @@
 //! ```
 //! use sigma_system::strategy_ops::*;
 //!
-//! let strategy = CompressionStrategy::new();
+//! let strategy = CompressionStrategy;
 //! let result = strategy.execute("data");
+//! assert!(result.contains("Compressed"));
 //! ```
 
 /// Strategy trait for interchangeable algorithms.
