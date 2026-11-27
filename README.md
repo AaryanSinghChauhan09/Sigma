@@ -66,33 +66,47 @@ SigmaOS consists of two main components:
 - **Audit Manager**: auditmgr_ops
 - **Release Manager**: releasemgr_ops
 
-### Distribution Tools (14 tools)
+### Distribution Tools (16 commands)
 
 **Core Management:**
-- sigmaos - Main CLI tool
-- sigmaos-config - System configuration
-- sigmaos-service - Service manager
+- `sigmaos info` - System information
+- `sigmaos process` - Process management (list, info)
+- `sigmaos service` - Service management (list, start, stop, status)
+- `sigmaos network` - Network operations (list interfaces, interface info)
+- `sigmaos disk` - Disk operations (list disks, usage, mounts)
+- `sigmaos monitor` - System monitoring (cpu, memory, thermal)
+- `sigmaos desktop` - Desktop environment management (sessions, display server, window manager)
+- `sigmaos power` - Power management (status, profiles)
+- `sigmaos audio` - Audio operations (list sinks)
+- `sigmaos display` - Display manager operations
 
 **Package Management:**
-- sigmaos-pkg - Package manager wrapper
-- sigmaos-build-pkg - Package build system
-- sigmaos-mirror - Mirror configuration
+- `sigmaos package` - Package installation
+- `sigmaos-pkg` - Package manager wrapper
+- `sigmaos-build-pkg` - Package build system
+- `sigmaos-mirror` - Mirror configuration
 
 **Updates & Releases:**
-- sigmaos-update - System updates
-- sigmaos-release - Release snapshots
-- sigmaos-news - News feed
+- `sigmaos update` - Check for updates
+- `sigmaos-update` - System updates
+- `sigmaos-release` - Release snapshots
+- `sigmaos-news` - News feed
 
 **Backup & Audit:**
-- sigmaos-backup - Backup/restore
-- sigmaos-audit - Security audit
+- `sigmaos backup` - Create backups
+- `sigmaos-backup` - Backup/restore
+- `sigmaos-audit` - Security audit
 
 **Installation:**
-- sigmaos-firstboot - First-boot wizard
-- sigmaos-chroot - Chroot tool
+- `sigmaos-firstboot` - First-boot wizard
+- `sigmaos-chroot` - Chroot tool
 
 **Security:**
-- sigmaos-keyring - GPG keyring
+- `sigmaos security` - Security status
+- `sigmaos-keyring` - GPG keyring
+
+**Themes:**
+- `sigmaos theme` - Theme management
 
 ### ISO Build & Installation
 
@@ -122,7 +136,7 @@ fn main() {
     let processes = proc_mgr.list_processes()?;
     
     // Service management
-    let svc_mgr = ServiceOps::new();
+    let svc_mgr = ServiceManager::new();
     svc_mgr.start_service("NetworkManager")?;
 }
 ```

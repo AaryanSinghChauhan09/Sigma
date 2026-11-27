@@ -12,5 +12,5 @@ depends_on = []
 
 [maturity]
 status = "Implemented"
-test_evidence = "cargo test --offline: 3 passed"
-next_milestone = "Boot integration with SigmaOS userspace"
+test_evidence = "cargo test --offline: 104+ passed; CLI builds cleanly"
+next_milestone = "Desktop environment integration with Hyprland/Quickshell"
